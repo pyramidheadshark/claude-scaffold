@@ -1,0 +1,274 @@
+import json
+import re
+import ast
+from pathlib import Path
+import unittest
+
+INFRA_ROOT = Path(__file__).parent.parent.parent
+SKILLS_DIR = INFRA_ROOT / ".claude" / "skills"
+AGENTS_DIR = INFRA_ROOT / ".claude" / "agents"
+COMMANDS_DIR = INFRA_ROOT / ".claude" / "commands"
+HOOKS_DIR = INFRA_ROOT / ".claude" / "hooks"
+TEMPLATES_DIR = INFRA_ROOT / "templates"
+SKILL_RULES_PATH = SKILLS_DIR / "skill-rules.json"
+
+
+def load_skill_rules() -> dict:
+    with open(SKILL_RULES_PATH, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def get_all_skill_dirs() -> list[Path]:
+    return [d for d in SKILLS_DIR.iterdir() if d.is_dir() and not d.name.startswith("{")]
+
+
+def extract_python_blocks(md_content: str) -> list[str]:
+    pattern = r"```python\n(.*?)```"
+    return re.findall(pattern, md_content, re.DOTALL)
+
+
+class TestSkillRulesJson(unittest.TestCase):
+    def setUp(self):
+        self.rules = load_skill_rules()
+
+    def test_skill_rules_is_valid_json(self):
+        self.assertIsInstance(self.rules, dict)
+
+    def test_has_rules_array(self):
+        self.assertIn("rules", self.rules)
+        self.assertIsInstance(self.rules["rules"], list)
+
+    def test_has_context_management(self):
+        self.assertIn("context_management", self.rules)
+        cm = self.rules["context_management"]
+        self.assertIn("max_skills_per_session", cm)
+        self.assertIn("compression_threshold_lines", cm)
+        self.assertIn("status_file", cm)
+
+    def test_each_rule_has_required_fields(self):
+        for rule in self.rules["rules"]:
+            with self.subTest(skill=rule.get("skill", "UNKNOWN")):
+                self.assertIn("skill", rule, "Rule missing 'skill' field")
+                self.assertIn("triggers", rule, "Rule missing 'triggers' field")
+                self.assertIn("priority", rule, "Rule missing 'priority' field")
+
+    def test_priorities_are_unique(self):
+        priorities = [r["priority"] for r in self.rules["rules"]]
+        self.assertEqual(len(priorities), len(set(priorities)), "Duplicate priorities found")
+
+    def test_all_registered_skills_have_skill_md(self):
+        for rule in self.rules["rules"]:
+            skill_name = rule["skill"]
+            skill_md = SKILLS_DIR / skill_name / "SKILL.md"
+            with self.subTest(skill=skill_name):
+                self.assertTrue(
+                    skill_md.exists(),
+                    f"Registered skill '{skill_name}' has no SKILL.md at {skill_md}"
+                )
+
+    def test_all_skill_dirs_are_registered(self):
+        registered = {r["skill"] for r in self.rules["rules"]}
+        for skill_dir in get_all_skill_dirs():
+            with self.subTest(skill=skill_dir.name):
+                self.assertIn(
+                    skill_dir.name, registered,
+                    f"Skill directory '{skill_dir.name}' exists but is not in skill-rules.json"
+                )
+
+
+class TestSkillMdFiles(unittest.TestCase):
+    def test_every_skill_has_skill_md(self):
+        for skill_dir in get_all_skill_dirs():
+            with self.subTest(skill=skill_dir.name):
+                self.assertTrue(
+                    (skill_dir / "SKILL.md").exists(),
+                    f"No SKILL.md in {skill_dir}"
+                )
+
+    def test_every_skill_md_has_when_to_load_section(self):
+        for skill_dir in get_all_skill_dirs():
+            skill_md = skill_dir / "SKILL.md"
+            if not skill_md.exists():
+                continue
+            content = skill_md.read_text(encoding="utf-8")
+            with self.subTest(skill=skill_dir.name):
+                self.assertIn(
+                    "When to Load", content,
+                    f"{skill_dir.name}/SKILL.md missing 'When to Load' section"
+                )
+
+    def test_skill_md_files_reference_existing_resources(self):
+        for skill_dir in get_all_skill_dirs():
+            skill_md = skill_dir / "SKILL.md"
+            if not skill_md.exists():
+                continue
+            content = skill_md.read_text(encoding="utf-8")
+            refs = re.findall(r"`resources/([^`]+)`", content)
+            for ref in refs:
+                resource_path = skill_dir / "resources" / ref
+                with self.subTest(skill=skill_dir.name, resource=ref):
+                    self.assertTrue(
+                        resource_path.exists(),
+                        f"{skill_dir.name}/SKILL.md references missing resource: resources/{ref}"
+                    )
+
+    def test_python_blocks_in_skills_are_syntactically_valid(self):
+        errors = []
+        for skill_dir in get_all_skill_dirs():
+            for md_file in skill_dir.rglob("*.md"):
+                content = md_file.read_text(encoding="utf-8")
+                blocks = extract_python_blocks(content)
+                for i, block in enumerate(blocks):
+                    try:
+                        ast.parse(block)
+                    except SyntaxError as e:
+                        errors.append(f"{md_file.relative_to(INFRA_ROOT)} block #{i+1}: {e}")
+
+        self.assertEqual(errors, [], "Syntax errors found in Python code blocks:\n" + "\n".join(errors))
+
+    def test_skill_md_files_not_excessively_large(self):
+        HARD_LIMIT = 600
+        for skill_dir in get_all_skill_dirs():
+            skill_md = skill_dir / "SKILL.md"
+            if not skill_md.exists():
+                continue
+            lines = skill_md.read_text(encoding="utf-8").splitlines()
+            with self.subTest(skill=skill_dir.name):
+                self.assertLessEqual(
+                    len(lines), HARD_LIMIT,
+                    f"{skill_dir.name}/SKILL.md has {len(lines)} lines (limit: {HARD_LIMIT}). Extract to resources/."
+                )
+
+
+class TestAgentFiles(unittest.TestCase):
+    REQUIRED_SECTIONS = ["Purpose", "When to Use", "Instructions for Claude Code"]
+
+    def test_all_agents_have_required_sections(self):
+        for agent_file in AGENTS_DIR.glob("*.md"):
+            content = agent_file.read_text(encoding="utf-8")
+            for section in self.REQUIRED_SECTIONS:
+                with self.subTest(agent=agent_file.name, section=section):
+                    self.assertIn(
+                        section, content,
+                        f"{agent_file.name} missing section: '{section}'"
+                    )
+
+    def test_agents_have_output_format_or_workflow(self):
+        for agent_file in AGENTS_DIR.glob("*.md"):
+            content = agent_file.read_text(encoding="utf-8")
+            has_output = "Output Format" in content or "Workflow" in content or "Output" in content
+            with self.subTest(agent=agent_file.name):
+                self.assertTrue(
+                    has_output,
+                    f"{agent_file.name} has no 'Output Format' or 'Workflow' section"
+                )
+
+
+class TestCommandFiles(unittest.TestCase):
+    def test_all_commands_have_instructions_section(self):
+        for cmd_file in COMMANDS_DIR.glob("*.md"):
+            content = cmd_file.read_text(encoding="utf-8")
+            with self.subTest(command=cmd_file.name):
+                self.assertIn(
+                    "Instructions for Claude Code", content,
+                    f"{cmd_file.name} missing 'Instructions for Claude Code' section"
+                )
+
+
+class TestTemplateFiles(unittest.TestCase):
+    REQUIRED_TEMPLATES = [
+        "design-doc.md",
+        "status.md",
+        "Dockerfile",
+        "docker-compose.yml",
+        "pyproject.toml",
+        ".env.example",
+        "Makefile",
+        "github/workflows/lint.yml",
+        "github/workflows/test.yml",
+        "github/workflows/build.yml",
+    ]
+
+    def test_all_required_templates_exist(self):
+        for template in self.REQUIRED_TEMPLATES:
+            with self.subTest(template=template):
+                self.assertTrue(
+                    (TEMPLATES_DIR / template).exists(),
+                    f"Required template missing: templates/{template}"
+                )
+
+    def test_dockerfile_has_multi_stage_build(self):
+        content = (TEMPLATES_DIR / "Dockerfile").read_text(encoding="utf-8")
+        from_count = content.count("FROM ")
+        self.assertGreater(from_count, 1, "Dockerfile should be multi-stage (multiple FROM)")
+
+    def test_pyproject_toml_has_required_sections(self):
+        content = (TEMPLATES_DIR / "pyproject.toml").read_text(encoding="utf-8")
+        for section in ["[project]", "[tool.ruff]", "[tool.mypy]", "[tool.pytest.ini_options]"]:
+            with self.subTest(section=section):
+                self.assertIn(section, content)
+
+    def test_env_example_has_no_real_secrets(self):
+        content = (TEMPLATES_DIR / ".env.example").read_text(encoding="utf-8")
+        suspicious = re.findall(r"=\s*(?!\.\.\.)[a-zA-Z0-9+/]{20,}", content)
+        self.assertEqual(
+            suspicious, [],
+            f"Possible real secrets in .env.example: {suspicious}"
+        )
+
+    def test_makefile_has_essential_targets(self):
+        content = (TEMPLATES_DIR / "Makefile").read_text(encoding="utf-8")
+        for target in ["install", "lint", "test", "docker-up", "docker-down"]:
+            with self.subTest(target=target):
+                self.assertIn(f"{target}:", content, f"Makefile missing target: {target}")
+
+
+class TestHookFiles(unittest.TestCase):
+    def test_skill_activation_prompt_is_valid_js(self):
+        hook_file = HOOKS_DIR / "skill-activation-prompt.js"
+        self.assertTrue(hook_file.exists())
+        content = hook_file.read_text(encoding="utf-8")
+        self.assertIn("require(", content)
+        self.assertIn("process.stdout.write", content)
+
+    def test_skill_activation_logic_exports_all_functions(self):
+        logic_file = HOOKS_DIR / "skill-activation-logic.js"
+        self.assertTrue(logic_file.exists(), "skill-activation-logic.js missing")
+        content = logic_file.read_text(encoding="utf-8")
+        for fn in ["loadSkillRules", "matchSkills", "loadSkillContent", "buildInjections", "buildOutput"]:
+            with self.subTest(fn=fn):
+                self.assertIn(fn, content, f"skill-activation-logic.js missing export: {fn}")
+
+    def test_quality_check_hook_is_executable_bash(self):
+        hook_file = HOOKS_DIR / "python-quality-check.sh"
+        self.assertTrue(hook_file.exists())
+        content = hook_file.read_text(encoding="utf-8")
+        self.assertTrue(content.startswith("#!/"), "Shell hook should start with shebang")
+
+
+class TestCLAUDEmd(unittest.TestCase):
+    def setUp(self):
+        self.content = (INFRA_ROOT / ".claude" / "CLAUDE.md").read_text(encoding="utf-8")
+
+    def test_has_skill_inventory_table(self):
+        self.assertIn("Skill Inventory", self.content)
+
+    def test_has_agent_inventory_table(self):
+        self.assertIn("Agent Inventory", self.content)
+
+    def test_has_model_routing_section(self):
+        self.assertIn("Model Routing", self.content)
+
+    def test_all_registered_skills_mentioned_in_claude_md(self):
+        rules = load_skill_rules()
+        for rule in rules["rules"]:
+            skill_name = rule["skill"]
+            with self.subTest(skill=skill_name):
+                self.assertIn(
+                    skill_name, self.content,
+                    f"Skill '{skill_name}' in skill-rules.json but not mentioned in CLAUDE.md"
+                )
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
