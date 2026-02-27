@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-INPUT=$(cat /dev/stdin 2>/dev/null || echo "{}")
+INPUT=$(cat 2>/dev/null || echo "{}")
 
 TOOL_NAME=$(echo "$INPUT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('tool_name','unknown'))" 2>/dev/null || echo "unknown")
 

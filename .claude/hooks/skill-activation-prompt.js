@@ -5,7 +5,7 @@ const path = require("path");
 const { execSync } = require("child_process");
 const { loadSkillRules, buildInjections, buildOutput } = require("./skill-activation-logic");
 
-const input = JSON.parse(fs.readFileSync("/dev/stdin", "utf8"));
+const input = JSON.parse(fs.readFileSync(0, "utf8"));
 const prompt = input.prompt || "";
 const cwd = process.cwd();
 
