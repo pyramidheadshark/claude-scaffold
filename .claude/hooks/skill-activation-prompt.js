@@ -19,8 +19,9 @@ if (!rules) {
 
 const changedFiles = (() => {
   try {
-    const result = execSync("git diff --name-only HEAD 2>/dev/null || echo ''", { cwd }).toString();
-    return result.split("\n").filter(Boolean);
+    const raw = execSync("git status --porcelain", { cwd, encoding: "utf-8" }).trim();
+    if (!raw) return [];
+    return raw.split("\n").filter(Boolean).map((l) => l.slice(3).trim());
   } catch {
     return [];
   }
