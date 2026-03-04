@@ -142,3 +142,4 @@ Skills are loaded automatically by `skill-activation-prompt.js` based on file pa
 - Mix business logic with infrastructure code
 - Hardcode secrets or model names as strings without constants
 - Start coding before design-doc.md exists and is approved
+- Add `Co-Authored-By: Claude` or any AI authorship footer to commit messages
