@@ -7,6 +7,7 @@ const { loadSkillRules, buildInjections, buildOutput } = require("./skill-activa
 
 const input = JSON.parse(fs.readFileSync(0, "utf8"));
 const prompt = input.prompt || "";
+const sessionId = input.session_id || "default";
 const cwd = process.cwd();
 
 const rulesPath = path.join(cwd, ".claude/skills/skill-rules.json");
@@ -27,6 +28,19 @@ const changedFiles = (() => {
   }
 })();
 
-const { injections } = buildInjections(fs, path, cwd, prompt, changedFiles, rules);
+const { injections, matchedSkills } = buildInjections(fs, path, cwd, prompt, changedFiles, rules);
+
+const logsDir = path.join(cwd, ".claude/logs");
+try {
+  if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
+  const entry = JSON.stringify({
+    ts: new Date().toISOString(),
+    session_id: sessionId,
+    skills: matchedSkills,
+    status_injected: injections.some((i) => i.startsWith("## Project Status")),
+  });
+  fs.appendFileSync(path.join(logsDir, "skill-metrics.jsonl"), entry + "\n", "utf8");
+} catch {
+}
 
 process.stdout.write(JSON.stringify(buildOutput(injections)));
