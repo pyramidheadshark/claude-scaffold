@@ -1,0 +1,123 @@
+const path = require("path");
+const os = require("os");
+const fs = require("fs");
+const { main, buildEnvBlock, loadConfig, saveConfig, ONBOARDING_BLOCK } = require("../../.claude/hooks/session-start");
+
+function makeTempDir() {
+  return fs.mkdtempSync(path.join(os.tmpdir(), "session-start-test-"));
+}
+
+function cleanup(dir) {
+  fs.rmSync(dir, { recursive: true, force: true });
+}
+
+describe("buildEnvBlock", () => {
+  test("returns formatted env block string", () => {
+    const block = buildEnvBlock("win32", "python", "bash", 3);
+    expect(block).toBe("## Session Environment\nPlatform: win32 | Shell: bash | Python: python | Sessions: 3");
+  });
+
+  test("contains all four fields", () => {
+    const block = buildEnvBlock("linux", "python3", "zsh", 1);
+    expect(block).toContain("linux");
+    expect(block).toContain("python3");
+    expect(block).toContain("zsh");
+    expect(block).toContain("Sessions: 1");
+  });
+});
+
+describe("loadConfig / saveConfig", () => {
+  let tmpDir;
+
+  beforeEach(() => { tmpDir = makeTempDir(); });
+  afterEach(() => { cleanup(tmpDir); });
+
+  test("loadConfig returns null when no config exists", () => {
+    expect(loadConfig(tmpDir)).toBeNull();
+  });
+
+  test("saveConfig creates .claude dir and writes file", () => {
+    saveConfig(tmpDir, { platform: "win32", session_count: 1 });
+    const configPath = path.join(tmpDir, ".claude/project-config.json");
+    expect(fs.existsSync(configPath)).toBe(true);
+    const data = JSON.parse(fs.readFileSync(configPath, "utf8"));
+    expect(data.platform).toBe("win32");
+  });
+
+  test("loadConfig reads written config back", () => {
+    saveConfig(tmpDir, { session_count: 5 });
+    const config = loadConfig(tmpDir);
+    expect(config).not.toBeNull();
+    expect(config.session_count).toBe(5);
+  });
+});
+
+describe("main — first run (no config)", () => {
+  let tmpDir;
+
+  beforeEach(() => { tmpDir = makeTempDir(); });
+  afterEach(() => { cleanup(tmpDir); });
+
+  test("returns continue:true", () => {
+    const result = main("{}", tmpDir, "win32", () => "python");
+    expect(result.continue).toBe(true);
+  });
+
+  test("returns env block in system_prompt_addition", () => {
+    const result = main("{}", tmpDir, "win32", () => "python");
+    expect(result.system_prompt_addition).toContain("## Session Environment");
+    expect(result.system_prompt_addition).toContain("win32");
+  });
+
+  test("includes onboarding block on first run", () => {
+    const result = main("{}", tmpDir, "win32", () => "python");
+    expect(result.system_prompt_addition).toContain("## Project Onboarding Required");
+    expect(result.system_prompt_addition).toContain("project-config.json");
+  });
+
+  test("creates project-config.json with session_count=1", () => {
+    main("{}", tmpDir, "linux", () => "python3");
+    const config = loadConfig(tmpDir);
+    expect(config).not.toBeNull();
+    expect(config.session_count).toBe(1);
+    expect(config.platform).toBe("linux");
+    expect(config.python_cmd).toBe("python3");
+  });
+});
+
+describe("main — subsequent runs (config exists)", () => {
+  let tmpDir;
+
+  beforeEach(() => {
+    tmpDir = makeTempDir();
+    saveConfig(tmpDir, { platform: "win32", python_cmd: "python", shell: "bash", session_count: 4 });
+  });
+  afterEach(() => { cleanup(tmpDir); });
+
+  test("env block present without onboarding block", () => {
+    const result = main("{}", tmpDir, "win32", () => "python");
+    expect(result.system_prompt_addition).toContain("## Session Environment");
+    expect(result.system_prompt_addition).not.toContain("## Project Onboarding Required");
+  });
+
+  test("increments session_count", () => {
+    main("{}", tmpDir, "win32", () => "python");
+    const config = loadConfig(tmpDir);
+    expect(config.session_count).toBe(5);
+  });
+});
+
+describe("main — edge cases", () => {
+  let tmpDir;
+
+  beforeEach(() => { tmpDir = makeTempDir(); });
+  afterEach(() => { cleanup(tmpDir); });
+
+  test("handles empty input string gracefully", () => {
+    expect(() => main("", tmpDir, "win32", () => "python")).not.toThrow();
+  });
+
+  test("handles invalid JSON input gracefully", () => {
+    expect(() => main("{invalid}", tmpDir, "win32", () => "python")).not.toThrow();
+  });
+});

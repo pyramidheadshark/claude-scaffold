@@ -12,7 +12,8 @@
     "test:hook": "jest tests/hook/ --no-coverage",
     "test:infra": "python3 tests/infra/test_infra.py || python tests/infra/test_infra.py",
     "test:watch": "jest tests/hook/ --watch",
-    "check:budget": "python tests/infra/test_infra.py TestSkillMdFiles.test_skill_line_budget"
+    "check:budget": "python tests/infra/test_infra.py TestSkillMdFiles.test_skill_line_budget",
+    "metrics": "node scripts/metrics-report.js"
   },
   "keywords": [],
   "author": "",

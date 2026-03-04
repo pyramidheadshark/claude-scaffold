@@ -246,6 +246,21 @@ def deploy(args: argparse.Namespace) -> None:
     else:
         print("  dev/status.md already exists, skipping")
 
+    print("[5b/5] Ensuring .claude/ is excluded from git...")
+    gitignore_path = target / ".gitignore"
+    claude_ignore_entry = "\n# Claude Code — local tool, never commit\n.claude/\n"
+    if gitignore_path.exists():
+        existing = gitignore_path.read_text(encoding="utf-8")
+        if ".claude/" not in existing:
+            with open(gitignore_path, "a", encoding="utf-8") as f:
+                f.write(claude_ignore_entry)
+            print("  Added .claude/ to existing .gitignore")
+        else:
+            print("  .claude/ already in .gitignore, skipping")
+    else:
+        gitignore_path.write_text(claude_ignore_entry, encoding="utf-8")
+        print("  Created .gitignore with .claude/ exclusion")
+
     if args.with_tests:
         print("[+] Copying test suite...")
         shutil.copytree(INFRA_DIR / "tests" / "hook", target / "tests" / "hook", dirs_exist_ok=True)
