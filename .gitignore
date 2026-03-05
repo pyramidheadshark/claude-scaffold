@@ -4,6 +4,9 @@ __pycache__/
 .env
 .claude/logs/
 .claude/cache/
+.claude/project-config.json
+**/.claude/logs/
+**/.claude/cache/
 dist/
 .DS_Store
 *.egg-info/
