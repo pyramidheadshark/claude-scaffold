@@ -61,6 +61,8 @@ src/{project_name}/
 3. Unit tests with TDD Red-Green-Refactor are written THIRD
 4. Code is written LAST to make tests pass
 5. Never adapt tests to fit existing code — always the reverse
+6. Before every `git commit`: run `uv run ruff check --fix . && uv run ruff format .` — fix violations, then re-stage
+7. After `git push` to a repo with CI: run `gh run watch` or `gh run list` to confirm the run passed
 
 ## Context Management
 
@@ -144,3 +146,4 @@ Skills are loaded automatically by `skill-activation-prompt.js` based on file pa
 - Start coding before design-doc.md exists and is approved
 - Add `Co-Authored-By: Claude` or any AI authorship footer to commit messages
 - **Commit `.claude/` to git in target projects** — it is a local developer tool, invisible to the repo. Always ensure `.claude/` is in the target project's `.gitignore` before or immediately after deploy. If accidentally committed: rewrite history to remove all traces.
+- Push code without first verifying `ruff check` passes locally — CI will catch it and leave a red run
