@@ -13,16 +13,23 @@ Usage:
     python scripts/deploy.py <target> --all --with-tests              # include test suite
     python scripts/deploy.py <target> --all --ci-profile fastapi      # add CI workflow
     python scripts/deploy.py <target> --all --ci-profile fastapi-db --deploy-target yc
+
+    python scripts/deploy.py --status                                 # show all deployed repos + version drift
+    python scripts/deploy.py --update <target>                        # update .claude/ in one repo
+    python scripts/deploy.py --update-all                             # update .claude/ in all registered repos
 """
 import argparse
 import json
 import shutil
+import subprocess
 import sys
+from datetime import date
 from pathlib import Path
 
 INFRA_DIR = Path(__file__).resolve().parent.parent
 SKILLS_DIR = INFRA_DIR / ".claude" / "skills"
 CI_TEMPLATES_DIR = INFRA_DIR / "templates" / "github-actions"
+REGISTRY_PATH = INFRA_DIR / "deployed-repos.json"
 
 CI_PROFILES: list[tuple[str, str]] = [
     ("minimal",    "Lint + typecheck + test — CLI tools, data scripts, web scrapers"),
@@ -64,6 +71,124 @@ PROJECT_PRESETS: dict[str, list[str]] = {
     "NLP / anonymization": ["python-project-standards", "nlp-slm-patterns", "test-first-patterns"],
     "Full ML platform":    [s for s, _ in SKILLS],
 }
+
+
+def _get_current_sha() -> str:
+    result = subprocess.run(
+        ["git", "rev-parse", "--short", "HEAD"],
+        cwd=INFRA_DIR, capture_output=True, text=True,
+    )
+    return result.stdout.strip() if result.returncode == 0 else "unknown"
+
+
+def _load_registry() -> dict:
+    if REGISTRY_PATH.exists():
+        with open(REGISTRY_PATH, encoding="utf-8") as f:
+            return json.load(f)
+    return {"deployed": []}
+
+
+def _save_registry(registry: dict) -> None:
+    with open(REGISTRY_PATH, "w", encoding="utf-8") as f:
+        json.dump(registry, f, ensure_ascii=False, indent=2)
+
+
+def _register_deploy(target: Path, selected: list[str], ci_profile: str, deploy_target: str) -> None:
+    sha = _get_current_sha()
+    version_file = target / ".claude" / "infra-version"
+    version_file.write_text(sha, encoding="utf-8")
+
+    registry = _load_registry()
+    entry = {
+        "path": str(target),
+        "skills": selected,
+        "ci_profile": ci_profile,
+        "deploy_target": deploy_target,
+        "deployed_at": date.today().isoformat(),
+        "infra_sha": sha,
+    }
+    existing = [e for e in registry["deployed"] if e["path"] == str(target)]
+    if existing:
+        registry["deployed"][registry["deployed"].index(existing[0])] = entry
+    else:
+        registry["deployed"].append(entry)
+    _save_registry(registry)
+    print(f"  Registered in deployed-repos.json (sha: {sha})")
+
+
+def status_cmd() -> None:
+    registry = _load_registry()
+    current_sha = _get_current_sha()
+
+    if not registry["deployed"]:
+        print("  No deployed repos registered.")
+        return
+
+    _header(f"Deployed repos  (infra HEAD: {current_sha})")
+    for entry in registry["deployed"]:
+        path = Path(entry["path"])
+        version_file = path / ".claude" / "infra-version"
+        if not path.exists():
+            status = "NOT FOUND on disk"
+        elif not version_file.exists():
+            status = "no version file"
+        else:
+            repo_sha = version_file.read_text(encoding="utf-8").strip()
+            status = "up to date" if repo_sha == current_sha else f"OUTDATED ({repo_sha})"
+        skills_str = ", ".join(entry.get("skills", []))
+        ci_str = entry.get("ci_profile", "none")
+        print(f"  {path.name:<32} [{status}]")
+        print(f"    path     : {entry['path']}")
+        print(f"    skills   : {skills_str}")
+        print(f"    CI       : {ci_str}  deployed: {entry.get('deployed_at', '?')}")
+        print()
+
+
+def update_cmd(target_path: str) -> None:
+    target = Path(target_path).expanduser().resolve()
+    registry = _load_registry()
+    entries = [e for e in registry["deployed"] if Path(e["path"]) == target]
+    if not entries:
+        print(f"  ERROR: {target} not found in registry.", file=sys.stderr)
+        print("  Run a fresh deploy first to register it.", file=sys.stderr)
+        sys.exit(1)
+
+    entry = entries[0]
+    print(f"\n  Updating: {target.name}")
+    args = argparse.Namespace(
+        target=str(target),
+        all=False,
+        skills=",".join(entry["skills"]),
+        with_tests=False,
+        include_meta=entry.get("include_meta", False),
+        ci_profile="",
+        deploy_target="none",
+    )
+    deploy(args)
+
+
+def update_all_cmd() -> None:
+    registry = _load_registry()
+    if not registry["deployed"]:
+        print("  No deployed repos registered.")
+        return
+
+    current_sha = _get_current_sha()
+    to_update = []
+    for entry in registry["deployed"]:
+        path = Path(entry["path"])
+        version_file = path / ".claude" / "infra-version"
+        repo_sha = version_file.read_text(encoding="utf-8").strip() if version_file.exists() else ""
+        if repo_sha != current_sha:
+            to_update.append(entry)
+
+    if not to_update:
+        print(f"  All {len(registry['deployed'])} repos are up to date.")
+        return
+
+    print(f"  Updating {len(to_update)} of {len(registry['deployed'])} repos...\n")
+    for entry in to_update:
+        update_cmd(entry["path"])
 
 
 def _hr(width: int = 60) -> None:
@@ -354,6 +479,9 @@ def deploy(args: argparse.Namespace) -> None:
         shutil.copytree(INFRA_DIR / "tests" / "infra", target / "tests" / "infra", dirs_exist_ok=True)
         shutil.copy2(INFRA_DIR / "package.json", target / "package.json")
 
+    print("[7/7] Registering deploy...")
+    _register_deploy(target, selected, ci_profile, getattr(args, "deploy_target", "none"))
+
     print()
     _header("Done!")
     print()
@@ -379,6 +507,22 @@ def main() -> None:
         deploy(args)
         return
 
+    if "--status" in sys.argv:
+        status_cmd()
+        return
+
+    if "--update-all" in sys.argv:
+        update_all_cmd()
+        return
+
+    if "--update" in sys.argv:
+        idx = sys.argv.index("--update")
+        if idx + 1 >= len(sys.argv):
+            print("ERROR: --update requires a target path", file=sys.stderr)
+            sys.exit(1)
+        update_cmd(sys.argv[idx + 1])
+        return
+
     parser = argparse.ArgumentParser(
         description="Deploy ml-claude-infra into a target project.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -390,6 +534,11 @@ def main() -> None:
             "  python scripts/deploy.py ~/Repos/my-project --all --ci-profile fastapi",
             "  python scripts/deploy.py ~/Repos/my-project --all --ci-profile fastapi-db --deploy-target yc",
             "  python scripts/deploy.py ~/Repos/my-project --all --ci-profile ml-heavy --deploy-target vps",
+            "",
+            "Update commands:",
+            "  python scripts/deploy.py --status              # show all repos + version drift",
+            "  python scripts/deploy.py --update <path>       # update .claude/ in one repo",
+            "  python scripts/deploy.py --update-all          # update .claude/ in all registered repos",
         ]),
     )
     parser.add_argument("target", help="Target project directory")
