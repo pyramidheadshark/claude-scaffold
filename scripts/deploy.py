@@ -26,10 +26,21 @@ import sys
 from datetime import date
 from pathlib import Path
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 INFRA_DIR = Path(__file__).resolve().parent.parent
 SKILLS_DIR = INFRA_DIR / ".claude" / "skills"
 CI_TEMPLATES_DIR = INFRA_DIR / "templates" / "github-actions"
 REGISTRY_PATH = INFRA_DIR / "deployed-repos.json"
+
+HOOKS_DEFINITION: dict = {
+    "SessionStart": [{"matcher": "", "hooks": [{"type": "command", "command": "node .claude/hooks/session-start.js"}]}],
+    "UserPromptSubmit": [{"matcher": "", "hooks": [{"type": "command", "command": "node .claude/hooks/skill-activation-prompt.js"}]}],
+    "PostToolUse": [{"matcher": ".*", "hooks": [{"type": "command", "command": "bash .claude/hooks/post-tool-use-tracker.sh"}]}],
+    "Stop": [{"matcher": "", "hooks": [{"type": "command", "command": "bash .claude/hooks/python-quality-check.sh"}]}],
+}
 
 CI_PROFILES: list[tuple[str, str]] = [
     ("minimal",    "Lint + typecheck + test — CLI tools, data scripts, web scrapers"),
@@ -345,6 +356,21 @@ def generate_skill_rules(
     return result
 
 
+def deploy_settings(target: Path) -> None:
+    settings_path = target / ".claude" / "settings.json"
+    existing: dict = {}
+    if settings_path.exists():
+        try:
+            existing = json.loads(settings_path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            existing = {}
+    existing["hooks"] = HOOKS_DEFINITION
+    settings_path.write_text(
+        json.dumps(existing, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+
+
 def deploy_ci(target: Path, ci_profile: str, deploy_target: str) -> None:
     ci_src = CI_TEMPLATES_DIR / f"{ci_profile}.yml"
     if not ci_src.exists():
@@ -463,6 +489,10 @@ def deploy(args: argparse.Namespace) -> None:
     else:
         gitignore_path.write_text(claude_ignore_entry, encoding="utf-8")
         print("  Created .gitignore with .claude/ exclusion")
+
+    print("[5c/5] Writing .claude/settings.json (hook registration)...")
+    deploy_settings(target)
+    print("  hooks: SessionStart, UserPromptSubmit, PostToolUse, Stop")
 
     ci_profile = getattr(args, "ci_profile", "")
     deploy_target = getattr(args, "deploy_target", "none")

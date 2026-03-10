@@ -2,7 +2,8 @@
 
 INPUT=$(cat 2>/dev/null || echo "{}")
 
-TOOL_NAME=$(echo "$INPUT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('tool_name','unknown'))" 2>/dev/null || echo "unknown")
+export PYTHONUTF8=1
+TOOL_NAME=$(echo "$INPUT" | python -c "import sys,json; d=json.load(sys.stdin); print(d.get('tool_name','unknown'))" 2>/dev/null || echo "unknown")
 
 LOG_DIR=".claude/logs"
 mkdir -p "$LOG_DIR"

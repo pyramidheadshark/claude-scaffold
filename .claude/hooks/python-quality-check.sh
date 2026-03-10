@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+export PYTHONUTF8=1
+
 echo "Running Python quality checks before session end..."
 
 if command -v uv &>/dev/null; then
