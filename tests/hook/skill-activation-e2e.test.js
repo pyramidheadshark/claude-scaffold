@@ -63,6 +63,21 @@ describe("E2E — hook process output", () => {
     const output = runHook("langgraph state machine setup guide");
     expect(getLoadedSkills(output)).toContain("langgraph-patterns");
   });
+
+  test("injects plan mode reminder on RU planning keyword", () => {
+    const output = runHook("давай запланируем новую фичу");
+    expect(output.system_prompt_addition).toContain("Plan Mode Required");
+  });
+
+  test("injects plan mode reminder on EN planning keyword", () => {
+    const output = runHook("let's plan a multi-step refactor");
+    expect(output.system_prompt_addition).toContain("Plan Mode Required");
+  });
+
+  test("does not inject plan mode reminder for generic prompts", () => {
+    const output = runHook("fix the login bug");
+    expect(output.system_prompt_addition || "").not.toContain("Plan Mode Required");
+  });
 });
 
 describe("E2E — session cache deduplication", () => {

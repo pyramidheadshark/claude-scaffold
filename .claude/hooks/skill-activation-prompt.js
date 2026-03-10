@@ -54,6 +54,23 @@ const sessionContext = {
 
 const { injections, matchedSkills, statusHash } = buildInjections(fs, path, cwd, prompt, changedFiles, rules, sessionContext);
 
+const PLAN_MODE_KEYWORDS = [
+  "план", "планир", "запланир", "спланируем", "спланируй", "давай спланируем",
+  "многоступенчат", "поэтапн", "пошагов", "составь план", "разработай план",
+  "plan", "planning", "multi-step", "multi-phase", "step-by-step", "let's plan",
+];
+const promptLower = prompt.toLowerCase();
+const isPlanIntent = PLAN_MODE_KEYWORDS.some((kw) => promptLower.includes(kw));
+if (isPlanIntent) {
+  injections.push(
+    "## ⚠ Plan Mode Required\n" +
+    "Planning intent detected. Before writing any code:\n" +
+    "1. Call EnterPlanMode tool\n" +
+    "2. Present the full step-by-step implementation plan\n" +
+    "3. Wait for explicit user approval before proceeding"
+  );
+}
+
 const updatedLoadedSkills = [...new Set([...(cache.loaded_skills || []), ...matchedSkills])];
 try {
   saveSessionCache(sessionId, {
@@ -68,10 +85,15 @@ try {
 const logsDir = path.join(cwd, ".claude/logs");
 try {
   if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
+  const promptCount = (cache.prompt_count || 0) + 1;
   const entry = JSON.stringify({
     ts: new Date().toISOString(),
     session_id: sessionId,
+    repo: path.basename(cwd),
+    prompt_count: promptCount,
     skills: matchedSkills,
+    skills_cumulative: updatedLoadedSkills,
+    changed_files_count: changedFiles.length,
     status_injected: injections.some((i) => i.startsWith("## Project Status")),
   });
   fs.appendFileSync(path.join(logsDir, "skill-metrics.jsonl"), entry + "\n", "utf8");

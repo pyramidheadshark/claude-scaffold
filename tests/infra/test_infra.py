@@ -1,8 +1,11 @@
 import json
 import re
 import ast
-from pathlib import Path
+import sys
+import tempfile
 import unittest
+from pathlib import Path
+from unittest.mock import patch
 
 INFRA_ROOT = Path(__file__).parent.parent.parent
 SKILLS_DIR = INFRA_ROOT / ".claude" / "skills"
@@ -345,6 +348,43 @@ class TestSkillMetadata(unittest.TestCase):
                     value = triggers["min_keyword_matches"]
                     self.assertIsInstance(value, int, f"{rule['skill']}: min_keyword_matches must be int")
                     self.assertGreaterEqual(value, 2, f"{rule['skill']}: min_keyword_matches should be >= 2")
+
+
+class TestDeployScript(unittest.TestCase):
+    def _run_deploy_settings(self, target: Path) -> None:
+        scripts_dir = INFRA_ROOT / "scripts"
+        sys.path.insert(0, str(scripts_dir))
+        try:
+            import importlib
+            deploy_mod = importlib.import_module("deploy")
+            deploy_mod.deploy_settings(target)
+        finally:
+            sys.path.pop(0)
+
+    def test_deploy_creates_settings_json(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            target = Path(tmpdir)
+            (target / ".claude").mkdir()
+            self._run_deploy_settings(target)
+            settings_path = target / ".claude" / "settings.json"
+            self.assertTrue(settings_path.exists(), "settings.json was not created")
+            data = json.loads(settings_path.read_text(encoding="utf-8"))
+            self.assertIn("hooks", data, "settings.json missing 'hooks' key")
+            self.assertIn("UserPromptSubmit", data["hooks"], "hooks missing UserPromptSubmit")
+
+    def test_deploy_settings_preserves_mcp_servers(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            target = Path(tmpdir)
+            (target / ".claude").mkdir()
+            settings_path = target / ".claude" / "settings.json"
+            settings_path.write_text(
+                json.dumps({"mcpServers": {"my-server": {"command": "npx", "args": ["-y", "my-mcp"]}}}),
+                encoding="utf-8",
+            )
+            self._run_deploy_settings(target)
+            data = json.loads(settings_path.read_text(encoding="utf-8"))
+            self.assertIn("mcpServers", data, "mcpServers was removed after deploy_settings")
+            self.assertIn("hooks", data, "hooks missing after merge")
 
 
 if __name__ == "__main__":
