@@ -1,7 +1,7 @@
 const path = require("path");
 const os = require("os");
 const fs = require("fs");
-const { main, buildEnvBlock, loadConfig, saveConfig, ONBOARDING_BLOCK, WINDOWS_RULES_BLOCK } = require("../../.claude/hooks/session-start");
+const { main, buildEnvBlock, loadConfig, saveConfig, ONBOARDING_BLOCK, WINDOWS_RULES_BLOCK, buildLocalizedBlocks } = require("../../.claude/hooks/session-start");
 
 function makeTempDir() {
   return fs.mkdtempSync(path.join(os.tmpdir(), "session-start-test-"));
@@ -118,6 +118,10 @@ describe("WINDOWS_RULES_BLOCK", () => {
     expect(WINDOWS_RULES_BLOCK).toContain("PowerShell");
     expect(WINDOWS_RULES_BLOCK).toContain('encoding="utf-8"');
   });
+
+  test("contains chcp 65001 instruction", () => {
+    expect(WINDOWS_RULES_BLOCK).toContain("chcp 65001");
+  });
 });
 
 describe("main — Windows rules injection", () => {
@@ -140,6 +144,73 @@ describe("main — Windows rules injection", () => {
     saveConfig(tmpDir, { platform: "win32", python_cmd: "python", shell: "bash", session_count: 2 });
     const result = main("{}", tmpDir, "win32", () => "python");
     expect(result.system_prompt_addition).toContain("## Windows Compatibility Rules");
+  });
+});
+
+describe("i18n — buildLocalizedBlocks", () => {
+  test("en returns English onboarding title", () => {
+    const blocks = buildLocalizedBlocks("en");
+    expect(blocks.onboarding).toContain("## Project Onboarding Required");
+  });
+
+  test("ru returns Russian onboarding title", () => {
+    const blocks = buildLocalizedBlocks("ru");
+    expect(blocks.onboarding).toContain("## Требуется онбординг проекта");
+  });
+
+  test("en returns English windows block", () => {
+    const blocks = buildLocalizedBlocks("en");
+    expect(blocks.windows).toContain("## Windows Compatibility Rules");
+  });
+
+  test("ru returns Russian windows block", () => {
+    const blocks = buildLocalizedBlocks("ru");
+    expect(blocks.windows).toContain("## Правила совместимости с Windows");
+  });
+
+  test("undefined lang defaults to English", () => {
+    const blocks = buildLocalizedBlocks(undefined);
+    expect(blocks.onboarding).toContain("## Project Onboarding Required");
+  });
+});
+
+describe("main — RU localization", () => {
+  let tmpDir;
+
+  beforeEach(() => { tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "session-start-ru-")); });
+  afterEach(() => { fs.rmSync(tmpDir, { recursive: true, force: true }); });
+
+  test("uses Russian onboarding when lang=ru and session_count=0 in config", () => {
+    saveConfig(tmpDir, { platform: "linux", python_cmd: "python3", shell: "bash", session_count: 0, lang: "ru" });
+    const result = main("{}", tmpDir, "linux", () => "python3");
+    expect(result.system_prompt_addition).toContain("## Требуется онбординг проекта");
+  });
+
+  test("uses Russian windows block when lang=ru on win32", () => {
+    saveConfig(tmpDir, { platform: "win32", python_cmd: "python", shell: "bash", session_count: 0, lang: "ru" });
+    const result = main("{}", tmpDir, "win32", () => "python");
+    expect(result.system_prompt_addition).toContain("## Правила совместимости с Windows");
+  });
+
+  test("subsequent session lang=ru still uses Russian windows block", () => {
+    saveConfig(tmpDir, { platform: "win32", python_cmd: "python", shell: "bash", session_count: 3, lang: "ru" });
+    const result = main("{}", tmpDir, "win32", () => "python");
+    expect(result.system_prompt_addition).toContain("## Правила совместимости с Windows");
+    expect(result.system_prompt_addition).not.toContain("## Требуется онбординг проекта");
+  });
+});
+
+describe("detectPythonCmd — win32 shortcut", () => {
+  let tmpDir;
+
+  beforeEach(() => { tmpDir = makeTempDir(); });
+  afterEach(() => { cleanup(tmpDir); });
+
+  test("returns 'python' on win32 without attempting execSync", () => {
+    const result = main("{}", tmpDir, "win32", null);
+    const config = loadConfig(tmpDir);
+    expect(config.python_cmd).toBe("python");
+    expect(result.system_prompt_addition).toContain("Python: python");
   });
 });
 

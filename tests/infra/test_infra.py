@@ -255,11 +255,11 @@ class TestHookFiles(unittest.TestCase):
             with self.subTest(fn=fn):
                 self.assertIn(fn, content, f"skill-activation-logic.js missing export: {fn}")
 
-    def test_quality_check_hook_is_executable_bash(self):
-        hook_file = HOOKS_DIR / "python-quality-check.sh"
-        self.assertTrue(hook_file.exists())
+    def test_quality_check_hook_exists(self):
+        hook_file = HOOKS_DIR / "python-quality-check.js"
+        self.assertTrue(hook_file.exists(), "python-quality-check.js not found in hooks/")
         content = hook_file.read_text(encoding="utf-8")
-        self.assertTrue(content.startswith("#!/"), "Shell hook should start with shebang")
+        self.assertTrue(len(content) > 0, "python-quality-check.js is empty")
 
 
 class TestClaudeIgnore(unittest.TestCase):
@@ -385,6 +385,78 @@ class TestDeployScript(unittest.TestCase):
             data = json.loads(settings_path.read_text(encoding="utf-8"))
             self.assertIn("mcpServers", data, "mcpServers was removed after deploy_settings")
             self.assertIn("hooks", data, "hooks missing after merge")
+
+
+PROFILES_DIR = TEMPLATES_DIR / "profiles"
+
+EXPECTED_PROFILES = {
+    "ml-engineer": ["python-project-standards", "ml-data-handling", "predictive-analytics",
+                    "rag-vector-db", "langgraph-patterns", "test-first-patterns"],
+    "ai-developer": ["python-project-standards", "fastapi-patterns", "multimodal-router",
+                     "langgraph-patterns", "github-actions", "test-first-patterns"],
+    "fastapi-developer": ["python-project-standards", "fastapi-patterns", "htmx-frontend",
+                          "test-first-patterns", "github-actions"],
+    "fullstack": ["python-project-standards", "fastapi-patterns", "htmx-frontend",
+                  "ml-data-handling", "test-first-patterns", "github-actions"],
+}
+
+
+class TestProfileTemplates(unittest.TestCase):
+    def test_all_profile_dirs_exist(self):
+        for profile in EXPECTED_PROFILES:
+            with self.subTest(profile=profile):
+                self.assertTrue(
+                    (PROFILES_DIR / profile).is_dir(),
+                    f"Profile directory missing: templates/profiles/{profile}/"
+                )
+
+    def test_all_profiles_have_en_template(self):
+        for profile in EXPECTED_PROFILES:
+            with self.subTest(profile=profile):
+                template_path = PROFILES_DIR / profile / "CLAUDE.md.en"
+                self.assertTrue(
+                    template_path.exists(),
+                    f"Missing: templates/profiles/{profile}/CLAUDE.md.en"
+                )
+
+    def test_all_profiles_have_ru_template(self):
+        for profile in EXPECTED_PROFILES:
+            with self.subTest(profile=profile):
+                template_path = PROFILES_DIR / profile / "CLAUDE.md.ru"
+                self.assertTrue(
+                    template_path.exists(),
+                    f"Missing: templates/profiles/{profile}/CLAUDE.md.ru"
+                )
+
+    def test_profile_templates_are_valid_utf8(self):
+        for profile in EXPECTED_PROFILES:
+            for lang in ("en", "ru"):
+                template_path = PROFILES_DIR / profile / f"CLAUDE.md.{lang}"
+                if not template_path.exists():
+                    continue
+                with self.subTest(profile=profile, lang=lang):
+                    try:
+                        content = template_path.read_text(encoding="utf-8")
+                        self.assertGreater(len(content), 100, f"Template too short: {template_path}")
+                    except UnicodeDecodeError as e:
+                        self.fail(f"UTF-8 decode error in {template_path}: {e}")
+
+    def test_profile_skills_exist_in_skills_dir(self):
+        for profile, skills in EXPECTED_PROFILES.items():
+            for skill in skills:
+                with self.subTest(profile=profile, skill=skill):
+                    self.assertTrue(
+                        (SKILLS_DIR / skill).is_dir(),
+                        f"Profile '{profile}' requires skill '{skill}' which doesn't exist in .claude/skills/"
+                    )
+
+    def test_profiles_js_matches_expected_profiles(self):
+        profiles_js = INFRA_ROOT / "lib" / "profiles.js"
+        self.assertTrue(profiles_js.exists(), "lib/profiles.js not found")
+        content = profiles_js.read_text(encoding="utf-8")
+        for profile in EXPECTED_PROFILES:
+            self.assertIn(profile, content,
+                          f"Profile '{profile}' not found in lib/profiles.js")
 
 
 if __name__ == "__main__":
