@@ -6,10 +6,18 @@
   "bin": {
     "claude-scaffold": "./bin/cli.js"
   },
-  "directories": {
-    "doc": "docs",
-    "test": "tests"
-  },
+  "files": [
+    "bin/",
+    "lib/",
+    "templates/",
+    ".claude/skills/",
+    ".claude/hooks/",
+    ".claude/agents/",
+    ".claude/commands/",
+    "README.md",
+    "README.ru.md",
+    "LICENSE"
+  ],
   "scripts": {
     "test": "jest tests/hook/ tests/cli/ --no-coverage && (python3 tests/infra/test_infra.py || python tests/infra/test_infra.py)",
     "test:hook": "jest tests/hook/ --no-coverage",
