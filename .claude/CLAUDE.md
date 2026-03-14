@@ -91,8 +91,9 @@ Skills are loaded automatically by `skill-activation-prompt.js` based on file pa
 | `predictive-analytics` | sklearn, MLflow, feature engineering, Optuna |
 | `infra-yandex-cloud` | Terraform, Packer, Helm, YC deployment |
 | `test-first-patterns` | tests/, conftest.py, .feature files |
-| `design-doc-creator` | New project start, design-doc.md |
-| `skill-developer` | .claude/skills/, skill-rules.json |
+| `github-actions` | .github/workflows/*.yml, CI jobs, matrix, deploy |
+| `design-doc-creator` | New project start, design-doc.md (meta, optional) |
+| `skill-developer` | .claude/skills/, skill-rules.json (meta, optional) |
 
 ## Agent Inventory
 

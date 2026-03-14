@@ -8,9 +8,9 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "jest tests/hook/ --no-coverage && python3 tests/infra/test_infra.py",
+    "test": "jest tests/hook/ --no-coverage && (python3 tests/infra/test_infra.py || python tests/infra/test_infra.py)",
     "test:hook": "jest tests/hook/ --no-coverage",
-    "test:infra": "python3 tests/infra/test_infra.py",
+    "test:infra": "python3 tests/infra/test_infra.py || python tests/infra/test_infra.py",
     "test:watch": "jest tests/hook/ --watch"
   },
   "keywords": [],
