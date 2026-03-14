@@ -68,10 +68,15 @@ try {
 const logsDir = path.join(cwd, ".claude/logs");
 try {
   if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
+  const promptCount = (cache.prompt_count || 0) + 1;
   const entry = JSON.stringify({
     ts: new Date().toISOString(),
     session_id: sessionId,
+    repo: path.basename(cwd),
+    prompt_count: promptCount,
     skills: matchedSkills,
+    skills_cumulative: updatedLoadedSkills,
+    changed_files_count: changedFiles.length,
     status_injected: injections.some((i) => i.startsWith("## Project Status")),
   });
   fs.appendFileSync(path.join(logsDir, "skill-metrics.jsonl"), entry + "\n", "utf8");

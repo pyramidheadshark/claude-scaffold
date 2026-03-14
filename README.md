@@ -3,8 +3,9 @@
 **Claude Code configuration layer for ML engineering projects.**
 Plug-and-play skills, hooks, agents, and templates that turn Claude Code into a disciplined ML engineering assistant enforcing hexagonal architecture, TDD-first workflow, and deterministic model routing.
 
-![Jest Tests](https://img.shields.io/badge/Jest-37%20tests-brightgreen)
-![Python Tests](https://img.shields.io/badge/Python-31%20tests-blue)
+[![CI](https://github.com/pyramidheadshark/ml-claude-infra/actions/workflows/ci.yml/badge.svg)](https://github.com/pyramidheadshark/ml-claude-infra/actions/workflows/ci.yml)
+![Jest Tests](https://img.shields.io/badge/Jest-68%20tests-brightgreen)
+![Python Tests](https://img.shields.io/badge/Python-35%20tests-blue)
 ![Skills](https://img.shields.io/badge/skills-14-orange)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![Node](https://img.shields.io/badge/node-18%2B-green)
@@ -52,11 +53,12 @@ Skills bring domain knowledge: FastAPI patterns, RAG pipelines, LangGraph graphs
 
 `/init-design-doc` · `/new-project` · `/review` · `/dev-status`
 
-### 3 Hooks
+### 4 Hooks
 
 | Hook | Event | Action |
 |---|---|---|
-| `skill-activation-prompt.js` | UserPromptSubmit | Inject status.md + matched skills |
+| `skill-activation-prompt.js` | UserPromptSubmit | Inject status.md + matched skills (with session cache + dedup) |
+| `session-start.js` | SessionStart | Detect platform, inject windows rules, onboarding on first run |
 | `python-quality-check.sh` | Stop | Run ruff + mypy at session end |
 | `post-tool-use-tracker.sh` | PostToolUse | Log tool usage to `.claude/logs/` |
 
@@ -67,47 +69,57 @@ Skills bring domain knowledge: FastAPI patterns, RAG pipelines, LangGraph graphs
 ### 1. Clone
 
 ```bash
-git clone <url> ~/tools/ml-claude-infra
-cd ~/tools/ml-claude-infra
+git clone https://github.com/pyramidheadshark/ml-claude-infra
+cd ml-claude-infra
 npm install
 ```
 
 ### 2. Deploy to your project
 
-**Windows / cross-platform (interactive wizard):**
+**Interactive wizard (recommended, cross-platform):**
 ```bash
 python scripts/deploy.py
 ```
+Wizard asks: target path → preset or skills → CI profile → deploy target.
 
-**CLI (Linux / macOS / Git Bash):**
+**CLI — selected skills:**
 ```bash
-# FastAPI project
-./scripts/deploy.sh ~/Repos/my-project \
-  --skills python-project-standards,fastapi-patterns,test-first-patterns
+python scripts/deploy.py /path/to/my-project \
+  --skills python-project-standards,fastapi-patterns,test-first-patterns \
+  --ci-profile fastapi
+```
 
-# Full ML project
-./scripts/deploy.sh ~/Repos/my-project --all --with-tests
-
-# Python CLI (same, cross-platform)
-python scripts/deploy.py ~/Repos/my-project --all --with-tests
+**CLI — all skills + CI:**
+```bash
+python scripts/deploy.py /path/to/my-project --all --ci-profile ml-heavy
 ```
 
 ### 3. Configure
 
 ```bash
-# Copy and adapt the Claude profile
-cp .claude/CLAUDE.md ~/Repos/my-project/.claude/CLAUDE.md
+# Copy and adapt the Claude profile for your project
+cp .claude/CLAUDE.md /path/to/my-project/.claude/CLAUDE.md
 
-# Edit status.md — fill in your project's goal
-nano ~/Repos/my-project/dev/status.md
+# Fill in project goal, current phase, next steps
+code /path/to/my-project/dev/status.md
 ```
 
 ### 4. Verify
 
 ```bash
-cd ~/Repos/my-project
+cd /path/to/my-project
 echo '{"prompt":"pyproject.toml ruff setup"}' | node .claude/hooks/skill-activation-prompt.js
 # → JSON with python-project-standards in system_prompt_addition
+```
+
+### 5. Keep all deployed projects up to date
+
+After `git pull` in ml-claude-infra — propagate changes to all registered projects:
+
+```bash
+python scripts/deploy.py --status                      # show version drift for all projects
+python scripts/deploy.py --update-all                  # update outdated ones (.claude/ only, never touches CI)
+python scripts/deploy.py --update /path/to/my-project  # update a single project
 ```
 
 ---
@@ -153,9 +165,11 @@ On a 200K context window: < 3% overhead per prompt.
 ## Running Tests
 
 ```bash
-npm run test:hook                  # 37 Jest tests (unit + E2E hook process)
-python tests/infra/test_infra.py   # 31 Python infra contract tests
-npm test                           # both (Python fallback: python3 || python)
+npm run test:hook                  # 68 Jest tests (unit + E2E + session-start)
+python tests/infra/test_infra.py   # 35 Python infra contract tests
+npm test                           # both (Windows: python3 falls back to python automatically)
+npm run check:budget               # verify all skills stay under 300 lines
+npm run metrics                    # skill load frequency report
 ```
 
 ---
@@ -171,8 +185,9 @@ ml-claude-infra/
 │   ├── commands/        # 4 slash commands
 │   └── CLAUDE.md        # core profile + interaction principles
 ├── scripts/
-│   ├── deploy.py        # cross-platform deploy wizard
-│   ├── deploy.sh        # bash deploy script
+│   ├── deploy.py        # cross-platform deploy wizard (--status, --update, --update-all)
+│   ├── deploy.sh        # bash deploy script (legacy)
+│   ├── metrics-report.js
 │   └── generate_skill_rules.py
 ├── templates/           # pyproject.toml, Dockerfile, docker-compose, Makefile, etc.
 ├── tests/
