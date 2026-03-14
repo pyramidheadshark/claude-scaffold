@@ -1,0 +1,95 @@
+#!/usr/bin/env node
+
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
+
+const CONFIG_FILE = ".claude/project-config.json";
+
+function detectPythonCmd() {
+  try {
+    execSync("python3 --version", { stdio: "ignore" });
+    return "python3";
+  } catch {
+    return "python";
+  }
+}
+
+function detectShell() {
+  if (process.env.SHELL) return path.basename(process.env.SHELL);
+  if (process.platform === "win32") return "bash";
+  return "sh";
+}
+
+function loadConfig(cwd) {
+  const configPath = path.join(cwd, CONFIG_FILE);
+  if (!fs.existsSync(configPath)) return null;
+  try {
+    return JSON.parse(fs.readFileSync(configPath, "utf8"));
+  } catch {
+    return null;
+  }
+}
+
+function saveConfig(cwd, config) {
+  const configPath = path.join(cwd, CONFIG_FILE);
+  const dir = path.dirname(configPath);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(configPath, JSON.stringify(config, null, 2), "utf8");
+}
+
+function buildEnvBlock(platform, pythonCmd, shell, sessionCount) {
+  return `## Session Environment\nPlatform: ${platform} | Shell: ${shell} | Python: ${pythonCmd} | Sessions: ${sessionCount}`;
+}
+
+const ONBOARDING_BLOCK = `## Project Onboarding Required
+First Claude Code session detected. Please ask the user these questions before starting work:
+1. Any project-specific constraints beyond CLAUDE.md?
+2. Preferred response language for this project?
+3. Main goal of this session?
+Save answers to .claude/project-config.json.`;
+
+function main(inputStr, cwd, platform, detectPython) {
+  let input = {};
+  try {
+    input = JSON.parse(inputStr);
+  } catch {
+    input = {};
+  }
+
+  const effectiveCwd = cwd || process.cwd();
+  const effectivePlatform = platform || process.platform;
+  const pythonCmd = detectPython ? detectPython() : detectPythonCmd();
+  const shell = detectShell();
+
+  const existing = loadConfig(effectiveCwd);
+  const sessionCount = existing ? (existing.session_count || 0) + 1 : 1;
+
+  const config = {
+    platform: effectivePlatform,
+    python_cmd: pythonCmd,
+    shell,
+    session_count: sessionCount,
+  };
+
+  saveConfig(effectiveCwd, config);
+
+  const envBlock = buildEnvBlock(effectivePlatform, pythonCmd, shell, sessionCount);
+  const isFirstRun = !existing;
+
+  const additions = [envBlock];
+  if (isFirstRun) additions.push(ONBOARDING_BLOCK);
+
+  return {
+    continue: true,
+    system_prompt_addition: additions.join("\n\n---\n\n"),
+  };
+}
+
+if (require.main === module) {
+  const inputStr = fs.readFileSync(0, "utf8");
+  const result = main(inputStr, process.cwd(), process.platform, null);
+  process.stdout.write(JSON.stringify(result));
+}
+
+module.exports = { main, buildEnvBlock, loadConfig, saveConfig, ONBOARDING_BLOCK };
