@@ -2,22 +2,30 @@
   "name": "claude-scaffold",
   "version": "1.0.0",
   "description": "Claude Code infrastructure for ML and AI engineers — skills, hooks, agents, and CI profiles.",
-  "main": "index.js",
   "bin": {
     "claude-scaffold": "./bin/cli.js"
   },
-  "directories": {
-    "doc": "docs",
-    "test": "tests"
-  },
+  "files": [
+    "bin/",
+    "lib/",
+    "templates/",
+    ".claude/skills/",
+    ".claude/hooks/",
+    ".claude/agents/",
+    ".claude/commands/",
+    "README.md",
+    "README.ru.md",
+    "LICENSE"
+  ],
   "scripts": {
     "test": "jest tests/hook/ tests/cli/ --no-coverage && (python3 tests/infra/test_infra.py || python tests/infra/test_infra.py)",
     "test:hook": "jest tests/hook/ --no-coverage",
     "test:cli": "jest tests/cli/ --no-coverage",
     "test:infra": "python3 tests/infra/test_infra.py || python tests/infra/test_infra.py",
     "test:watch": "jest tests/hook/ tests/cli/ --watch",
-    "check:budget": "python tests/infra/test_infra.py TestSkillMdFiles.test_skill_line_budget",
-    "metrics": "node scripts/metrics-report.js"
+    "check:budget": "python3 tests/infra/test_infra.py TestSkillMdFiles.test_skill_line_budget || python tests/infra/test_infra.py TestSkillMdFiles.test_skill_line_budget",
+    "metrics": "node scripts/metrics-report.js",
+    "benchmark": "jest tests/benchmark/ --no-coverage --verbose"
   },
   "keywords": [
     "claude",

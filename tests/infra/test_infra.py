@@ -255,11 +255,11 @@ class TestHookFiles(unittest.TestCase):
             with self.subTest(fn=fn):
                 self.assertIn(fn, content, f"skill-activation-logic.js missing export: {fn}")
 
-    def test_quality_check_hook_is_executable_bash(self):
-        hook_file = HOOKS_DIR / "python-quality-check.sh"
-        self.assertTrue(hook_file.exists())
+    def test_quality_check_hook_exists(self):
+        hook_file = HOOKS_DIR / "python-quality-check.js"
+        self.assertTrue(hook_file.exists(), "python-quality-check.js not found in hooks/")
         content = hook_file.read_text(encoding="utf-8")
-        self.assertTrue(content.startswith("#!/"), "Shell hook should start with shebang")
+        self.assertTrue(len(content) > 0, "python-quality-check.js is empty")
 
 
 class TestClaudeIgnore(unittest.TestCase):

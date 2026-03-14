@@ -126,6 +126,8 @@ Skills are loaded automatically by `skill-activation-prompt.js` based on file pa
 | `infra-yandex-cloud` | Terraform, Packer, Helm, YC deployment |
 | `test-first-patterns` | tests/, conftest.py, .feature files |
 | `github-actions` | .github/workflows/*.yml, CI jobs, matrix, deploy |
+| `claude-api-patterns` | anthropic SDK, tool_use, MessageCreate, claude-sonnet |
+| `prompt-engineering` | system_prompt, few_shot, chain-of-thought, prompt template |
 | `design-doc-creator` | New project start, design-doc.md (meta, optional) |
 | `skill-developer` | .claude/skills/, skill-rules.json (meta, optional) |
 

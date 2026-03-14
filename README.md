@@ -5,10 +5,10 @@
 Clone once. Deploy to any project in one command. Update all projects whenever you improve the config — every project stays in sync automatically.
 
 [![CI](https://github.com/pyramidheadshark/claude-scaffold/actions/workflows/ci.yml/badge.svg)](https://github.com/pyramidheadshark/claude-scaffold/actions/workflows/ci.yml)
-![npm](https://img.shields.io/badge/npm-coming%20soon-lightgrey)
-![Jest Tests](https://img.shields.io/badge/Jest-71%20tests-brightgreen)
-![Python Tests](https://img.shields.io/badge/Python-37%20tests-blue)
-![Skills](https://img.shields.io/badge/skills-14-orange)
+![npm](https://img.shields.io/badge/npm-v1.0.0-blue)
+![Jest Tests](https://img.shields.io/badge/Jest-146%20tests-brightgreen)
+![Python Tests](https://img.shields.io/badge/Python-43%20tests-blue)
+![Skills](https://img.shields.io/badge/skills-16-orange)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![Node](https://img.shields.io/badge/node-18%2B-green)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
@@ -20,21 +20,21 @@ Clone once. Deploy to any project in one command. Update all projects whenever y
 Most Claude Code setups are per-project and drift apart. claude-scaffold is a **central infrastructure layer** that you own and deploy everywhere.
 
 ```
-claude-scaffold  ← you edit this once
+claude-scaffold  ← you configure this once
       │
       ├── deploy → project-a/.claude/
       ├── deploy → project-b/.claude/
       └── deploy → project-c/.claude/
 
-Later: python scripts/deploy.py --update-all
+Later: npx claude-scaffold update --all
       → all three stay in sync with zero manual work
 ```
 
 You can ask Claude directly to handle this:
-> *"Deploy claude-scaffold to my new project with fastapi and test-first skills"*
+> *"Deploy claude-scaffold to my new project with the fastapi-developer profile"*
 > *"Update all registered projects to the latest infra version"*
 
-Claude reads this README, runs `deploy.py`, and wires everything up. No manual config copy-pasting.
+Claude reads this README, runs the CLI, and wires everything up. No manual config copy-pasting.
 
 ---
 
@@ -42,8 +42,8 @@ Claude reads this README, runs `deploy.py`, and wires everything up. No manual c
 
 On every Claude Code prompt, the hook automatically:
 1. Injects `dev/status.md` — your project's current state and next steps
-2. Detects planning intent ("план", "multi-step", etc.) and reminds to enter plan mode
-3. Matches the prompt against 14 skill rules (keywords + changed files)
+2. Detects planning intent and reminds to enter plan mode
+3. Matches the prompt against 16 skill rules (keywords + changed files)
 4. Injects up to 2 additional relevant skills into `system_prompt_addition`
 
 Skills bring domain knowledge: FastAPI patterns, RAG pipelines, LangGraph graphs, CI/CD configs, test-first workflow — injected only when needed, compressed if large.
@@ -52,7 +52,7 @@ Skills bring domain knowledge: FastAPI patterns, RAG pipelines, LangGraph graphs
 
 ## Components
 
-### 14 Skills
+### 16 Skills
 
 | Skill | Triggers On |
 |---|---|
@@ -68,6 +68,8 @@ Skills bring domain knowledge: FastAPI patterns, RAG pipelines, LangGraph graphs
 | `infra-yandex-cloud` | terraform + yandex/docker (min 2 keywords) |
 | `test-first-patterns` | pytest, BDD, Gherkin, fixtures, coverage |
 | `github-actions` | `.github/workflows/*.yml`, CI/CD jobs |
+| `claude-api-patterns` | anthropic SDK, tool_use, MessageCreate, claude-sonnet |
+| `prompt-engineering` | system_prompt, few_shot, chain-of-thought, eval |
 | `design-doc-creator` | *Meta — manual only, not auto-loaded* |
 | `skill-developer` | *Meta — manual only, not auto-loaded* |
 
@@ -85,67 +87,64 @@ Skills bring domain knowledge: FastAPI patterns, RAG pipelines, LangGraph graphs
 |---|---|---|
 | `skill-activation-prompt.js` | UserPromptSubmit | Inject status.md + matched skills + plan-mode reminder on planning keywords |
 | `session-start.js` | SessionStart | Detect platform (win32/unix), inject Windows rules, onboarding on first run |
-| `python-quality-check.sh` | Stop | Run ruff + mypy at session end |
-| `post-tool-use-tracker.sh` | PostToolUse | Log tool + session_id + repo + is_error to `.claude/logs/` |
+| `python-quality-check.js` | Stop | Run ruff + mypy at session end |
+| `post-tool-use-tracker.js` | PostToolUse | Log tool + session_id + repo + is_error to `.claude/logs/` |
 
 ---
 
 ## Quick Start
 
-### 1. Clone
+### Option A — NPX (no clone needed)
+
+```bash
+# Interactive wizard — asks profile, language, CI, deploy target
+npx claude-scaffold init /path/to/my-project
+
+# One-liner with profile
+npx claude-scaffold init /path/to/my-project --profile ml-engineer --lang en
+
+# Available profiles: ml-engineer | ai-developer | fastapi-developer | fullstack
+# Available languages: en | ru
+```
+
+### Option B — Clone and deploy (Python, no npm required)
 
 ```bash
 git clone https://github.com/pyramidheadshark/claude-scaffold
 cd claude-scaffold
-npm install
-```
+npm install  # only needed to run tests
 
-### 2. Deploy to your project
-
-**Interactive wizard (recommended, cross-platform):**
-```bash
+# Interactive wizard
 python scripts/deploy.py
-```
-Wizard asks: target path → preset or skills → CI profile → deploy target.
 
-**CLI — selected skills:**
-```bash
+# CLI — selected skills + CI profile
 python scripts/deploy.py /path/to/my-project \
   --skills python-project-standards,fastapi-patterns,test-first-patterns \
   --ci-profile fastapi
 ```
 
-**CLI — all skills + CI:**
-```bash
-python scripts/deploy.py /path/to/my-project --all --ci-profile ml-heavy
-```
-
-### 3. Configure
+### After deploy
 
 ```bash
-# Copy and adapt the Claude profile for your project
-cp .claude/CLAUDE.md /path/to/my-project/.claude/CLAUDE.md
-
-# Fill in project goal, current phase, next steps
+# 1. Edit session context (goal, phase, next steps)
 code /path/to/my-project/dev/status.md
-```
 
-### 4. Verify
-
-```bash
+# 2. Verify hook works
 cd /path/to/my-project
 echo '{"prompt":"pyproject.toml ruff setup"}' | node .claude/hooks/skill-activation-prompt.js
 # → JSON with python-project-standards in system_prompt_addition
 ```
 
-### 5. Keep all projects in sync
-
-This is the core workflow. After any change to claude-scaffold, one command propagates it everywhere:
+### Keep all projects in sync
 
 ```bash
-python scripts/deploy.py --status                      # show all registered projects + version drift
-python scripts/deploy.py --update-all                  # sync all outdated projects (.claude/ only, CI untouched)
-python scripts/deploy.py --update /path/to/my-project  # sync a single project
+npx claude-scaffold status            # show all registered projects + version drift
+npx claude-scaffold update --all      # sync all outdated projects (.claude/ only)
+npx claude-scaffold update /path      # sync a single project
+
+# Python equivalent
+python scripts/deploy.py --status
+python scripts/deploy.py --update-all
 ```
 
 > You can ask Claude to run this for you: *"Check which projects are outdated and update them all."*
@@ -193,8 +192,8 @@ On a 200K context window: < 3% overhead per prompt.
 ## Running Tests
 
 ```bash
-npm run test:hook                  # 71 Jest tests (unit + E2E + session-start)
-python tests/infra/test_infra.py   # 37 Python infra contract tests
+npm run test:hook                  # 106 Jest tests (unit + E2E + session-start)
+python tests/infra/test_infra.py   # 43 Python infra contract tests
 npm test                           # both (Windows: python3 falls back to python automatically)
 npm run check:budget               # verify all skills stay under 300 lines
 npm run metrics                    # skill load frequency report
@@ -207,7 +206,7 @@ npm run metrics                    # skill load frequency report
 ```
 claude-scaffold/
 ├── .claude/
-│   ├── skills/          # 14 skill modules (SKILL.md + resources/ + skill-metadata.json)
+│   ├── skills/          # 16 skill modules (SKILL.md + resources/ + skill-metadata.json)
 │   ├── hooks/           # lifecycle automation
 │   ├── agents/          # 8 sub-agents
 │   ├── commands/        # 4 slash commands

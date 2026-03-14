@@ -68,6 +68,8 @@ program
 
     deployCore(INFRA_DIR, resolvedTarget, {
       skills,
+      profile: opts.profile || '',
+      lang: opts.lang || 'en',
       ciProfile: opts.ci || '',
       deployTarget: opts.deploy || 'none',
     });

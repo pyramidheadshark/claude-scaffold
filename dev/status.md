@@ -63,6 +63,13 @@ Tasks in priority order. Check off when done.
 - [x] Add 6 ML domain skills (ml-data-handling, htmx-frontend, langgraph-patterns, etc.) — v0.2.0 — 2026-03-02
 - [x] Add 4 initial skills, hooks, agents, commands — v0.1.0 — 2026-03-02
 
+- [x] Test debt + benchmark system — 2026-03-14
+  - python-quality-check.test.js (8 tests), wizard.test.js (12 tests)
+  - E2E: +2 tests (status cache hit, no-git fallback)
+  - benchmark: golden-prompts.json (53 entries), skill-benchmark.test.js (56 tests)
+  - scripts/import-real-prompts.js, npm run benchmark
+  - Total: 169 Jest + 43 Python = 212 tests; benchmark 100% precision/recall
+
 ---
 
 ## Known Issues and Solutions
@@ -114,13 +121,28 @@ Tasks in priority order. Check off when done.
 - ✅ Memory скопирована в новый путь
 - ✅ Ветка `feat/open-source` создана и запушена
 
-### Phase B — Open-source release на ветке `feat/open-source`
+### Phase B — Open-source release ✅ DONE (2026-03-13)
 
-2. Аудит контента на публичность — убрать личные пути, внутренние ссылки
-3. Обновить README для публичной аудитории (убрать "personal", расширить Getting Started)
-4. Добавить `LICENSE` (MIT — как в README badge)
-5. Добавить `CONTRIBUTING.md`
-6. Тег `v1.0.0` на main после слияния `feat/open-source`
+**feat/open-source** ветка запушена. 7 коммитов, все тесты зелёные (106 Jest + 43 Python).
+
+Что сделано:
+- Phase 0: LICENSE, CONTRIBUTING.md, README без "personal"
+- Phase 1: NPX CLI (bin/cli.js, lib/commands/, lib/deploy/, lib/ui/, 29 Jest тестов)
+- Phase 2: 4 профиля × 2 языка CLAUDE.md.en/ru в templates/profiles/
+- Phase 3: lib/i18n.js, EN/RU onboarding в session-start.js, README.ru.md
+- Phase 4: 2 новых скилла (claude-api-patterns, prompt-engineering) — итого 16 скиллов
+- Phase 5: .npmignore, package.json files[], .github/workflows/publish.yml
+
+**Следующий шаг: смержить feat/open-source → main, поставить тег v1.0.0**
+
+```bash
+git checkout main
+git merge feat/open-source
+git tag v1.0.0
+git push origin main --tags
+```
+
+---
 
 ### Phase C — CI debt (параллельно, независимо от open-source)
 
@@ -150,4 +172,4 @@ Tasks in priority order. Check off when done.
 
 ---
 
-*Last updated: 2026-03-13 (bash→Node.js hook conversion complete) by Claude Code*
+*Last updated: 2026-03-14 (test debt closed + benchmark system) by Claude Code*

@@ -51,6 +51,27 @@ describe('update — updateOne', () => {
     expect(() => updateOne(INFRA_DIR, tmpDir, registryPath)).toThrow();
   });
 
+  test('updateOne actually rewrites hooks content (not just counters)', () => {
+    deployCore(INFRA_DIR, tmpDir, { skills: ['python-project-standards'] });
+    const hookPath = path.join(tmpDir, '.claude', 'hooks', 'skill-activation-prompt.js');
+    fs.writeFileSync(hookPath, '// outdated', 'utf8');
+
+    const registry = {
+      deployed: [{
+        path: tmpDir,
+        skills: ['python-project-standards'],
+        ci_profile: '',
+        deploy_target: 'none',
+        deployed_at: '2025-01-01',
+        infra_sha: 'old',
+      }],
+    };
+    fs.writeFileSync(registryPath, JSON.stringify(registry), 'utf8');
+
+    updateOne(INFRA_DIR, tmpDir, registryPath);
+    expect(fs.readFileSync(hookPath, 'utf8')).not.toBe('// outdated');
+  });
+
   test('does not overwrite CI workflows', () => {
     deployCore(INFRA_DIR, tmpDir, { skills: ['python-project-standards'] });
 
@@ -94,6 +115,24 @@ describe('update — updateAll', () => {
         deploy_target: 'none',
         deployed_at: '2025-01-01',
         infra_sha: currentSha,
+      }],
+    };
+    fs.writeFileSync(registryPath, JSON.stringify(registry), 'utf8');
+
+    const result = updateAll(INFRA_DIR, registryPath);
+    expect(result.updated).toBe(0);
+    expect(result.skipped).toBe(1);
+  });
+
+  test('skips repos where path does not exist on disk', () => {
+    const registry = {
+      deployed: [{
+        path: '/does/not/exist/on/disk/anywhere',
+        skills: ['python-project-standards'],
+        ci_profile: '',
+        deploy_target: 'none',
+        deployed_at: '2025-01-01',
+        infra_sha: 'old_sha_gone',
       }],
     };
     fs.writeFileSync(registryPath, JSON.stringify(registry), 'utf8');

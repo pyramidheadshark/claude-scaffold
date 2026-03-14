@@ -221,4 +221,50 @@ describe("E2E — session cache deduplication", () => {
     const skills2 = getLoadedSkills(output2);
     expect(skills2).not.toContain("python-project-standards");
   });
+
+  test("status not re-injected when hash unchanged between prompts", () => {
+    const sessionId = "test-session-status-hash";
+
+    const output1 = runHook("write some code", tmpCwd, sessionId);
+    const addition1 = output1.system_prompt_addition || "";
+    expect(addition1).toContain("## Project Status");
+
+    const output2 = runHook("write more code", tmpCwd, sessionId);
+    const addition2 = output2.system_prompt_addition || "";
+    expect(addition2).not.toContain("## Project Status");
+  });
+});
+
+describe("E2E — no-git fallback", () => {
+  test("changedFiles=[] when not a git repo and skills still activate by keywords", () => {
+    const noGitDir = fs.mkdtempSync(path.join(os.tmpdir(), "e2e-nogit-"));
+    try {
+      const skillsDir = path.join(noGitDir, ".claude/skills");
+      fs.mkdirSync(skillsDir, { recursive: true });
+      fs.copyFileSync(
+        path.join(FIXTURE_CWD, ".claude/skills/skill-rules.json"),
+        path.join(skillsDir, "skill-rules.json")
+      );
+      for (const entry of fs.readdirSync(
+        path.join(FIXTURE_CWD, ".claude/skills"),
+        { withFileTypes: true }
+      )) {
+        if (entry.isDirectory()) {
+          const src = path.join(FIXTURE_CWD, ".claude/skills", entry.name);
+          const dst = path.join(skillsDir, entry.name);
+          fs.mkdirSync(dst, { recursive: true });
+          for (const f of fs.readdirSync(src)) {
+            fs.copyFileSync(path.join(src, f), path.join(dst, f));
+          }
+        }
+      }
+
+      const output = runHook("help me write a fastapi router", noGitDir);
+      expect(output.continue).toBe(true);
+      expect(getLoadedSkills(output)).toContain("python-project-standards");
+      expect(getLoadedSkills(output)).toContain("fastapi-patterns");
+    } finally {
+      fs.rmSync(noGitDir, { recursive: true, force: true });
+    }
+  });
 });

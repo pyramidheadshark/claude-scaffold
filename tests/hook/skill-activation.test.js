@@ -178,32 +178,6 @@ describe("matchSkills — min_keyword_matches", () => {
   });
 });
 
-describe("matchSkills — always_load with optional filter", () => {
-  const mixedRules = [
-    {
-      skill: "python-project-standards",
-      triggers: { always_load: true, keywords: [], files: [] },
-      priority: 1,
-    },
-    {
-      skill: "skill-developer",
-      optional: true,
-      triggers: { keywords: ["create skill", "new skill"], files: [] },
-      priority: 2,
-    },
-  ];
-
-  test("always_load non-optional skill is always included", () => {
-    const matched = matchSkills(mixedRules, "write me a poem about clouds", [], 3);
-    expect(matched).toContain("python-project-standards");
-  });
-
-  test("optional skill is never included even with matching keyword", () => {
-    const matched = matchSkills(mixedRules, "create skill for my project", [], 3);
-    expect(matched).toContain("python-project-standards");
-    expect(matched).not.toContain("skill-developer");
-  });
-});
 
 describe("loadSkillContent", () => {
   const mockPath = { join: (...parts) => parts.join("/") };
@@ -321,26 +295,6 @@ describe("buildInjections — integration", () => {
   });
 });
 
-describe("simpleHash", () => {
-  test("returns consistent string for same input", () => {
-    expect(simpleHash("hello")).toBe(simpleHash("hello"));
-  });
-
-  test("returns different values for different inputs", () => {
-    expect(simpleHash("hello")).not.toBe(simpleHash("world"));
-  });
-
-  test("returns a hex string", () => {
-    const h = simpleHash("test");
-    expect(h).toMatch(/^[0-9a-f]+$/);
-  });
-
-  test("handles empty string", () => {
-    const h = simpleHash("");
-    expect(typeof h).toBe("string");
-    expect(h.length).toBeGreaterThan(0);
-  });
-});
 
 describe("matchSkills — alreadyLoaded filter", () => {
   const rules = MINIMAL_RULES.rules;

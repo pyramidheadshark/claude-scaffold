@@ -8,6 +8,7 @@ const INFRA_DIR = path.join(__dirname, '..', '..');
 const { deployCore } = require('../../lib/commands/init');
 const { addSkill } = require('../../lib/commands/add-skill');
 
+
 let tmpDir;
 
 beforeEach(() => {
@@ -54,5 +55,23 @@ describe('add-skill — addSkill', () => {
     const rules = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
     const skillNames = rules.rules.map(r => r.skill);
     expect(skillNames).toContain('python-project-standards');
+  });
+
+  test('add-skill copies SKILL.md and skill-metadata.json', () => {
+    addSkill(INFRA_DIR, tmpDir, 'fastapi-patterns');
+    const skillDir = path.join(tmpDir, '.claude', 'skills', 'fastapi-patterns');
+    expect(fs.existsSync(path.join(skillDir, 'SKILL.md'))).toBe(true);
+    expect(fs.existsSync(path.join(skillDir, 'skill-metadata.json'))).toBe(true);
+  });
+
+  test('add-skill throws descriptive error when source skill-rules.json missing', () => {
+    const fakeInfra = fs.mkdtempSync(path.join(os.tmpdir(), 'cs-fake-infra-'));
+    const fakeSkill = path.join(fakeInfra, '.claude', 'skills', 'fake-skill');
+    fs.mkdirSync(fakeSkill, { recursive: true });
+    try {
+      expect(() => addSkill(fakeInfra, tmpDir, 'fake-skill')).toThrow('Skill registry not found');
+    } finally {
+      fs.rmSync(fakeInfra, { recursive: true, force: true });
+    }
   });
 });

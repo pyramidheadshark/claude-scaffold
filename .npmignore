@@ -1,0 +1,14 @@
+tests/
+dev/
+docs/
+node_modules/
+.claude/cache/
+.claude/logs/
+.claude/project-config.json
+deployed-repos.json
+scripts/deploy.py
+scripts/generate_skill_rules.py
+scripts/deploy.sh
+*.jsonl
+.DS_Store
+.env

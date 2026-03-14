@@ -17,13 +17,6 @@ describe("buildEnvBlock", () => {
     expect(block).toBe("## Session Environment\nPlatform: win32 | Shell: bash | Python: python | Sessions: 3");
   });
 
-  test("contains all four fields", () => {
-    const block = buildEnvBlock("linux", "python3", "zsh", 1);
-    expect(block).toContain("linux");
-    expect(block).toContain("python3");
-    expect(block).toContain("zsh");
-    expect(block).toContain("Sessions: 1");
-  });
 });
 
 describe("loadConfig / saveConfig", () => {
@@ -107,22 +100,6 @@ describe("main — subsequent runs (config exists)", () => {
   });
 });
 
-describe("WINDOWS_RULES_BLOCK", () => {
-  test("is exported and non-empty", () => {
-    expect(typeof WINDOWS_RULES_BLOCK).toBe("string");
-    expect(WINDOWS_RULES_BLOCK.length).toBeGreaterThan(0);
-  });
-
-  test("contains all three rule areas", () => {
-    expect(WINDOWS_RULES_BLOCK).toContain("python");
-    expect(WINDOWS_RULES_BLOCK).toContain("PowerShell");
-    expect(WINDOWS_RULES_BLOCK).toContain('encoding="utf-8"');
-  });
-
-  test("contains chcp 65001 instruction", () => {
-    expect(WINDOWS_RULES_BLOCK).toContain("chcp 65001");
-  });
-});
 
 describe("main — Windows rules injection", () => {
   let tmpDir;

@@ -347,6 +347,47 @@
         "always_load": false
       },
       "priority": 14
+    },
+    {
+      "skill": "claude-api-patterns",
+      "triggers": {
+        "files": [
+          "*.py"
+        ],
+        "keywords": [
+          "anthropic",
+          "claude api",
+          "tool_use",
+          "MessageCreate",
+          "client.messages",
+          "claude-sonnet",
+          "claude-haiku",
+          "claude-opus",
+          "@anthropic-ai/sdk"
+        ]
+      },
+      "priority": 15
+    },
+    {
+      "skill": "prompt-engineering",
+      "triggers": {
+        "files": [
+          "prompts/*.md",
+          "prompts/*.txt"
+        ],
+        "keywords": [
+          "system_prompt",
+          "few_shot",
+          "chain-of-thought",
+          "prompt template",
+          "prompt engineering",
+          "промпт",
+          "system prompt",
+          "eval",
+          "few-shot"
+        ]
+      },
+      "priority": 16
     }
   ],
   "context_management": {
