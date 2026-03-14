@@ -35,12 +35,9 @@ SKILLS_DIR = INFRA_DIR / ".claude" / "skills"
 CI_TEMPLATES_DIR = INFRA_DIR / "templates" / "github-actions"
 REGISTRY_PATH = INFRA_DIR / "deployed-repos.json"
 
-HOOKS_DEFINITION: dict = {
-    "SessionStart": [{"matcher": "", "hooks": [{"type": "command", "command": "node .claude/hooks/session-start.js"}]}],
-    "UserPromptSubmit": [{"matcher": "", "hooks": [{"type": "command", "command": "node .claude/hooks/skill-activation-prompt.js"}]}],
-    "PostToolUse": [{"matcher": ".*", "hooks": [{"type": "command", "command": "node .claude/hooks/post-tool-use-tracker.js"}]}],
-    "Stop": [{"matcher": "", "hooks": [{"type": "command", "command": "ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo \"$PWD\") && node \"$ROOT/.claude/hooks/python-quality-check.js\""}]}],
-}
+HOOKS_DEFINITION: dict = json.loads(
+    (INFRA_DIR / "lib" / "hooks-definition.json").read_text(encoding="utf-8")
+)
 
 CI_PROFILES: list[tuple[str, str]] = [
     ("minimal",    "Lint + typecheck + test — CLI tools, data scripts, web scrapers"),

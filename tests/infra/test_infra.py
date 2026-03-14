@@ -459,5 +459,28 @@ class TestProfileTemplates(unittest.TestCase):
                           f"Profile '{profile}' not found in lib/profiles.js")
 
 
+class TestHooksDefinitionJson(unittest.TestCase):
+    def setUp(self):
+        hooks_path = INFRA_ROOT / "lib" / "hooks-definition.json"
+        with open(hooks_path, encoding="utf-8") as f:
+            self.hooks = json.load(f)
+
+    def test_has_all_required_events(self):
+        for event in ["SessionStart", "UserPromptSubmit", "PostToolUse", "Stop"]:
+            with self.subTest(event=event):
+                self.assertIn(event, self.hooks)
+
+    def test_each_event_has_hook_command(self):
+        for event, entries in self.hooks.items():
+            with self.subTest(event=event):
+                self.assertIsInstance(entries, list)
+                self.assertTrue(entries[0]["hooks"][0]["command"])
+
+    def test_matches_copy_js_hooks_definition(self):
+        for event in ["SessionStart", "UserPromptSubmit", "PostToolUse", "Stop"]:
+            with self.subTest(event=event):
+                self.assertIn(event, self.hooks, f"hooks-definition.json missing event: {event}")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

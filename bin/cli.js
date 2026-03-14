@@ -126,7 +126,7 @@ program
   .description('Add a skill to an existing deployed project')
   .action((skillName, targetPath) => {
     const resolved = path.resolve(targetPath || process.cwd());
-    addSkill(INFRA_DIR, resolved, skillName);
+    addSkill(INFRA_DIR, resolved, skillName, DEFAULT_REGISTRY_PATH);
     console.log(`\nAdded skill '${skillName}' to ${resolved}`);
   });
 

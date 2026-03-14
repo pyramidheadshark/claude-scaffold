@@ -16,6 +16,7 @@ afterEach(() => {
 
 const INFRA_DIR = path.join(__dirname, '..', '..');
 const { deployCore } = require('../../lib/commands/init');
+const copy = require('../../lib/deploy/copy');
 
 describe('init — deployCore', () => {
   test('creates .claude/hooks/ directory', () => {
@@ -191,6 +192,31 @@ describe('init — deployCore', () => {
     const settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
     expect(settings.hooks.PreToolUse).toBeDefined();
     expect(settings.hooks.UserPromptSubmit).toBeDefined();
+  });
+
+  test('generateSkillRules throws descriptive error if source skill-rules.json missing', () => {
+    const fakeInfra = fs.mkdtempSync(path.join(os.tmpdir(), 'cs-fake-infra-'));
+    try {
+      expect(() => copy.generateSkillRules(fakeInfra, tmpDir, ['python-project-standards']))
+        .toThrow('Cannot read skill-rules.json');
+    } finally {
+      fs.rmSync(fakeInfra, { recursive: true, force: true });
+    }
+  });
+
+  test('copyDirContents respects ext filter in subdirectories', () => {
+    const srcInfra = fs.mkdtempSync(path.join(os.tmpdir(), 'cs-fake-infra-'));
+    try {
+      const agentsSubdir = path.join(srcInfra, '.claude', 'agents', 'subgroup');
+      fs.mkdirSync(agentsSubdir, { recursive: true });
+      fs.writeFileSync(path.join(agentsSubdir, 'helper.md'), '# helper');
+      fs.writeFileSync(path.join(agentsSubdir, 'tool.js'), 'code');
+      copy.copyAgents(srcInfra, tmpDir);
+      expect(fs.existsSync(path.join(tmpDir, '.claude', 'agents', 'subgroup', 'helper.md'))).toBe(true);
+      expect(fs.existsSync(path.join(tmpDir, '.claude', 'agents', 'subgroup', 'tool.js'))).toBe(false);
+    } finally {
+      fs.rmSync(srcInfra, { recursive: true, force: true });
+    }
   });
 
   test('deployCore overwrites scaffold hook events with current definition', () => {

@@ -3,16 +3,9 @@
 const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");
+const i18n = require('./i18n.js');
 
 const CONFIG_FILE = ".claude/project-config.json";
-
-function resolveI18n() {
-  try {
-    const i18nPath = path.join(__dirname, "..", "..", "lib", "i18n.js");
-    if (fs.existsSync(i18nPath)) return require(i18nPath);
-  } catch {}
-  return null;
-}
 
 function detectPythonCmd(plat) {
   if ((plat || process.platform) === "win32") return "python";
@@ -70,8 +63,7 @@ Platform is win32. Apply to ALL generated code and terminal instructions:
 4. Terminal encoding: run \`chcp 65001\` before starting Claude Code in CMD/PowerShell, or add to PowerShell profile: \`[Console]::OutputEncoding = [System.Text.Encoding]::UTF8\`. Recommended: launch Claude Code from Git Bash to avoid encoding issues entirely.`;
 
 function buildLocalizedBlocks(lang) {
-  const i18n = resolveI18n();
-  if (!i18n || lang === "en" || !lang) {
+  if (lang === "en" || !lang) {
     return { onboarding: ONBOARDING_BLOCK, windows: WINDOWS_RULES_BLOCK };
   }
   return {

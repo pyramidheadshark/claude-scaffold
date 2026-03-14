@@ -205,6 +205,36 @@ describe("matchSkills — always_load with optional filter", () => {
   });
 });
 
+describe("matchSkills — glob pattern correctness", () => {
+  const rulesWithFiles = [
+    {
+      skill: "python-project-standards",
+      triggers: { keywords: [], files: ["pyproject.toml", "*.py"] },
+      priority: 1,
+    },
+  ];
+
+  test("dot in pattern is treated as literal (pyproject.toml does not match pyprojectXtoml)", () => {
+    const matched = matchSkills(rulesWithFiles, "", ["pyprojectXtoml"], 3);
+    expect(matched).not.toContain("python-project-standards");
+  });
+
+  test("*.py does not match *.pyx ($ anchor)", () => {
+    const matched = matchSkills(rulesWithFiles, "", ["api/router.pyx"], 3);
+    expect(matched).not.toContain("python-project-standards");
+  });
+
+  test("*.py matches path-prefixed file (tests/conftest.py)", () => {
+    const matched = matchSkills(rulesWithFiles, "", ["tests/conftest.py"], 3);
+    expect(matched).toContain("python-project-standards");
+  });
+
+  test("pyproject.toml matches path-prefixed file (no ^ anchor)", () => {
+    const matched = matchSkills(rulesWithFiles, "", ["project/pyproject.toml"], 3);
+    expect(matched).toContain("python-project-standards");
+  });
+});
+
 describe("loadSkillContent", () => {
   const mockPath = { join: (...parts) => parts.join("/") };
 
