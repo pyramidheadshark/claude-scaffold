@@ -409,6 +409,7 @@
           "log_params",
           "autolog"
         ],
+        "min_keyword_matches": 2,
         "always_load": false
       },
       "priority": 17

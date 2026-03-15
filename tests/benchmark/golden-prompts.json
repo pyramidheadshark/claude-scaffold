@@ -501,12 +501,13 @@
     "expected": {
       "skills": [
         "python-project-standards",
-        "predictive-analytics"
+        "predictive-analytics",
+        "experiment-tracking"
       ],
       "plan_mode": false,
       "security_injection": false
     },
-    "note": "keywords: sklearn, classifier, cross-validation, mlflow"
+    "note": "keywords: sklearn+mlflow → predictive-analytics; mlflow+tracking (2 matches) → experiment-tracking"
   },
   {
     "id": "pred-002",
