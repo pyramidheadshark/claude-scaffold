@@ -114,9 +114,18 @@ Tasks in priority order. Check off when done.
 
 ## Next Session Plan
 
-### v1.1.0 ✅ DONE (2026-03-15)
+### v1.1.0 ✅ DONE + Post-release cleanup ✅ (2026-03-15)
 
-Все изменения закоммичены и запушены на `feat/open-source`. 172 Jest + 43 Python — зелёные.
+Все изменения закоммичены, смерджены в main, NPM опубликован. 172 Jest + 43 Python — зелёные.
+
+**Post-release (эта сессия):**
+- CI fix: `min_keyword_matches: 2` для `experiment-tracking` (false positives на "artifact", "run"); benchmark golden dataset обновлён (pred-001)
+- Dependabot PR #1 (jest 30.2.0→30.3.0) смерджен
+- `feat/open-source` удалена (полностью слита)
+- Main branch protection: ruleset "Protect main" — запрет deletion + force push
+- GitHub About: description + homepage → npmjs.com/package/claude-scaffold
+- Ruby 15.2% fix: `.gitattributes` — `CLAUDE.md.ru` помечены как Markdown (Linguist считал `.ru` = Ruby/Rack)
+- Все репо мигрированы с Python deploy.py → `npx claude-scaffold` (11 репо обновлено, 1 инициализировано)
 
 **Что сделано:**
 - 2 новых скилла: `experiment-tracking` (MLflow), `data-validation` (Pandera) — итого 18
@@ -129,17 +138,6 @@ Tasks in priority order. Check off when done.
 - CI: `npm audit --audit-level=high`, Python matrix в ml-heavy.yml
 - Pre-commit template: nbstripout + detect-secrets
 - `examples/fastapi-minimal/` и `examples/ml-pipeline/`
-
----
-
-### Next: обновить все репозитории
-
-```bash
-python scripts/deploy.py --status
-python scripts/deploy.py --update-all
-```
-
-Репозитории для обновления (11 репо): phs-calorie-app, filemind, milvm, TechCon_Passports, regional-budget-analysis, sd_support_suggestions_sbera, nalog-parser, coris-landing-site, techcon_defects_stt_plus, techcon_infra_yac, techcon_demos, techcon_defectoscopy
 
 ---
 
@@ -198,4 +196,4 @@ python scripts/deploy.py --update-all
 
 ---
 
-*Last updated: 2026-03-15 (v1.1.0 complete) by Claude Code*
+*Last updated: 2026-03-15 (v1.1.0 post-release cleanup complete)*
