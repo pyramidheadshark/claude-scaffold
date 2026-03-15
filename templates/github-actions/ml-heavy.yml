@@ -41,15 +41,19 @@ jobs:
       - run: uv run mypy src/
 
   test:
-    name: Test
+    name: Test (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
 
       - uses: astral-sh/setup-uv@v4
         with:
           version: "latest"
+          python-version: ${{ matrix.python-version }}
 
       - name: Cache HuggingFace models
         uses: actions/cache@v4
@@ -58,7 +62,7 @@ jobs:
           key: hf-models-${{ hashFiles('pyproject.toml') }}
           restore-keys: hf-models-
 
-      - run: uv python install
+      - run: uv python install ${{ matrix.python-version }}
       - run: uv sync --dev
 
       - name: Run tests

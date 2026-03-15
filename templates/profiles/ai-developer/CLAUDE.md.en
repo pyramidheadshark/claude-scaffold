@@ -61,6 +61,30 @@ src/{project_name}/
 4. Never adapt tests to fit existing behavior
 5. Before every `git commit`: run `uv run ruff check --fix . && uv run ruff format .`
 
+## Commit Rules
+
+**One commit = one logical stage**, not one file or one function. A stage is a complete, reviewable unit of work a human would recognize as meaningful.
+
+```
+feat: add JWT authentication       # new feature: design + tests + impl in one commit
+fix: correct token expiry logic    # bug fix: diagnosis + fix + test in one commit
+refactor: extract auth middleware  # refactoring with tests passing
+infra: add docker-compose for DB   # infra/config/CI changes
+docs: update API reference         # documentation
+chore: upgrade ruff to 0.8.0      # deps, tooling
+```
+
+- Subject line only, ≤72 chars. Body only if "why" is non-obvious from the diff.
+- **NEVER add `Co-Authored-By`, `Generated-with`, or any AI attribution footer.** Hard rule. Message ends after the subject line.
+- Max 2–3 commits per session. More means stages are too granular.
+- Commit when a stage is complete, not after every file or test.
+
+## Known Pitfalls
+
+- **Claude API `tool_use` format:** when Claude returns `stop_reason: "tool_use"`, you must send back a `role: "user"` message with `type: "tool_result"` content. Sending it as `role: "assistant"` causes an API error.
+- **Streaming context manager:** `client.messages.stream()` is a context manager — always use `with client.messages.stream(...) as stream:`. Forgetting the `with` block leaks the connection.
+- **Token budget:** `max_tokens` counts output tokens only. Input tokens (system prompt + conversation history) are counted separately. Always check `input_tokens` in the response to forecast costs on long conversations.
+
 ## What You Never Do
 
 - Auto-escalate to a more powerful model without explicit justification
@@ -68,3 +92,6 @@ src/{project_name}/
 - Skip observability on LLM calls
 - Write comments inside code blocks
 - Start any implementation without first calling EnterPlanMode
+- Put prompt templates as f-strings inline in application code — store as versioned constants or `.md` files in `prompts/`
+- Skip token counting before large context calls — validate input size against the model's context limit before sending
+- Ignore `stop_reason` in API responses — `"end_turn"`, `"tool_use"`, and `"max_tokens"` each require different handling logic

@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# DEPRECATED: Use `npx claude-scaffold` instead.
+# This script is kept for reference only.
+# Migration: repos deployed via this script are fully compatible with the NPX CLI —
+# both write the same deployed-repos.json format via registry.js.
+# To update existing repos: npx claude-scaffold update --all
 """
 deploy.py — cross-platform deploy script for claude-scaffold.
 

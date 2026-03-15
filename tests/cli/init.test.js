@@ -15,7 +15,8 @@ afterEach(() => {
 });
 
 const INFRA_DIR = path.join(__dirname, '..', '..');
-const { deployCore } = require('../../lib/commands/init');
+const { deployCore, PROFILE_RESULT } = require('../../lib/commands/init');
+const { generateSkillRules } = require('../../lib/deploy/copy');
 
 describe('init — deployCore', () => {
   test('creates .claude/hooks/ directory', () => {
@@ -192,6 +193,74 @@ describe('init — deployCore', () => {
     const settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
     expect(settings.hooks.PreToolUse).toBeDefined();
     expect(settings.hooks.UserPromptSubmit).toBeDefined();
+  });
+
+  test('generateSkillRules throws if skill-rules.json missing from infra', () => {
+    const fakeInfra = fs.mkdtempSync(path.join(os.tmpdir(), 'cs-fake-infra-init-'));
+    fs.mkdirSync(path.join(fakeInfra, '.claude', 'skills'), { recursive: true });
+    try {
+      expect(() => generateSkillRules(fakeInfra, tmpDir, ['python-project-standards']))
+        .toThrow('skill-rules.json not found');
+    } finally {
+      fs.rmSync(fakeInfra, { recursive: true, force: true });
+    }
+  });
+
+  test('copyProfileTemplate returns NOT_FOUND for unknown profile', () => {
+    const { copyProfileTemplate } = require('../../lib/commands/init');
+    const result = copyProfileTemplate(INFRA_DIR, tmpDir, 'nonexistent-profile', 'en');
+    expect(result).toBe(PROFILE_RESULT.NOT_FOUND);
+  });
+
+  test('copyProfileTemplate returns SKIPPED when CLAUDE.md already exists', () => {
+    const { copyProfileTemplate } = require('../../lib/commands/init');
+    const claudeMd = path.join(tmpDir, '.claude', 'CLAUDE.md');
+    fs.mkdirSync(path.dirname(claudeMd), { recursive: true });
+    fs.writeFileSync(claudeMd, '# existing', 'utf8');
+    const result = copyProfileTemplate(INFRA_DIR, tmpDir, 'ml-engineer', 'en');
+    expect(result).toBe(PROFILE_RESULT.SKIPPED);
+    expect(fs.readFileSync(claudeMd, 'utf8')).toBe('# existing');
+  });
+
+  test('dry-run does not write any files to target', () => {
+    deployCore(INFRA_DIR, tmpDir, { skills: ['python-project-standards'], dryRun: true });
+    expect(fs.existsSync(path.join(tmpDir, '.claude'))).toBe(false);
+  });
+
+  test('dry-run prints plan to stdout', () => {
+    const chunks = [];
+    const origWrite = process.stdout.write.bind(process.stdout);
+    process.stdout.write = (chunk, ...args) => { chunks.push(chunk); return origWrite(chunk, ...args); };
+    try {
+      deployCore(INFRA_DIR, tmpDir, { skills: ['python-project-standards', 'fastapi-patterns'], dryRun: true });
+    } finally {
+      process.stdout.write = origWrite;
+    }
+    const output = chunks.join('');
+    expect(output).toContain('[dry-run]');
+    expect(output).toContain('python-project-standards');
+    expect(output).toContain('fastapi-patterns');
+    expect(output).toContain('Register in deployed-repos.json');
+  });
+
+  test('dry-run with profile includes CLAUDE.md line in plan', () => {
+    const chunks = [];
+    const origWrite = process.stdout.write.bind(process.stdout);
+    process.stdout.write = (chunk, ...args) => { chunks.push(chunk); return origWrite(chunk, ...args); };
+    try {
+      deployCore(INFRA_DIR, tmpDir, {
+        skills: ['python-project-standards'],
+        profile: 'ml-engineer',
+        lang: 'ru',
+        dryRun: true,
+      });
+    } finally {
+      process.stdout.write = origWrite;
+    }
+    const output = chunks.join('');
+    expect(output).toContain('CLAUDE.md');
+    expect(output).toContain('ml-engineer');
+    expect(output).toContain('ru');
   });
 
   test('deployCore overwrites scaffold hook events with current definition', () => {

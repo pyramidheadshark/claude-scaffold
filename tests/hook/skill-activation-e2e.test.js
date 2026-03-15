@@ -66,41 +66,41 @@ describe("E2E — hook process output", () => {
 
   test("injects plan mode reminder on RU planning keyword", () => {
     const output = runHook("давай запланируем новую фичу");
-    expect(output.system_prompt_addition).toContain("MANDATORY");
+    expect(output.system_prompt_addition).toContain("PLAN-MODE REQUIRED");
     expect(output.system_prompt_addition).toContain("EnterPlanMode");
   });
 
   test("injects plan mode reminder on EN planning keyword", () => {
     const output = runHook("let's plan a multi-step refactor");
-    expect(output.system_prompt_addition).toContain("MANDATORY");
+    expect(output.system_prompt_addition).toContain("PLAN-MODE REQUIRED");
   });
 
   test("injects plan mode reminder for EN scope keyword: refactor", () => {
     const output = runHook("let's refactor the auth module");
-    expect(output.system_prompt_addition).toContain("MANDATORY");
+    expect(output.system_prompt_addition).toContain("PLAN-MODE REQUIRED");
     expect(output.system_prompt_addition).toContain("EnterPlanMode");
   });
 
   test("injects plan mode reminder for RU scope keyword: рефакторинг", () => {
     const output = runHook("давай спланируем архитектуру");
-    expect(output.system_prompt_addition).toContain("MANDATORY");
+    expect(output.system_prompt_addition).toContain("PLAN-MODE REQUIRED");
   });
 
   test("does not inject plan mode reminder for simple questions", () => {
     const output = runHook("what does this function do?");
-    expect(output.system_prompt_addition || "").not.toContain("MANDATORY");
+    expect(output.system_prompt_addition || "").not.toContain("PLAN-MODE REQUIRED");
     expect(output.system_prompt_addition || "").not.toContain("EnterPlanMode");
   });
 
   test("does not inject plan mode reminder for generic prompts", () => {
     const output = runHook("fix the login bug");
-    expect(output.system_prompt_addition || "").not.toContain("MANDATORY");
+    expect(output.system_prompt_addition || "").not.toContain("PLAN-MODE REQUIRED");
   });
 
   test("plan-mode block includes clarifying survey questions", () => {
     const output = runHook("давай спланируем рефакторинг");
     const addition = output.system_prompt_addition || "";
-    expect(addition).toContain("MANDATORY");
+    expect(addition).toContain("PLAN-MODE REQUIRED");
     expect(addition).toContain("Scope");
     expect(addition).toContain("Success criteria");
   });
@@ -113,7 +113,7 @@ describe("E2E — hook process output", () => {
     ];
     for (const prompt of cases) {
       const output = runHook(prompt);
-      expect(output.system_prompt_addition || "").toContain("MANDATORY");
+      expect(output.system_prompt_addition || "").toContain("PLAN-MODE REQUIRED");
     }
   });
 
@@ -124,8 +124,31 @@ describe("E2E — hook process output", () => {
     ];
     for (const prompt of cases) {
       const output = runHook(prompt);
-      expect(output.system_prompt_addition || "").not.toContain("MANDATORY");
+      expect(output.system_prompt_addition || "").not.toContain("PLAN-MODE REQUIRED");
     }
+  });
+});
+
+describe("E2E — commit rules injection", () => {
+  test("injects commit rules on EN 'commit' keyword", () => {
+    const output = runHook("let's commit the changes");
+    expect(output.system_prompt_addition || "").toContain("COMMIT RULES");
+    expect(output.system_prompt_addition || "").toContain("Co-Authored-By");
+  });
+
+  test("injects commit rules on RU 'коммит' keyword", () => {
+    const output = runHook("давай сделаем коммит");
+    expect(output.system_prompt_addition || "").toContain("COMMIT RULES");
+  });
+
+  test("injects commit rules on 'git commit' phrase", () => {
+    const output = runHook("run git commit now");
+    expect(output.system_prompt_addition || "").toContain("COMMIT RULES");
+  });
+
+  test("does NOT inject commit rules for unrelated prompts", () => {
+    const output = runHook("fix the login bug");
+    expect(output.system_prompt_addition || "").not.toContain("COMMIT RULES");
   });
 });
 
@@ -154,7 +177,7 @@ describe("E2E — security hint injection", () => {
 
   test("injects security hint when auth file is in git status", () => {
     const output = runHook("fix the bug", tmpDir);
-    expect(output.system_prompt_addition || "").toContain("Security Heads-Up");
+    expect(output.system_prompt_addition || "").toContain("SECURITY HINT");
   });
 
   test("does NOT inject security hint when no security-sensitive files changed", () => {
@@ -172,7 +195,7 @@ describe("E2E — security hint injection", () => {
         path.join(skillsDir, "skill-rules.json")
       );
       const output = runHook("fix the bug", cleanDir);
-      expect(output.system_prompt_addition || "").not.toContain("Security Heads-Up");
+      expect(output.system_prompt_addition || "").not.toContain("SECURITY HINT");
     } finally {
       fs.rmSync(cleanDir, { recursive: true, force: true });
     }

@@ -77,6 +77,18 @@ const QUESTION_PREFIXES = [
 const promptLower = prompt.toLowerCase();
 const isQuestion = QUESTION_PREFIXES.some((q) => promptLower.startsWith(q));
 const isPlanIntent = !isQuestion && PLAN_MODE_KEYWORDS.some((kw) => promptLower.includes(kw));
+const COMMIT_KEYWORDS = [
+  "commit", "git commit", "закоммит", "коммит",
+];
+const isCommitIntent = COMMIT_KEYWORDS.some((kw) => promptLower.includes(kw));
+if (isCommitIntent) {
+  injections.push(
+    "## [COMMIT RULES]\n" +
+    "One stage = one commit. Subject line only (≤72 chars) — no body unless why is non-obvious.\n" +
+    "NEVER add Co-Authored-By or any AI attribution. Message ends after the subject line."
+  );
+}
+
 const SECURITY_PATTERNS = [
   "auth", "login", "password", "token", "secret",
   "db", "database", "query", "session", "credential",
@@ -87,7 +99,7 @@ const hasSecurityFiles = changedFiles.some((f) =>
 );
 if (hasSecurityFiles) {
   injections.push(
-    "## 🔒 Security Heads-Up\n" +
+    "## [SECURITY HINT]\n" +
     "Changed files include security-sensitive code (auth/DB/API/user).\n" +
     "Run `/security-review` before committing."
   );
@@ -95,7 +107,7 @@ if (hasSecurityFiles) {
 
 if (isPlanIntent) {
   injections.push(
-    "## 🚨 MANDATORY: Enter Plan Mode Now\n" +
+    "## [PLAN-MODE REQUIRED]\n" +
     "This prompt requires plan mode — do not skip this step.\n" +
     "You MUST call the EnterPlanMode tool IMMEDIATELY, before reading files, writing code, or taking any action.\n" +
     "Proceeding without plan mode violates CLAUDE.md workflow rules.\n" +

@@ -70,6 +70,30 @@ src/{project_name}/
 - Проверяй все обязательные переменные окружения при старте (lifespan)
 - Никогда не помещай бизнес-логику в роутеры
 
+## Правила коммитов
+
+**Один коммит = одна логическая стадия**, а не один файл или одна функция. Стадия — это завершённая, проверяемая единица работы, которую человек воспринимает как осмысленный результат.
+
+```
+feat: add JWT authentication       # новая фича: дизайн + тесты + реализация в одном коммите
+fix: correct token expiry logic    # исправление: диагностика + фикс + тест в одном коммите
+refactor: extract auth middleware  # рефакторинг с проходящими тестами
+infra: add docker-compose for DB   # инфра/конфиг/CI
+docs: update API reference         # документация
+chore: upgrade ruff to 0.8.0      # зависимости, инструменты
+```
+
+- Только строка subject, ≤72 символа. Body — только если "почему" неочевидно из diff.
+- **НИКОГДА не добавлять `Co-Authored-By`, `Generated-with` или любую атрибуцию AI.** Жёсткое правило. Сообщение заканчивается после subject.
+- Максимум 2–3 коммита за сессию. Больше — стадии слишком атомарные.
+- Коммить когда стадия завершена, а не после каждого файла или теста.
+
+## Известные ловушки
+
+- **Async SQLAlchemy session scope:** используй одну сессию на запрос через `Depends` — никогда не переиспользуй и не шари сессии между запросами. Всегда `await session.close()` или `async with AsyncSession() as session`.
+- **Pydantic v2 `model_config`:** `class Config: orm_mode = True` удалён. Используй `model_config = ConfigDict(from_attributes=True)`. Также: `validator` → `field_validator`, `__fields__` → `model_fields`.
+- **`lifespan` vs `on_event`:** `@app.on_event("startup")` / `@app.on_event("shutdown")` устарели. Используй только `@asynccontextmanager` lifespan, переданный в `FastAPI(lifespan=lifespan)`.
+
 ## Что никогда не делать
 
 - Помещать бизнес-логику в FastAPI-роутеры
@@ -77,3 +101,6 @@ src/{project_name}/
 - Писать комментарии внутри блоков кода
 - Создавать эндпоинт без теста
 - Начинать любую реализацию без вызова EnterPlanMode
+- Использовать sync SQLAlchemy вызовы в `async def` роутерах — всегда `await` каждую операцию с БД
+- Возвращать raw SQLAlchemy ORM объекты из эндпоинтов — сериализуй через Pydantic response-схему
+- Использовать `@app.on_event("startup")` / `@app.on_event("shutdown")` — устарело с FastAPI 0.93, используй `lifespan`

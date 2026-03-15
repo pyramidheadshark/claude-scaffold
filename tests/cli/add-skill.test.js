@@ -74,4 +74,23 @@ describe('add-skill — addSkill', () => {
       fs.rmSync(fakeInfra, { recursive: true, force: true });
     }
   });
+
+  test('throws readable error when target skill-rules.json is corrupted', () => {
+    const rulesPath = path.join(tmpDir, '.claude', 'skills', 'skill-rules.json');
+    fs.writeFileSync(rulesPath, '{ invalid json !!!', 'utf8');
+    expect(() => addSkill(INFRA_DIR, tmpDir, 'fastapi-patterns')).toThrow('corrupted');
+  });
+
+  test('throws readable error when source skill-rules.json is corrupted', () => {
+    const fakeInfra = fs.mkdtempSync(path.join(os.tmpdir(), 'cs-fake-infra2-'));
+    const fakeSkill = path.join(fakeInfra, '.claude', 'skills', 'fake-skill');
+    fs.mkdirSync(fakeSkill, { recursive: true });
+    const fakeRules = path.join(fakeInfra, '.claude', 'skills', 'skill-rules.json');
+    fs.writeFileSync(fakeRules, '{ invalid json !!!', 'utf8');
+    try {
+      expect(() => addSkill(fakeInfra, tmpDir, 'fake-skill')).toThrow('corrupted');
+    } finally {
+      fs.rmSync(fakeInfra, { recursive: true, force: true });
+    }
+  });
 });

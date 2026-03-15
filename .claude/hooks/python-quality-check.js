@@ -10,27 +10,49 @@ function main(inputStr, cwd) {
     return { continue: true };
   }
 
-  const uvCheck = spawnSync("uv", ["--version"], { encoding: "utf8" });
-  const useUv = uvCheck.status === 0;
+  let uvAvailable = false;
+  try {
+    const uvCheck = spawnSync("uv", ["--version"], { encoding: "utf8" });
+    uvAvailable = !uvCheck.error && uvCheck.status === 0;
+  } catch {
+    uvAvailable = false;
+  }
 
-  const ruffCmd = useUv ? "uv" : "ruff";
-  const ruffArgs = useUv ? ["run", "ruff", "check", ".", "--quiet"] : ["check", ".", "--quiet"];
+  const ruffCmd = uvAvailable ? "uv" : "ruff";
+  const ruffArgs = uvAvailable ? ["run", "ruff", "check", ".", "--quiet"] : ["check", ".", "--quiet"];
 
+  let ruffOk = true;
   process.stderr.write(">> ruff check...\n");
-  const ruff = spawnSync(ruffCmd, ruffArgs, { cwd, encoding: "utf8" });
-  const ruffOk = ruff.status === 0;
-  process.stderr.write(ruffOk ? "RUFF: OK\n" : "RUFF: issues found. Run 'uv run ruff check . --fix' to auto-fix.\n");
+  try {
+    const ruff = spawnSync(ruffCmd, ruffArgs, { cwd, encoding: "utf8" });
+    if (ruff.error) {
+      process.stderr.write("[quality-check] ruff not found — skipping. Install via: uv add --dev ruff\n");
+    } else {
+      ruffOk = ruff.status === 0;
+      process.stderr.write(ruffOk ? "RUFF: OK\n" : "RUFF: issues found. Run 'uv run ruff check . --fix' to auto-fix.\n");
+    }
+  } catch {
+    process.stderr.write("[quality-check] ruff not found — skipping. Install via: uv add --dev ruff\n");
+  }
 
   const srcDir = path.join(cwd, "src");
   let mypyOk = true;
   if (fs.existsSync(srcDir)) {
-    const mypyCmd = useUv ? "uv" : "mypy";
-    const mypyArgs = useUv ? ["run", "mypy", "src/", "--quiet"] : ["src/", "--quiet"];
+    const mypyCmd = uvAvailable ? "uv" : "mypy";
+    const mypyArgs = uvAvailable ? ["run", "mypy", "src/", "--quiet"] : ["src/", "--quiet"];
 
     process.stderr.write(">> mypy check...\n");
-    const mypy = spawnSync(mypyCmd, mypyArgs, { cwd, encoding: "utf8" });
-    mypyOk = mypy.status === 0;
-    process.stderr.write(mypyOk ? "MYPY: OK\n" : "MYPY: type errors found.\n");
+    try {
+      const mypy = spawnSync(mypyCmd, mypyArgs, { cwd, encoding: "utf8" });
+      if (mypy.error) {
+        process.stderr.write("[quality-check] mypy not found — skipping. Install via: uv add --dev mypy\n");
+      } else {
+        mypyOk = mypy.status === 0;
+        process.stderr.write(mypyOk ? "MYPY: OK\n" : "MYPY: type errors found.\n");
+      }
+    } catch {
+      process.stderr.write("[quality-check] mypy not found — skipping. Install via: uv add --dev mypy\n");
+    }
   }
 
   if (!ruffOk || !mypyOk) {

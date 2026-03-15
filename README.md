@@ -5,10 +5,10 @@
 Clone once. Deploy to any project in one command. Update all projects whenever you improve the config — every project stays in sync automatically.
 
 [![CI](https://github.com/pyramidheadshark/claude-scaffold/actions/workflows/ci.yml/badge.svg)](https://github.com/pyramidheadshark/claude-scaffold/actions/workflows/ci.yml)
-![npm](https://img.shields.io/badge/npm-v1.0.0-blue)
-![Jest Tests](https://img.shields.io/badge/Jest-146%20tests-brightgreen)
+![npm](https://img.shields.io/badge/npm-v1.1.0-blue)
+![Jest Tests](https://img.shields.io/badge/Jest-172%20tests-brightgreen)
 ![Python Tests](https://img.shields.io/badge/Python-43%20tests-blue)
-![Skills](https://img.shields.io/badge/skills-16-orange)
+![Skills](https://img.shields.io/badge/skills-18-orange)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![Node](https://img.shields.io/badge/node-18%2B-green)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
@@ -35,6 +35,24 @@ You can ask Claude directly to handle this:
 > *"Update all registered projects to the latest infra version"*
 
 Claude reads this README, runs the CLI, and wires everything up. No manual config copy-pasting.
+
+---
+
+## Why claude-scaffold?
+
+### Before vs After
+
+**Before:** every project has its own CLAUDE.md copied from memory, hooks are not synchronized, each project drifts toward different standards. When you improve your workflow, you update one project — the rest stay stale.
+
+**After:** one source of truth. `npx claude-scaffold update --all` propagates every improvement to all registered projects simultaneously. Claude reads the same discipline everywhere.
+
+### Why not just copy a CLAUDE.md?
+
+A single CLAUDE.md copy works for one project. claude-scaffold adds:
+- **Sync mechanism** — `update --all` keeps every project in sync with one command
+- **Skill injection** — 18 domain skills loaded automatically per prompt, not as a single monolithic file
+- **Profile system** — different CLAUDE.md per role (ML engineer, FastAPI dev, AI developer, fullstack)
+- **Hook infrastructure** — session tracking, onboarding, quality checks, all wired automatically
 
 ---
 
@@ -148,6 +166,18 @@ python scripts/deploy.py --update-all
 ```
 
 > You can ask Claude to run this for you: *"Check which projects are outdated and update them all."*
+
+> See [examples/](examples/) for complete project setup snapshots.
+
+---
+
+## Compatibility
+
+| OS | Node | Python | Status |
+|----|------|--------|--------|
+| Windows 11 (Git Bash) | ≥18 | ≥3.11 | Tested |
+| macOS 14+ | ≥18 | ≥3.11 | Tested |
+| Ubuntu 22.04+ | ≥18 | ≥3.11 | Tested |
 
 ---
 

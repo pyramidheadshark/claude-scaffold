@@ -69,6 +69,12 @@ Platform is win32. Apply to ALL generated code and terminal instructions:
    - Never use bare \`open()\` without encoding — Windows defaults to cp1251/cp1252 which corrupts UTF-8 files
 4. Terminal encoding: run \`chcp 65001\` before starting Claude Code in CMD/PowerShell, or add to PowerShell profile: \`[Console]::OutputEncoding = [System.Text.Encoding]::UTF8\`. Recommended: launch Claude Code from Git Bash to avoid encoding issues entirely.`;
 
+const COMMIT_RULES_REMINDER_BLOCK = `## Commit Rules Reminder (periodic)
+One commit = one logical stage. Key rules:
+- Subject line only, ≤72 chars. No body unless "why" is non-obvious.
+- NEVER add Co-Authored-By, Generated-with, or any AI attribution — hard rule.
+- Max 2–3 commits per session. Commit when a stage is complete, not after every file.`;
+
 function buildLocalizedBlocks(lang) {
   const i18n = resolveI18n();
   if (!i18n || lang === "en" || !lang) {
@@ -115,6 +121,7 @@ function main(inputStr, cwd, platform, detectPython) {
   const additions = [envBlock];
   if (isFirstRun) additions.push(blocks.onboarding);
   if (effectivePlatform === "win32") additions.push(blocks.windows);
+  if (sessionCount > 1 && sessionCount % 10 === 0) additions.push(COMMIT_RULES_REMINDER_BLOCK);
 
   return {
     continue: true,
@@ -128,4 +135,4 @@ if (require.main === module) {
   process.stdout.write(JSON.stringify(result));
 }
 
-module.exports = { main, buildEnvBlock, loadConfig, saveConfig, ONBOARDING_BLOCK, WINDOWS_RULES_BLOCK, buildLocalizedBlocks };
+module.exports = { main, buildEnvBlock, loadConfig, saveConfig, ONBOARDING_BLOCK, WINDOWS_RULES_BLOCK, COMMIT_RULES_REMINDER_BLOCK, buildLocalizedBlocks };

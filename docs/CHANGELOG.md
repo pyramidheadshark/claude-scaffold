@@ -5,6 +5,32 @@ Format: [Semantic Versioning](https://semver.org/).
 
 ---
 
+## v1.1.0 — 2026-03-15
+
+### Added
+- **Known Pitfalls** sections in all 4 profile templates (EN + RU) — role-specific warnings for Pydantic v2, MLflow context, HTMX scope, Claude API tool_use format
+- **New skill: `experiment-tracking`** — MLflow runs, artifact logging, model registry, cross-validation tracking (~180 lines)
+- **New skill: `data-validation`** — Pandera schemas, Pydantic data contracts, ML pipeline validation (~150 lines)
+- **FastAPI streaming/async section** — SSE for LLM streaming, WebSockets, background tasks, Anthropic streaming
+- **`npx claude-scaffold metrics`** command — skill load frequency report from `.claude/logs/skill-metrics.jsonl`
+- **Periodic commit rules reminder** in `session-start.js` — injected every 10 sessions
+- **GitHub community files** — bug/feature/skill-request issue templates, PR template, Dependabot config
+- **`examples/`** directory — fastapi-minimal and ml-pipeline setup snapshots
+- **`nbstripout` + `detect-secrets`** added to pre-commit template
+
+### Changed
+- **`fullstack` profile** — removed `ml-data-handling` from default skill set (fullstack = FastAPI + HTMX + testing, not ML pipeline)
+- **`ml-engineer` profile** — added `experiment-tracking` to default skill set
+- **Profile "What You Never Do"** — 3 additional role-specific rules per profile
+- **`python-quality-check.js`** — graceful degradation when ruff/mypy not installed
+- **CI pipeline** — `npm audit --audit-level=high` added to jest job
+- **`ml-heavy.yml` template** — Python 3.11 + 3.12 matrix strategy for test job
+
+### Fixed
+- N/A (hardening fixes were part of v1.0.0 pre-release work)
+
+---
+
 ## [0.5.0] — 2026-03-02
 
 ### Added

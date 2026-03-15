@@ -97,16 +97,32 @@ output a console summary table:
 Keep to 1–4 rows. If any changed file touches auth, DB queries, external APIs,
 or user input — append: "→ Run `/security-review` before committing."
 
-## Commit Convention
+## Commit Rules
+
+**One commit = one logical stage**, not one file or one function. A stage is a complete, reviewable unit of work a human would recognize as meaningful — not an intermediate checkpoint.
 
 ```
-feat: add user authentication endpoint
-fix: correct token expiry calculation
-test: add BDD scenarios for intake pipeline
-infra: update terraform yc instance type
-docs: update design doc with NFR section
-chore: upgrade ruff to 0.x.x
+feat: add JWT authentication       # new feature: design + tests + impl in one commit
+fix: correct token expiry logic    # bug fix: diagnosis + fix + test in one commit
+refactor: extract auth middleware  # refactoring with tests passing
+infra: add docker-compose for DB   # infra/config/CI changes
+docs: update API reference         # documentation
+chore: upgrade ruff to 0.8.0      # deps, tooling
 ```
+
+**Rules:**
+- Subject line only, ≤72 chars. Body only if "why" is non-obvious from the diff.
+- **NEVER add `Co-Authored-By`, `Generated-with`, or any AI attribution footer.** Hard rule, not a preference. The message ends after the subject line.
+- Max 2–3 commits per session. More means stages are too granular.
+- Commit when a stage is complete, not after every file or every test.
+
+**Anti-pattern — never do this:**
+```
+feat: add failing test for auth     ← too atomic
+feat: implement auth service        ← too atomic
+fix: update test assertion          ← too atomic
+```
+**Correct:** `feat: add JWT authentication`
 
 ## Skill Inventory
 
@@ -128,6 +144,8 @@ Skills are loaded automatically by `skill-activation-prompt.js` based on file pa
 | `github-actions` | .github/workflows/*.yml, CI jobs, matrix, deploy |
 | `claude-api-patterns` | anthropic SDK, tool_use, MessageCreate, claude-sonnet |
 | `prompt-engineering` | system_prompt, few_shot, chain-of-thought, prompt template |
+| `experiment-tracking` | mlflow, experiment, model registry, artifact, log_metric |
+| `data-validation` | pandera, great expectations, data quality, schema validation |
 | `design-doc-creator` | New project start, design-doc.md (meta, optional) |
 | `skill-developer` | .claude/skills/, skill-rules.json (meta, optional) |
 
@@ -163,7 +181,7 @@ Skills are loaded automatically by `skill-activation-prompt.js` based on file pa
 - Mix business logic with infrastructure code
 - Hardcode secrets or model names as strings without constants
 - Start coding before design-doc.md exists and is approved
-- Add `Co-Authored-By: Claude` or any AI authorship footer to commit messages
+- **Add `Co-Authored-By`, `Generated-with`, or any AI attribution to commits** — this is an absolute rule enforced at the hook level. The commit ends after the subject line, period.
 - **Commit `.claude/` to git in target projects** — it is a local developer tool, invisible to the repo. Always ensure `.claude/` is in the target project's `.gitignore` before or immediately after deploy. If accidentally committed: rewrite history to remove all traces.
 - Push code without first verifying `ruff check` passes locally — CI will catch it and leave a red run
 - Start any implementation task (beyond trivial single-line fixes) without first calling EnterPlanMode — the bar is low: touching more than one file or making a design choice means plan mode is required

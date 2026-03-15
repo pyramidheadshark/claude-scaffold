@@ -70,6 +70,30 @@ src/{project_name}/
 - Validate all required env vars at application startup (lifespan)
 - Never put business logic in routers
 
+## Commit Rules
+
+**One commit = one logical stage**, not one file or one function. A stage is a complete, reviewable unit of work a human would recognize as meaningful.
+
+```
+feat: add JWT authentication       # new feature: design + tests + impl in one commit
+fix: correct token expiry logic    # bug fix: diagnosis + fix + test in one commit
+refactor: extract auth middleware  # refactoring with tests passing
+infra: add docker-compose for DB   # infra/config/CI changes
+docs: update API reference         # documentation
+chore: upgrade ruff to 0.8.0      # deps, tooling
+```
+
+- Subject line only, ≤72 chars. Body only if "why" is non-obvious from the diff.
+- **NEVER add `Co-Authored-By`, `Generated-with`, or any AI attribution footer.** Hard rule. Message ends after the subject line.
+- Max 2–3 commits per session. More means stages are too granular.
+- Commit when a stage is complete, not after every file or test.
+
+## Known Pitfalls
+
+- **Async SQLAlchemy session scope:** use one session per request via `Depends` — never reuse or share sessions across requests. Always `await session.close()` or use `async with AsyncSession() as session`.
+- **Pydantic v2 `model_config`:** `class Config: orm_mode = True` is removed. Use `model_config = ConfigDict(from_attributes=True)`. Also: `validator` → `field_validator`, `__fields__` → `model_fields`.
+- **`lifespan` vs `on_event`:** `@app.on_event("startup")` / `@app.on_event("shutdown")` are deprecated. Use `@asynccontextmanager` lifespan function passed to `FastAPI(lifespan=lifespan)` only.
+
 ## What You Never Do
 
 - Put business logic in FastAPI routers
@@ -77,3 +101,6 @@ src/{project_name}/
 - Write comments inside code blocks
 - Create an endpoint without a test
 - Start any implementation without first calling EnterPlanMode
+- Use sync SQLAlchemy calls inside `async def` routes — always `await` every DB operation
+- Return raw SQLAlchemy ORM objects from endpoints — serialize through a Pydantic response schema first
+- Use `@app.on_event("startup")` / `@app.on_event("shutdown")` — deprecated since FastAPI 0.93, use `lifespan`

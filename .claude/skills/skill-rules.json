@@ -388,6 +388,53 @@
         ]
       },
       "priority": 16
+    },
+    {
+      "skill": "experiment-tracking",
+      "triggers": {
+        "files": [
+          "mlruns/**",
+          "mlflow.db",
+          "training/*.py",
+          "experiments/*.py"
+        ],
+        "keywords": [
+          "mlflow",
+          "experiment",
+          "run",
+          "model registry",
+          "artifact",
+          "tracking",
+          "log_metric",
+          "log_params",
+          "autolog"
+        ],
+        "always_load": false
+      },
+      "priority": 17
+    },
+    {
+      "skill": "data-validation",
+      "triggers": {
+        "files": [
+          "schemas/*.py",
+          "validation/*.py",
+          "contracts/*.py"
+        ],
+        "keywords": [
+          "pandera",
+          "great expectations",
+          "data quality",
+          "schema validation",
+          "data contract",
+          "DataFrameModel",
+          "validate",
+          "валидац данных",
+          "качество данных"
+        ],
+        "always_load": false
+      },
+      "priority": 18
     }
   ],
   "context_management": {

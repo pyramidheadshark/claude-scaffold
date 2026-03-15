@@ -161,3 +161,86 @@ uv run uvicorn src.project_name.main:app --reload --host 0.0.0.0 --port 8000
 - `resources/dependency-injection.md` — advanced DI patterns
 - `resources/background-tasks.md` — async background jobs
 - `resources/middleware.md` — CORS, logging, request ID middleware
+
+## Streaming & Async Patterns
+
+### Server-Sent Events (SSE) for LLM Streaming
+
+```python
+from fastapi import APIRouter
+from fastapi.responses import StreamingResponse
+import asyncio
+
+router = APIRouter()
+
+
+async def token_generator(prompt: str):
+    async for token in llm_service.stream(prompt):
+        yield f"data: {token}\n\n"
+    yield "data: [DONE]\n\n"
+
+
+@router.post("/stream")
+async def stream_response(request: PromptRequest) -> StreamingResponse:
+    return StreamingResponse(
+        token_generator(request.prompt),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
+```
+
+### WebSocket Pattern
+
+```python
+from fastapi import WebSocket, WebSocketDisconnect
+
+@router.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket) -> None:
+    await websocket.accept()
+    try:
+        while True:
+            data = await websocket.receive_text()
+            async for token in llm_service.stream(data):
+                await websocket.send_text(token)
+    except WebSocketDisconnect:
+        pass
+```
+
+### Async Background Tasks
+
+```python
+from fastapi import BackgroundTasks
+
+async def process_batch(job_id: str, records: list[dict]) -> None:
+    result = await ml_service.run(records)
+    await job_store.save(job_id, result)
+
+
+@router.post("/jobs")
+async def create_job(
+    payload: BatchRequest,
+    background_tasks: BackgroundTasks,
+) -> dict:
+    job_id = str(uuid4())
+    background_tasks.add_task(process_batch, job_id, payload.records)
+    return {"job_id": job_id, "status": "queued"}
+```
+
+### Streaming Response from Anthropic Claude
+
+```python
+from anthropic import AsyncAnthropic
+
+client = AsyncAnthropic()
+
+
+async def claude_token_generator(prompt: str):
+    async with client.messages.stream(
+        model="claude-sonnet-4-6",
+        max_tokens=1024,
+        messages=[{"role": "user", "content": prompt}],
+    ) as stream:
+        async for text in stream.text_stream:
+            yield f"data: {text}\n\n"
+    yield "data: [DONE]\n\n"
+```

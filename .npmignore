@@ -1,14 +1,27 @@
+# Development files
 tests/
-dev/
+scripts/
 docs/
+examples/
+dev/
+
+# GitHub files
+.github/
+
+# Local config
+.env
+*.log
+deployed-repos.json
+
+# Node
 node_modules/
+*.jsonl
+
+# Claude scaffold runtime (not for npm consumers)
 .claude/cache/
 .claude/logs/
 .claude/project-config.json
-deployed-repos.json
-scripts/deploy.py
-scripts/generate_skill_rules.py
-scripts/deploy.sh
-*.jsonl
+
+# System
 .DS_Store
-.env
+Thumbs.db

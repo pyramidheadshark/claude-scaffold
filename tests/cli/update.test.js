@@ -142,6 +142,32 @@ describe('update — updateAll', () => {
     expect(result.skipped).toBe(1);
   });
 
+  test('logs skipped path to stderr when directory not found', () => {
+    const missingPath = '/does/not/exist/for/stderr/test';
+    const registry = {
+      deployed: [{
+        path: missingPath,
+        skills: ['python-project-standards'],
+        ci_profile: '',
+        deploy_target: 'none',
+        deployed_at: '2025-01-01',
+        infra_sha: 'old_sha',
+      }],
+    };
+    fs.writeFileSync(registryPath, JSON.stringify(registry), 'utf8');
+
+    const stderrChunks = [];
+    const origWrite = process.stderr.write.bind(process.stderr);
+    process.stderr.write = (chunk, ...args) => { stderrChunks.push(chunk); return origWrite(chunk, ...args); };
+    try {
+      updateAll(INFRA_DIR, registryPath);
+    } finally {
+      process.stderr.write = origWrite;
+    }
+    const output = stderrChunks.join('');
+    expect(output).toContain(missingPath);
+  });
+
   test('updates outdated repos', () => {
     deployCore(INFRA_DIR, tmpDir, { skills: ['python-project-standards'] });
 

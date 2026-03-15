@@ -114,41 +114,67 @@ Tasks in priority order. Check off when done.
 
 ## Next Session Plan
 
-### Phase A — ✅ DONE (2026-03-13)
+### v1.1.0 ✅ DONE (2026-03-15)
 
-- ✅ GitHub repo переименован: `ml-claude-infra` → `claude-scaffold`
-- ✅ Локальная папка переименована: `C:\Users\pyramidheadshark\Repos\claude-scaffold`
-- ✅ Memory скопирована в новый путь
-- ✅ Ветка `feat/open-source` создана и запушена
+Все изменения закоммичены и запушены на `feat/open-source`. 172 Jest + 43 Python — зелёные.
 
-### Phase B — Open-source release ✅ DONE (2026-03-13)
-
-**feat/open-source** ветка запушена. 7 коммитов, все тесты зелёные (106 Jest + 43 Python).
-
-Что сделано:
-- Phase 0: LICENSE, CONTRIBUTING.md, README без "personal"
-- Phase 1: NPX CLI (bin/cli.js, lib/commands/, lib/deploy/, lib/ui/, 29 Jest тестов)
-- Phase 2: 4 профиля × 2 языка CLAUDE.md.en/ru в templates/profiles/
-- Phase 3: lib/i18n.js, EN/RU onboarding в session-start.js, README.ru.md
-- Phase 4: 2 новых скилла (claude-api-patterns, prompt-engineering) — итого 16 скиллов
-- Phase 5: .npmignore, package.json files[], .github/workflows/publish.yml
-
-**Следующий шаг: смержить feat/open-source → main, поставить тег v1.0.0**
-
-```bash
-git checkout main
-git merge feat/open-source
-git tag v1.0.0
-git push origin main --tags
-```
+**Что сделано:**
+- 2 новых скилла: `experiment-tracking` (MLflow), `data-validation` (Pandera) — итого 18
+- Known Pitfalls секции во всех 8 профильных шаблонах (EN + RU)
+- FastAPI streaming/async секция в `fastapi-patterns` SKILL.md
+- `npx claude-scaffold metrics` команда
+- Periodic commit rules reminder в `session-start.js` (каждые 10 сессий)
+- Graceful degradation в `python-quality-check.js`
+- GitHub community files: 3 issue templates, PR template, dependabot
+- CI: `npm audit --audit-level=high`, Python matrix в ml-heavy.yml
+- Pre-commit template: nbstripout + detect-secrets
+- `examples/fastapi-minimal/` и `examples/ml-pipeline/`
 
 ---
 
-### Phase C — CI debt (параллельно, независимо от open-source)
+### Next: обновить все репозитории
 
-7. Fix TechCon_Passports — migrate pyproject.toml to [dependency-groups], add mypy + pytest-cov
-8. Fix phs-calorie-app — same dep structure fix
-9. Fix sd_support_suggestions_sbera — ruff --fix + rename `l` in 3 places (E741)
+```bash
+python scripts/deploy.py --status
+python scripts/deploy.py --update-all
+```
+
+Репозитории для обновления (11 репо): phs-calorie-app, filemind, milvm, TechCon_Passports, regional-budget-analysis, sd_support_suggestions_sbera, nalog-parser, coris-landing-site, techcon_defects_stt_plus, techcon_infra_yac, techcon_demos, techcon_defectoscopy
+
+---
+
+### v1.2.0 Plan (Agent Orchestration Framework)
+
+**Идея:** встроить multi-agent паттерны как first-class feature в claude-scaffold.
+
+**Компоненты:**
+1. **Скилл `agent-orchestration`** (~150 строк)
+   - Протокол file ownership: каждый агент получает exclusive список файлов
+   - Стандартный JSON-манифест выхода: `{status, files_changed, summary, blockers}`
+   - Паттерны: когда параллелизовать vs sequential, как передавать контекст между агентами
+   - Верификация: тесты как единственный ground truth, манифест для отладки
+
+2. **Команда `/parallelize`** (~60 строк)
+   - Явный user-triggered вход (не auto-trigger)
+   - Инструкция Claude: декомпозировать → назначить file ownership → запустить агентов → собрать манифесты → run tests → отрапортовать
+
+3. **Мягкий триггер в `UserPromptSubmit`** (~15 строк)
+   - Pattern-match: "implement.*plan", "refactor.*all", "add.*to all.*profile"
+   - Инжектирует HINT (не force): "This looks like a multi-file task. Consider /parallelize"
+
+**Ограничения (не делать в v1.2.0):**
+- Принудительные auto-triggers (false positives)
+- LLM-верификатор вместо тестов (ненадёжно)
+- Runtime enforcement протокола (невозможно)
+
+---
+
+### CI Debt (независимо)
+
+- TechCon_Passports: migrate pyproject.toml to [dependency-groups], add mypy+pytest-cov
+- phs-calorie-app: same dep fix
+- sd_support_suggestions_sbera: ruff --fix + rename `l` (E741)
+- techcon_infra_yac: CRITICAL — ротация AWS creds из git history
 
 ---
 
@@ -172,4 +198,4 @@ git push origin main --tags
 
 ---
 
-*Last updated: 2026-03-14 (test debt closed + benchmark system) by Claude Code*
+*Last updated: 2026-03-15 (v1.1.0 complete) by Claude Code*
