@@ -29,6 +29,10 @@
           {
             "type": "command",
             "command": "node .claude/hooks/post-tool-use-tracker.js"
+          },
+          {
+            "type": "command",
+            "command": "node .claude/hooks/session-checkpoint.js"
           }
         ]
       }

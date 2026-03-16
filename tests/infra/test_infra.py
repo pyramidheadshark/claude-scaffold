@@ -261,6 +261,13 @@ class TestHookFiles(unittest.TestCase):
         content = hook_file.read_text(encoding="utf-8")
         self.assertTrue(len(content) > 0, "python-quality-check.js is empty")
 
+    def test_session_checkpoint_hook_exists(self):
+        hook_file = HOOKS_DIR / "session-checkpoint.js"
+        self.assertTrue(hook_file.exists(), "session-checkpoint.js missing")
+        content = hook_file.read_text(encoding="utf-8")
+        self.assertIn("ExitPlanMode", content)
+        self.assertIn("system_prompt_addition", content)
+
 
 class TestClaudeIgnore(unittest.TestCase):
     def test_claudeignore_exists(self):
@@ -371,6 +378,22 @@ class TestDeployScript(unittest.TestCase):
             data = json.loads(settings_path.read_text(encoding="utf-8"))
             self.assertIn("hooks", data, "settings.json missing 'hooks' key")
             self.assertIn("UserPromptSubmit", data["hooks"], "hooks missing UserPromptSubmit")
+
+    def test_deploy_post_tool_use_has_two_hooks(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            result = __import__("subprocess").run(
+                ["node", "-e",
+                 f"require('./lib/deploy/copy').deploySettings('{tmp.replace(chr(92), '/')}')"],
+                cwd=str(INFRA_ROOT), capture_output=True, text=True
+            )
+            self.assertEqual(result.returncode, 0, f"deploySettings failed: {result.stderr}")
+            settings_path = tmp_path / ".claude" / "settings.json"
+            data = json.loads(settings_path.read_text(encoding="utf-8"))
+            hooks = data["hooks"]["PostToolUse"][0]["hooks"]
+            self.assertEqual(len(hooks), 2)
+            self.assertIn("post-tool-use-tracker.js", hooks[0]["command"])
+            self.assertIn("session-checkpoint.js", hooks[1]["command"])
 
     def test_deploy_settings_preserves_mcp_servers(self):
         with tempfile.TemporaryDirectory() as tmpdir:
