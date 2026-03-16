@@ -137,6 +137,16 @@ describe('init — deployCore', () => {
     expect(stopCmd).not.toMatch(/bash/);
   });
 
+  test('PostToolUse has exactly 2 hooks in correct order', () => {
+    deployCore(INFRA_DIR, tmpDir, { skills: ['python-project-standards'] });
+    const settingsPath = path.join(tmpDir, '.claude', 'settings.json');
+    const settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
+    const hooks = settings.hooks.PostToolUse[0].hooks;
+    expect(hooks).toHaveLength(2);
+    expect(hooks[0].command).toContain('post-tool-use-tracker.js');
+    expect(hooks[1].command).toContain('session-checkpoint.js');
+  });
+
   test('lang ru writes project-config.json with lang:ru', () => {
     deployCore(INFRA_DIR, tmpDir, {
       skills: ['python-project-standards'],
