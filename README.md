@@ -5,8 +5,8 @@
 Clone once. Deploy to any project in one command. Update all projects whenever you improve the config — every project stays in sync automatically.
 
 [![CI](https://github.com/pyramidheadshark/claude-scaffold/actions/workflows/ci.yml/badge.svg)](https://github.com/pyramidheadshark/claude-scaffold/actions/workflows/ci.yml)
-![npm](https://img.shields.io/badge/npm-v1.2.1-blue)
-![Jest Tests](https://img.shields.io/badge/Jest-196%20tests-brightgreen)
+![npm](https://img.shields.io/badge/npm-v1.2.3-blue)
+![Jest Tests](https://img.shields.io/badge/Jest-198%20tests-brightgreen)
 ![Python Tests](https://img.shields.io/badge/Python-45%20tests-blue)
 ![Skills](https://img.shields.io/badge/skills-18-orange)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
@@ -238,7 +238,7 @@ claude-scaffold/
 │   └── metrics-report.js
 ├── templates/           # pyproject.toml, Dockerfile, docker-compose, GitHub Actions profiles
 ├── tests/
-│   ├── hook/            # Jest tests (196 total)
+│   ├── hook/            # Jest tests (198 total)
 │   ├── infra/           # Python tests (45 total)
 │   └── fixtures/        # mock project for E2E
 ├── docs/
@@ -256,7 +256,7 @@ claude-scaffold/
 ## Running Tests
 
 ```bash
-npm test                          # 196 Jest + 45 Python
+npm test                          # 198 Jest + 45 Python
 npm run test:hook                 # hook tests only
 npm run check:budget              # verify all skills under 300 lines
 npm run metrics                   # skill load frequency report
