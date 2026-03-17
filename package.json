@@ -3,7 +3,7 @@
   "version": "1.2.2",
   "description": "Claude Code infrastructure for ML and AI engineers — skills, hooks, agents, and CI profiles.",
   "bin": {
-    "claude-scaffold": "./bin/cli.js"
+    "claude-scaffold": "bin/cli.js"
   },
   "files": [
     "bin/",
