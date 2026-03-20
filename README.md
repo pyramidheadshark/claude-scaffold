@@ -5,9 +5,10 @@
 Clone once. Deploy to any project in one command. Update all projects whenever you improve the config — every project stays in sync automatically.
 
 [![CI](https://github.com/pyramidheadshark/claude-scaffold/actions/workflows/ci.yml/badge.svg)](https://github.com/pyramidheadshark/claude-scaffold/actions/workflows/ci.yml)
-![npm](https://img.shields.io/badge/npm-v1.2.3-blue)
-![Jest Tests](https://img.shields.io/badge/Jest-198%20tests-brightgreen)
-![Python Tests](https://img.shields.io/badge/Python-45%20tests-blue)
+[![npm](https://img.shields.io/npm/v/claude-scaffold?label=npm&color=blue)](https://www.npmjs.com/package/claude-scaffold)
+[![npm downloads](https://img.shields.io/npm/dm/claude-scaffold?color=blue)](https://www.npmjs.com/package/claude-scaffold)
+![Jest Tests](https://img.shields.io/badge/Jest-226%20tests-brightgreen)
+![Python Tests](https://img.shields.io/badge/Python-48%20tests-blue)
 ![Skills](https://img.shields.io/badge/skills-18-orange)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![Node](https://img.shields.io/badge/node-18%2B-green)

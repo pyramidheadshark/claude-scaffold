@@ -1,0 +1,15 @@
+# claude-scaffold
+
+> npx CLI that deploys CLAUDE.md, hooks, skills, and agents into any repository in one command. Enforces consistent Claude Code workflow and team coding standards across all projects.
+
+## Docs
+
+- [Quick Start](https://github.com/pyramidheadshark/claude-scaffold/blob/main/README.md): Install and deploy in 2 minutes
+- [CLI Reference](https://github.com/pyramidheadshark/claude-scaffold/blob/main/docs/REFERENCE.md): init, update, status, add-skill, org-profiles commands
+- [Integration Guide](https://github.com/pyramidheadshark/claude-scaffold/blob/main/docs/INTEGRATION.md): Step-by-step setup for existing repos
+- [Architecture](https://github.com/pyramidheadshark/claude-scaffold/blob/main/docs/ARCHITECTURE.md): How skill auto-loading, hooks lifecycle, and session caching work
+
+## Optional
+
+- [Changelog](https://github.com/pyramidheadshark/claude-scaffold/blob/main/CHANGELOG.md): Release history
+- [npm package](https://www.npmjs.com/package/claude-scaffold): Install via npm/npx
