@@ -525,5 +525,56 @@ class TestRegistryHealth(unittest.TestCase):
         )
 
 
+class TestCriticalAnalysisSkill(unittest.TestCase):
+    SKILL_DIR = SKILLS_DIR / "critical-analysis"
+    SKILL_MD = SKILL_DIR / "SKILL.md"
+    METADATA = SKILL_DIR / "skill-metadata.json"
+    RESOURCES = SKILL_DIR / "resources"
+
+    def test_critical_analysis_skill_exists(self):
+        self.assertTrue(self.SKILL_DIR.exists(), "critical-analysis skill directory missing")
+        self.assertTrue(self.SKILL_MD.exists(), "critical-analysis SKILL.md missing")
+
+    def test_critical_analysis_in_skill_rules(self):
+        rules = load_skill_rules()
+        names = [r["skill"] for r in rules["rules"]]
+        self.assertIn("critical-analysis", names, "critical-analysis not in skill-rules.json")
+        entry = next(r for r in rules["rules"] if r["skill"] == "critical-analysis")
+        self.assertGreaterEqual(
+            entry.get("priority", 0), 1, "critical-analysis priority must be set"
+        )
+        triggers = entry.get("triggers", {})
+        self.assertGreater(
+            len(triggers.get("keywords", [])), 10,
+            "critical-analysis needs at least 10 keywords for good coverage"
+        )
+
+    def test_critical_analysis_metadata_valid(self):
+        self.assertTrue(self.METADATA.exists(), "skill-metadata.json missing")
+        meta = json.loads(self.METADATA.read_text(encoding="utf-8"))
+        self.assertIn("version", meta)
+        self.assertIn("size_lines", meta)
+        self.assertGreater(meta["size_lines"], 0, "size_lines must be > 0")
+        self.assertIn("resources", meta)
+        self.assertIsInstance(meta["resources"], list)
+        self.assertGreater(len(meta["resources"]), 0, "at least one resource must be listed")
+
+    def test_critical_analysis_under_budget(self):
+        content = self.SKILL_MD.read_text(encoding="utf-8")
+        line_count = len(content.splitlines())
+        self.assertLessEqual(
+            line_count, 300,
+            f"SKILL.md has {line_count} lines, exceeds 300-line budget"
+        )
+
+    def test_critical_analysis_resources_exist(self):
+        self.assertTrue(self.RESOURCES.exists(), "resources/ directory missing")
+        for res_name in ["role-prompts.md", "ml-audit-protocol.md", "failure-patterns.md"]:
+            res_path = self.RESOURCES / res_name
+            self.assertTrue(res_path.exists(), f"Resource file missing: {res_name}")
+            content = res_path.read_text(encoding="utf-8")
+            self.assertGreater(len(content), 100, f"{res_name} appears empty")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
