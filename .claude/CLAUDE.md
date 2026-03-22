@@ -148,6 +148,7 @@ Skills are loaded automatically by `skill-activation-prompt.js` based on file pa
 | `data-validation` | pandera, great expectations, data quality, schema validation |
 | `design-doc-creator` | New project start, design-doc.md (meta, optional) |
 | `skill-developer` | .claude/skills/, skill-rules.json (meta, optional) |
+| `critical-analysis` | hypothesis, experiment, architecture, рефакторинг, critique, bottleneck (≥2 keywords) |
 
 ## Agent Inventory
 

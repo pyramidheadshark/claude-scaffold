@@ -436,6 +436,42 @@
         "always_load": false
       },
       "priority": 18
+    },
+    {
+      "skill": "critical-analysis",
+      "description": "Auto-analytics by default: 6-role SPP critique for ML experiments and architecture",
+      "triggers": {
+        "files": [],
+        "keywords": [
+          "hypothesis",
+          "experiment",
+          "baseline",
+          "plateau",
+          "clustering",
+          "architecture",
+          "refactor",
+          "integration",
+          "design decision",
+          "гипотеза",
+          "эксперимент",
+          "архитектура",
+          "рефакторинг",
+          "critique",
+          "crutch",
+          "костыль",
+          "стратегия",
+          "pivot",
+          "iteration",
+          "optimize",
+          "bottleneck",
+          "tradeoff",
+          "боттлнек",
+          "итерация"
+        ],
+        "min_keyword_matches": 2,
+        "always_load": false
+      },
+      "priority": 19
     }
   ],
   "context_management": {
