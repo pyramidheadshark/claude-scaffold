@@ -19,11 +19,27 @@ function loadStatusContent(fs, path, cwd, statusFile) {
   return fs.readFileSync(statusPath, "utf8");
 }
 
-function matchSkills(rules, prompt, changedFiles, maxSkills, alreadyLoaded = []) {
+function getSkillSize(skillName, skillsDir, fsModule) {
+  if (!skillsDir || !fsModule) return 300;
+  try {
+    const p = require("path");
+    const metaPath = p.join(skillsDir, skillName, "skill-metadata.json");
+    if (!fsModule.existsSync(metaPath)) return 300;
+    const meta = JSON.parse(fsModule.readFileSync(metaPath, "utf8"));
+    return meta.size_lines || 300;
+  } catch {
+    return 300;
+  }
+}
+
+function matchSkills(rules, prompt, changedFiles, maxSkills, alreadyLoaded = [], options = {}) {
   const promptLower = prompt.toLowerCase();
   const matched = [];
+  const { budgetLines, skillsDir, fsModule, platform } = options;
+  const currentPlatform = platform || process.platform;
+  const useBudget = typeof budgetLines === "number" && budgetLines > 0;
+  let usedLines = 0;
 
-  // always_load skills guaranteed first; remaining sorted by priority (lower = higher priority)
   const sortedRules = [...rules].sort((a, b) => {
     const aAlways = a.triggers && a.triggers.always_load ? 0 : 1;
     const bAlways = b.triggers && b.triggers.always_load ? 0 : 1;
@@ -32,7 +48,7 @@ function matchSkills(rules, prompt, changedFiles, maxSkills, alreadyLoaded = [])
   });
 
   for (const rule of sortedRules) {
-    if (matched.length >= maxSkills) break;
+    if (!useBudget && matched.length >= maxSkills) break;
     if (rule.optional) continue;
     if (alreadyLoaded.includes(rule.skill)) continue;
 
@@ -58,10 +74,27 @@ function matchSkills(rules, prompt, changedFiles, maxSkills, alreadyLoaded = [])
       });
     }
 
-    if (hit) matched.push(rule.skill);
+    if (!hit && triggers.platform_trigger) {
+      if (currentPlatform === triggers.platform_trigger) hit = true;
+    }
+
+    if (hit) {
+      if (useBudget) {
+        const size = getSkillSize(rule.skill, skillsDir, fsModule);
+        if (triggers.always_load) {
+          matched.push(rule.skill);
+          usedLines += size;
+        } else if (usedLines + size <= budgetLines) {
+          matched.push(rule.skill);
+          usedLines += size;
+        }
+      } else {
+        matched.push(rule.skill);
+      }
+    }
   }
 
-  return matched;
+  return useBudget ? { skills: matched, usedLines } : matched;
 }
 
 function loadSkillContent(fs, path, cwd, skillName, compressionThreshold) {
@@ -94,8 +127,10 @@ function loadSkillContent(fs, path, cwd, skillName, compressionThreshold) {
 function buildInjections(fs, path, cwd, prompt, changedFiles, rules, sessionContext = {}) {
   const contextMgmt = rules.context_management || {};
   const maxSkills = contextMgmt.max_skills_per_session || 3;
+  const budgetLines = contextMgmt.budget_lines || null;
   const statusFile = contextMgmt.status_file || "dev/status.md";
   const compressionThreshold = contextMgmt.compression_threshold_lines || 300;
+  const skillsDir = path.join(cwd, ".claude/skills");
 
   const { alreadyLoadedSkills = [], lastStatusHash = null } = sessionContext;
 
@@ -108,7 +143,11 @@ function buildInjections(fs, path, cwd, prompt, changedFiles, rules, sessionCont
     injections.push(`## Project Status\n\n${statusContent}`);
   }
 
-  const matchedSkills = matchSkills(rules.rules || [], prompt, changedFiles, maxSkills, alreadyLoadedSkills);
+  const matchResult = matchSkills(
+    rules.rules || [], prompt, changedFiles, maxSkills, alreadyLoadedSkills,
+    budgetLines ? { budgetLines, skillsDir, fsModule: fs } : {}
+  );
+  const matchedSkills = Array.isArray(matchResult) ? matchResult : matchResult.skills;
 
   for (const skillName of matchedSkills) {
     const result = loadSkillContent(fs, path, cwd, skillName, compressionThreshold);
@@ -132,6 +171,7 @@ module.exports = {
   simpleHash,
   loadSkillRules,
   loadStatusContent,
+  getSkillSize,
   matchSkills,
   loadSkillContent,
   buildInjections,

@@ -14,16 +14,18 @@ Personal Claude Code infrastructure for ML engineering projects — reusable ski
 
 ## Current Phase
 
-**Active**: Phase 7 — Stability & Ecosystem (v1.5.0 → v2.0.0)
+**Active**: Phase 7.1 — v1.6.0 Implementation (delayed release)
 
-Field feedback from TechCon (371 logs) and RGS (22 repos) ecosystems. Fixing confirmed bugs, adding skill registry, ecosystem features.
+Implementing 5 features: dynamic skill budget, windows-developer skill, hub/task-hub profiles, QA workflow enforcement, skill registry. Code now, npm publish in 2-3 days.
 
 ---
 
-## Current State — v1.5.0 tagged (2026-04-05)
+## Current State — v1.6.0 code complete + reviewed (2026-04-05)
 
-- **v1.5.0 published**, 473 tests green (356 Jest + 60 benchmark + 57 Python)
-- **6 hook bugfixes**, 5 skill trigger fixes, CI template updates, benchmark sync
+- **v1.6.0 code complete**, critical review done, delayed release (npm publish only by user command)
+- 515 tests (398 Jest + 60 benchmark + 57 Python), 0 failed
+- **5 features + security fixes**: dynamic skill budget, windows-developer, hub/task-hub profiles, QA workflow, skill registry
+- **Post-review fixes**: path traversal validation, URL validation, trust level validation, injectable platform, mockFs normalization
 - **PRs:** 1 MERGED (awesome-claude-code-toolkit#79), 1 CLOSED (awesome-vibe-coding#100), 4 OPEN
 
 ### v1.4.1 содержание (всё завершено):
@@ -41,37 +43,62 @@ Field feedback from TechCon (371 logs) and RGS (22 repos) ecosystems. Fixing con
 
 ---
 
-## Active Tasks — v1.5.0 "Stability"
+## Active Tasks — v1.6.0 "Registry + Smart Loading"
 
-### Hook Bugfixes (P0) — ALL DONE
-- [x] Fix A: `--force-with-lease` false positive — regex updated
-- [x] Fix B: Plan-mode false positives — expanded QUESTION_PREFIXES (13→21 prefixes)
-- [x] Fix C: Weight increment — PROMPT_WEIGHT=1 added
-- [x] Fix D: Empty catch blocks — 14+ catches now log to stderr
-- [x] Fix E: Session ID collision — hash long IDs (md5 → 16 hex chars)
-- [x] Fix F: Regex validation at pattern load time
+### Step 1: Dynamic Skill Budget — DONE
+- [x] `getSkillSize()` helper + budget_lines logic in skill-activation-logic.js
+- [x] `budget_lines: 900` in skill-rules.json, backward compat with maxSkills
+- [x] 9 new tests (budget + getSkillSize)
 
-### Skill Trigger Fixes (P1) — ALL DONE
-- [x] design-doc-creator: +3 keywords (user story, specification, требовани)
-- [x] data-validation: +4 keywords (pydantic, validator, field_validator), min_keyword_matches=2
-- [x] prompt-engineering: +3 keywords (system message, instructions, prompt design), +prompts/*.py
-- [x] multimodal-router: priority 5→21, min_keyword_matches=2, +2 keywords
-- [x] experiment-tracking: +4 keywords (tracking_uri, compare runs, registered model)
+### Step 2: windows-developer Skill + platform_trigger — DONE
+- [x] SKILL.md (102 lines) + skill-metadata.json
+- [x] platform_trigger in matchSkills, rule priority 22
+- [x] 3 platform_trigger tests, benchmark filter for platform skills
 
-### CI & Tests — PARTIAL
-- [x] uv sync --all-groups in all 4 CI templates
-- [ ] actions/checkout@v4 → v5, setup-node@v4 → v5 (deferred to v1.6.0 — v5 not yet stable)
-- [x] Jest tests: +6 new tests (session ID hash, force-with-lease, question prefixes)
-- [ ] Python infra error path tests (deferred to v1.5.1)
+### Step 3: New Profiles — DONE
+- [x] hub (4 skills) + task-hub (2 skills) in lib/profiles.js
+- [x] 2 profile tests in init.test.js
 
-### Roadmap (after v1.5.0)
-- **v1.6.0** (2-3 days): Skill registry (official+community), dynamic budget, QA workflow, windows-developer skill, hub/task-hub profiles
+### Step 4: QA Workflow — DONE
+- [x] QA RECOMMENDED block before PLAN-MODE in prompt.js
+- [x] write_edit_count + plan_mode_entered tracking in post-tool-use-tracker.js
+- [x] pending_plan_warning pickup in prompt.js
+- [x] 3 E2E tests (QA block order, content, non-plan exclusion)
+
+### Step 5: Skill Registry — DONE
+- [x] registry/skills.json — 22 skills with sha256 verification
+- [x] lib/registry/sources.js, cache.js, download.js (0 npm deps)
+- [x] lib/commands/registry.js (search/install/list/update/add-source)
+- [x] Commander subcommand group in bin/cli.js
+- [x] Registry fallback hint in add-skill.js
+- [x] 18 registry tests (sources, cache, sha256, index integrity)
+
+### Final — DONE
+- [x] 509 tests green (392 Jest + 60 benchmark + 57 Python)
+- [x] package.json bumped to 1.6.0
+- [x] dev/status.md updated
+
+## v1.6.0 — CODE COMPLETE (delayed release)
+
+All 5 features implemented, 509 tests green. Publish via `git tag v1.6.0 && git push origin v1.6.0` when ready.
+
+### New in v1.6.0:
+- **Dynamic Skill Budget**: `budget_lines=900` replaces `maxSkills=3`, reads `size_lines` from metadata
+- **windows-developer Skill**: auto-loads on win32 via `platform_trigger`, 102 lines
+- **hub + task-hub Profiles**: for knowledge hubs and task repos
+- **QA Workflow**: soft enforcement with QA block before plan-mode + write/edit warning
+- **Skill Registry**: 22 verified skills, CLI commands (search/install/list/update/add-source), sha256 verification, community source support
+
+### Roadmap (after v1.6.0)
 - **v2.0.0** (1-2 weeks): deps.yaml, agent extensions, INFRA.yaml, CLAUDE.md split + PITFALLS.md
 
 ---
 
 ## Backlog
 
+- [ ] **npm publish v1.6.0** — ONLY by explicit user command: `git tag v1.6.0 && git push origin v1.6.0`
+- [ ] Deploy v1.5.0 to 22 repos: `python scripts/deploy.py --update-all` (pending since v1.5.0)
+- [ ] Create profile templates for hub/task-hub (`templates/profiles/hub/`, `templates/profiles/task-hub/`)
 - [ ] Add CI to existing repos: regional-budget (minimal), nalog-parser (minimal), TechCon (fastapi-db), sbera (ml-heavy)
 - [ ] phs_calorie_app: history rewrite to remove .claude/ from git (commit 359761f)
 - [ ] v1.5.0: "safe artifact cleanup" for hooks during update (hash-based, skip if user-modified)

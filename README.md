@@ -7,9 +7,10 @@ Clone once. Deploy to any project in one command. Update all projects whenever y
 [![CI](https://github.com/pyramidheadshark/claude-scaffold/actions/workflows/ci.yml/badge.svg)](https://github.com/pyramidheadshark/claude-scaffold/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/claude-scaffold?label=npm&color=blue)](https://www.npmjs.com/package/claude-scaffold)
 [![npm downloads](https://img.shields.io/npm/dm/claude-scaffold?color=blue)](https://www.npmjs.com/package/claude-scaffold)
-![Jest Tests](https://img.shields.io/badge/Jest-350%20tests-brightgreen)
+![Jest Tests](https://img.shields.io/badge/Jest-398%20tests-brightgreen)
 ![Python Tests](https://img.shields.io/badge/Python-57%20tests-blue)
-![Skills](https://img.shields.io/badge/skills-20-orange)
+![Benchmark](https://img.shields.io/badge/Benchmark-60%20tests-blueviolet)
+![Skills](https://img.shields.io/badge/skills-22-orange)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![Node](https://img.shields.io/badge/node-18%2B-green)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
@@ -53,7 +54,7 @@ Claude reads this README, runs the CLI, and wires everything up. No manual confi
 
 A single CLAUDE.md copy works for one project. claude-scaffold adds:
 - **Sync mechanism** — `update --all` keeps every project in sync with one command
-- **Skill injection** — 18 domain skills loaded automatically per prompt, not as a single monolithic file
+- **Skill injection** — 22 domain skills loaded automatically per prompt via dynamic line-count budget
 - **Profile system** — different CLAUDE.md per role (ML engineer, FastAPI dev, AI developer, fullstack)
 - **Hook infrastructure** — session tracking, onboarding, quality checks, all wired automatically
 
@@ -69,7 +70,7 @@ npx claude-scaffold init /path/to/my-project
 npx claude-scaffold init /path/to/my-project --profile ml-engineer --lang en
 ```
 
-Profiles: `ml-engineer` · `ai-developer` · `fastapi-developer` · `fullstack`
+Profiles: `ml-engineer` · `ai-developer` · `fastapi-developer` · `fullstack` · `hub` · `task-hub`
 Languages: `en` · `ru`
 
 ```bash
@@ -113,7 +114,7 @@ Org profiles live in `org-profiles/<org-name>/` in the scaffold repo. They are g
 On every Claude Code prompt, the hook automatically:
 1. Injects `dev/status.md` — your project's current state and next steps
 2. Detects planning intent and reminds to enter plan mode
-3. Matches the prompt against 20 skill rules (keywords + changed files)
+3. Matches the prompt against 22 skill rules (keywords + changed files + platform triggers)
 4. Injects up to 2 additional relevant skills into `system_prompt_addition`
 
 Skills bring domain knowledge: FastAPI patterns, RAG pipelines, LangGraph graphs, CI/CD configs, test-first workflow — injected only when needed, compressed if large.
@@ -197,6 +198,24 @@ JSONL logs are written to `.claude/logs/sessions/` (gitignored) and auto-rotated
 | `ai-developer` | python-project-standards, fastapi-patterns, multimodal-router, langgraph-patterns, github-actions, test-first-patterns |
 | `fastapi-developer` | python-project-standards, fastapi-patterns, htmx-frontend, test-first-patterns, github-actions |
 | `fullstack` | python-project-standards, fastapi-patterns, htmx-frontend, test-first-patterns, github-actions |
+| `hub` | python-project-standards, critical-analysis, rag-vector-db, prompt-engineering |
+| `task-hub` | python-project-standards, critical-analysis |
+
+---
+
+## Skill Registry (v1.6.0+)
+
+Browse, search, and install verified skills from the official registry or community sources:
+
+```bash
+npx claude-scaffold registry search "frontend"    # search by name/tags
+npx claude-scaffold registry install astro-skill   # download + verify sha256
+npx claude-scaffold registry list                  # list all available skills
+npx claude-scaffold registry update                # refresh cache from sources
+npx claude-scaffold registry add-source "my-org" "https://..." --trust community
+```
+
+Trust levels: `verified` (auto-install), `community` (confirmation required), `untrusted` (manual review).
 
 ---
 
@@ -277,7 +296,7 @@ On a 200K context window: < 3% overhead per prompt.
 ```
 claude-scaffold/
 ├── .claude/
-│   ├── skills/          # 18 skill modules (SKILL.md + resources/ + skill-metadata.json)
+│   ├── skills/          # 22 skill modules (SKILL.md + resources/ + skill-metadata.json)
 │   ├── hooks/           # lifecycle automation (5 hooks)
 │   ├── agents/          # 8 sub-agents
 │   ├── commands/        # 4 slash commands
@@ -305,7 +324,7 @@ claude-scaffold/
 ## Running Tests
 
 ```bash
-npm test                          # 350 Jest + 48 Python
+npm test                          # 398 Jest + 57 Python
 npm run test:hook                 # hook tests only
 npm run check:budget              # verify all skills under 300 lines
 npm run metrics                   # skill load frequency report

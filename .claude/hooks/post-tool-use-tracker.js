@@ -63,7 +63,18 @@ function main(inputStr, cwd) {
     const weight = (cache.weight || 0) + (WEIGHTS[toolName] || 0);
     saveSessionCache(cwd, sessionId, { weight });
 
+    if (toolName === "EnterPlanMode") {
+      saveSessionCache(cwd, sessionId, { plan_mode_entered: true });
+    }
+
     if (toolName === "Write" || toolName === "Edit") {
+      const writeEditCount = (cache.write_edit_count || 0) + 1;
+      saveSessionCache(cwd, sessionId, { write_edit_count: writeEditCount });
+
+      if (writeEditCount > 3 && !cache.plan_mode_entered && !cache.pending_plan_warning) {
+        saveSessionCache(cwd, sessionId, { pending_plan_warning: true });
+      }
+
       const filePath = ((input.tool_input || {}).file_path || (input.tool_input || {}).path) || null;
       appendSessionEvent(cwd, sessionId, {
         type: "file_change",

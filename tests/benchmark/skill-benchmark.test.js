@@ -49,11 +49,17 @@ function setsEqual(a, b) {
 
 let rules;
 let dataset;
+let platformTriggeredSkills;
 
 beforeAll(() => {
   rules = loadSkillRules(fs, RULES_PATH);
   if (!rules) throw new Error('Could not load skill-rules.json from fixture');
   dataset = JSON.parse(fs.readFileSync(GOLDEN_PATH, 'utf8'));
+  platformTriggeredSkills = new Set(
+    (rules.rules || [])
+      .filter(r => r.triggers && r.triggers.platform_trigger)
+      .map(r => r.skill)
+  );
 });
 
 describe('Golden dataset — per-case assertions', () => {
@@ -69,13 +75,14 @@ describe('Golden dataset — per-case assertions', () => {
     const maxSkills = (rules.context_management || {}).max_skills_per_session || 3;
     const alreadyLoaded = (session_context || {}).alreadyLoadedSkills || [];
 
-    const actualSkills = matchSkills(
+    const rawSkills = matchSkills(
       rules.rules || [],
       prompt,
       changed_files || [],
       maxSkills,
       alreadyLoaded
     );
+    const actualSkills = rawSkills.filter(s => !platformTriggeredSkills.has(s));
 
     const actualPlanMode = detectPlanMode(prompt);
     const actualSecurity = detectSecurity(changed_files || []);
@@ -100,13 +107,14 @@ describe('Benchmark summary — precision/recall/accuracy', () => {
       const { prompt, changed_files, session_context, expected, id } = entry;
       const alreadyLoaded = (session_context || {}).alreadyLoadedSkills || [];
 
-      const actual = matchSkills(
+      const rawActual = matchSkills(
         rules.rules || [],
         prompt,
         changed_files || [],
         maxSkills,
         alreadyLoaded
       );
+      const actual = rawActual.filter(s => !platformTriggeredSkills.has(s));
 
       const expectedSet = expected.skills;
       const actualSet = actual;

@@ -1,14 +1,18 @@
 const path = require("path");
-const { simpleHash, loadSkillRules, loadStatusContent, matchSkills, loadSkillContent, buildInjections, buildOutput } = require("../../.claude/hooks/skill-activation-logic");
+const { simpleHash, loadSkillRules, loadStatusContent, getSkillSize, matchSkills, loadSkillContent, buildInjections, buildOutput } = require("../../.claude/hooks/skill-activation-logic");
 
 const FIXTURE_WITH_STATUS = path.join(__dirname, "../fixtures/project-with-status");
 
 function mockFs(files = {}) {
+  const normalize = (p) => p.replace(/\\/g, "/");
+  const normalizedFiles = {};
+  for (const [k, v] of Object.entries(files)) normalizedFiles[normalize(k)] = v;
   return {
-    existsSync: (p) => p in files,
+    existsSync: (p) => normalize(p) in normalizedFiles,
     readFileSync: (p, enc) => {
-      if (!(p in files)) throw new Error(`File not found: ${p}`);
-      return files[p];
+      const key = normalize(p);
+      if (!(key in normalizedFiles)) throw new Error(`File not found: ${p}`);
+      return normalizedFiles[key];
     },
   };
 }
@@ -374,5 +378,164 @@ describe("buildInjections — sessionContext", () => {
   test("backward compatible — works without sessionContext argument", () => {
     const fs = buildMockFs("/project");
     expect(() => buildInjections(fs, mockPath, "/project", "anything", [], MINIMAL_RULES)).not.toThrow();
+  });
+});
+
+describe("getSkillSize", () => {
+  test("returns size_lines from skill-metadata.json", () => {
+    const fs = mockFs({
+      "skills/my-skill/skill-metadata.json": JSON.stringify({ size_lines: 120 }),
+    });
+    expect(getSkillSize("my-skill", "skills", fs)).toBe(120);
+  });
+
+  test("returns 300 when metadata file does not exist", () => {
+    const fs = mockFs({});
+    expect(getSkillSize("missing-skill", "skills", fs)).toBe(300);
+  });
+
+  test("returns 300 when size_lines is missing from metadata", () => {
+    const fs = mockFs({
+      "skills/my-skill/skill-metadata.json": JSON.stringify({ version: "1.0.0" }),
+    });
+    expect(getSkillSize("my-skill", "skills", fs)).toBe(300);
+  });
+
+  test("returns 300 when skillsDir is null", () => {
+    expect(getSkillSize("my-skill", null, null)).toBe(300);
+  });
+});
+
+describe("matchSkills — dynamic budget", () => {
+  const budgetRules = [
+    { skill: "always-on", triggers: { always_load: true }, priority: 0 },
+    { skill: "small-skill", triggers: { keywords: ["small"] }, priority: 1 },
+    { skill: "medium-skill", triggers: { keywords: ["medium"] }, priority: 2 },
+    { skill: "large-skill", triggers: { keywords: ["large"] }, priority: 3 },
+  ];
+
+  function budgetFs(sizes) {
+    const files = {};
+    for (const [name, size] of Object.entries(sizes)) {
+      files[`skills/${name}/skill-metadata.json`] = JSON.stringify({ size_lines: size });
+    }
+    return mockFs(files);
+  }
+
+  test("budget mode: small skills fit, large skills blocked", () => {
+    const fs = budgetFs({
+      "always-on": 160,
+      "small-skill": 80,
+      "medium-skill": 100,
+      "large-skill": 700,
+    });
+    const result = matchSkills(
+      budgetRules, "small medium large", [], 3, [],
+      { budgetLines: 400, skillsDir: "skills", fsModule: fs }
+    );
+    expect(result.skills).toContain("always-on");
+    expect(result.skills).toContain("small-skill");
+    expect(result.skills).toContain("medium-skill");
+    expect(result.skills).not.toContain("large-skill");
+    expect(result.usedLines).toBe(340);
+  });
+
+  test("budget mode: always_load included even if over budget", () => {
+    const fs = budgetFs({ "always-on": 500 });
+    const result = matchSkills(
+      budgetRules, "unrelated", [], 3, [],
+      { budgetLines: 100, skillsDir: "skills", fsModule: fs }
+    );
+    expect(result.skills).toContain("always-on");
+    expect(result.usedLines).toBe(500);
+  });
+
+  test("budget mode: returns object with skills and usedLines", () => {
+    const fs = budgetFs({ "always-on": 160 });
+    const result = matchSkills(
+      budgetRules, "unrelated", [], 3, [],
+      { budgetLines: 900, skillsDir: "skills", fsModule: fs }
+    );
+    expect(Array.isArray(result.skills)).toBe(true);
+    expect(typeof result.usedLines).toBe("number");
+  });
+
+  test("fallback: returns array when no budgetLines", () => {
+    const result = matchSkills(budgetRules, "small medium", [], 3);
+    expect(Array.isArray(result)).toBe(true);
+  });
+
+  test("budget mode: more small skills fit than large", () => {
+    const manySmallRules = [
+      { skill: "s1", triggers: { keywords: ["s1"] }, priority: 1 },
+      { skill: "s2", triggers: { keywords: ["s2"] }, priority: 2 },
+      { skill: "s3", triggers: { keywords: ["s3"] }, priority: 3 },
+      { skill: "s4", triggers: { keywords: ["s4"] }, priority: 4 },
+    ];
+    const fs = budgetFs({ s1: 50, s2: 50, s3: 50, s4: 50 });
+    const result = matchSkills(
+      manySmallRules, "s1 s2 s3 s4", [], 10, [],
+      { budgetLines: 200, skillsDir: "skills", fsModule: fs }
+    );
+    expect(result.skills).toHaveLength(4);
+    expect(result.usedLines).toBe(200);
+  });
+
+  test("budget mode: fallback size 300 when metadata missing", () => {
+    const fs = mockFs({});
+    const result = matchSkills(
+      [{ skill: "no-meta", triggers: { keywords: ["test"] }, priority: 1 }],
+      "test", [], 3, [],
+      { budgetLines: 200, skillsDir: "skills", fsModule: fs }
+    );
+    expect(result.skills).toHaveLength(0);
+    expect(result.usedLines).toBe(0);
+  });
+});
+
+describe("matchSkills — platform_trigger", () => {
+  const platformRules = [
+    {
+      skill: "windows-developer",
+      triggers: {
+        keywords: ["encoding", "utf-8"],
+        platform_trigger: "win32",
+      },
+      priority: 22,
+    },
+    {
+      skill: "linux-only",
+      triggers: {
+        keywords: ["encoding"],
+        platform_trigger: "linux",
+      },
+      priority: 23,
+    },
+  ];
+
+  test("platform_trigger matches on win32 via options.platform", () => {
+    const matched = matchSkills(platformRules, "unrelated prompt", [], 3, [], { platform: "win32" });
+    expect(matched).toContain("windows-developer");
+    expect(matched).not.toContain("linux-only");
+  });
+
+  test("platform_trigger matches on linux via options.platform", () => {
+    const matched = matchSkills(platformRules, "unrelated prompt", [], 3, [], { platform: "linux" });
+    expect(matched).not.toContain("windows-developer");
+    expect(matched).toContain("linux-only");
+  });
+
+  test("keyword match triggers regardless of platform", () => {
+    const matched = matchSkills(platformRules, "fix encoding utf-8 issue", [], 3, [], { platform: "darwin" });
+    expect(matched).toContain("windows-developer");
+  });
+
+  test("platform defaults to process.platform when not in options", () => {
+    const matched = matchSkills(platformRules, "unrelated prompt", [], 3);
+    if (process.platform === "win32") {
+      expect(matched).toContain("windows-developer");
+    } else {
+      expect(matched).not.toContain("windows-developer");
+    }
   });
 });

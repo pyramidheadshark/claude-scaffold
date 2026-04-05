@@ -349,6 +349,31 @@ describe('init — deployCore', () => {
     expect(cmds[4]).toContain('python-quality-check.js');
   });
 
+  test('deployCore with profile=hub copies expected skills', () => {
+    const PROFILES = require('../../lib/profiles');
+    const hubSkills = PROFILES.hub.skills;
+    deployCore(INFRA_DIR, tmpDir, { skills: hubSkills, profile: 'hub', registryPath });
+    const rulesPath = path.join(tmpDir, '.claude', 'skills', 'skill-rules.json');
+    const rules = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
+    const skillNames = rules.rules.map(r => r.skill);
+    expect(skillNames).toContain('python-project-standards');
+    expect(skillNames).toContain('critical-analysis');
+    expect(skillNames).toContain('rag-vector-db');
+    expect(skillNames).toContain('prompt-engineering');
+  });
+
+  test('deployCore with profile=task-hub copies expected skills', () => {
+    const PROFILES = require('../../lib/profiles');
+    const taskHubSkills = PROFILES['task-hub'].skills;
+    deployCore(INFRA_DIR, tmpDir, { skills: taskHubSkills, profile: 'task-hub', registryPath });
+    const rulesPath = path.join(tmpDir, '.claude', 'skills', 'skill-rules.json');
+    const rules = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
+    const skillNames = rules.rules.map(r => r.skill);
+    expect(skillNames).toContain('python-project-standards');
+    expect(skillNames).toContain('critical-analysis');
+    expect(skillNames).toHaveLength(2);
+  });
+
   test('deployCore overwrites scaffold hook events with current definition', () => {
     const settingsPath = path.join(tmpDir, '.claude', 'settings.json');
     fs.mkdirSync(path.dirname(settingsPath), { recursive: true });

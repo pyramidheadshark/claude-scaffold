@@ -315,3 +315,29 @@ describe("E2E — no-git fallback", () => {
     }
   });
 });
+
+describe("QA workflow injection", () => {
+  test("plan keywords inject QA RECOMMENDED block BEFORE PLAN-MODE block", () => {
+    const output = runHook("давай спланируем рефакторинг модуля авторизации");
+    const addition = output.system_prompt_addition || "";
+    const qaIdx = addition.indexOf("QA RECOMMENDED BEFORE PLAN");
+    const planIdx = addition.indexOf("PLAN-MODE REQUIRED");
+    expect(qaIdx).toBeGreaterThan(-1);
+    expect(planIdx).toBeGreaterThan(-1);
+    expect(qaIdx).toBeLessThan(planIdx);
+  });
+
+  test("QA block contains clarifying questions", () => {
+    const output = runHook("let's plan a migration to new database");
+    const addition = output.system_prompt_addition || "";
+    expect(addition).toContain("Scope:");
+    expect(addition).toContain("Constraints:");
+    expect(addition).toContain("Non-goals:");
+  });
+
+  test("non-plan prompt does not inject QA block", () => {
+    const output = runHook("fix the typo in readme");
+    const addition = output.system_prompt_addition || "";
+    expect(addition).not.toContain("QA RECOMMENDED");
+  });
+});
