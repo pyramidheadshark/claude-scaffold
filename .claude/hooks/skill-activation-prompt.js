@@ -74,6 +74,16 @@ const { injections, matchedSkills, statusHash } = buildInjections(fs, path, cwd,
 if (cache.pending_notification) {
   injections.unshift(cache.pending_notification);
 }
+if (cache.pending_plan_warning) {
+  injections.push(
+    "## [PLAN MODE RECOMMENDED]\n" +
+    "> 3+ Write/Edit calls without EnterPlanMode detected.\n" +
+    "Consider entering plan mode for complex changes to maintain workflow quality."
+  );
+  try {
+    saveSessionCache(sessionId, { ...cache, pending_plan_warning: false });
+  } catch (e) { process.stderr.write(`[skill-activation] clearPlanWarning: ${e.message}\n`); }
+}
 if (needsRefresh) {
   injections.push(CONTEXT_REFRESH_BLOCK);
 }
@@ -132,6 +142,15 @@ if (hasSecurityFiles) {
 
 if (isPlanIntent) {
   injections.push(
+    "## [QA RECOMMENDED BEFORE PLAN]\n" +
+    "Before entering plan mode, consider asking these clarifying questions:\n" +
+    "1. Scope: which files/modules are in scope? What is explicitly OUT of scope?\n" +
+    "2. Constraints: backward compatibility, deployment limits, deadlines?\n" +
+    "3. Success criteria: how do we know this task is done?\n" +
+    "4. Non-goals: what should we explicitly NOT do?\n" +
+    "If the user's intent is already clear, proceed directly to EnterPlanMode."
+  );
+  injections.push(
     "## [PLAN-MODE REQUIRED]\n" +
     "This prompt requires plan mode — do not skip this step.\n" +
     "You MUST call the EnterPlanMode tool IMMEDIATELY, before reading files, writing code, or taking any action.\n" +
@@ -140,11 +159,7 @@ if (isPlanIntent) {
     "1. Call EnterPlanMode tool now\n" +
     "2. Explore the codebase and design the implementation plan\n" +
     "3. Present the plan and wait for explicit user approval\n" +
-    "4. Only then call ExitPlanMode and begin implementation\n" +
-    "Before writing the plan, ask the user:\n" +
-    "• Scope: which files/modules are in scope? What is explicitly OUT of scope?\n" +
-    "• Constraints: backward compatibility, deployment limits, deadlines?\n" +
-    "• Success criteria: how do we know this task is done?"
+    "4. Only then call ExitPlanMode and begin implementation"
   );
 }
 

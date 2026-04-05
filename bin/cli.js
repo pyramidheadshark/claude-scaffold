@@ -12,6 +12,7 @@ const { run: runSessionLogs } = require('../lib/commands/session-logs');
 const { runWizard } = require('../lib/ui/wizard');
 const { listOrgProfiles, updateOrgProfile, loadOrgProfile } = require('../lib/commands/org-profile');
 const { DEFAULT_REGISTRY_PATH } = require('../lib/deploy/registry');
+const { runRegistrySearch, runRegistryInstall, runRegistryList, runRegistryUpdate, runRegistryAddSource } = require('../lib/commands/registry');
 const PROFILES = require('../lib/profiles');
 
 const INFRA_DIR = path.join(__dirname, '..');
@@ -231,6 +232,50 @@ program
       }
     }
     console.log();
+  });
+
+const registry = program.command('registry').description('Skill registry: search, install, and manage skill sources');
+
+registry
+  .command('search <query>')
+  .description('Search registry for skills by name, description, or tags')
+  .action(async (query) => {
+    try { await runRegistrySearch(INFRA_DIR, query); }
+    catch (e) { console.error(`Error: ${e.message}`); process.exit(1); }
+  });
+
+registry
+  .command('install <skill>')
+  .description('Install a skill from the registry into current project')
+  .option('--force', 'Install community skills without confirmation')
+  .action(async (skill, opts) => {
+    try { await runRegistryInstall(INFRA_DIR, process.cwd(), skill, opts); }
+    catch (e) { console.error(`Error: ${e.message}`); process.exit(1); }
+  });
+
+registry
+  .command('list')
+  .description('List all skills available in the registry cache')
+  .action(async () => {
+    try { await runRegistryList(INFRA_DIR); }
+    catch (e) { console.error(`Error: ${e.message}`); process.exit(1); }
+  });
+
+registry
+  .command('update')
+  .description('Refresh the local registry cache from all sources')
+  .action(async () => {
+    try { await runRegistryUpdate(INFRA_DIR); }
+    catch (e) { console.error(`Error: ${e.message}`); process.exit(1); }
+  });
+
+registry
+  .command('add-source <name> <url>')
+  .description('Add an external skill source to the registry')
+  .option('--trust <level>', 'Trust level: verified, community, untrusted', 'community')
+  .action(async (name, url, opts) => {
+    try { await runRegistryAddSource(INFRA_DIR, name, url, opts); }
+    catch (e) { console.error(`Error: ${e.message}`); process.exit(1); }
   });
 
 program.parse(process.argv);

@@ -5,10 +5,11 @@
 Клонируй один раз. Деплой в любой проект одной командой. Обновляй все проекты при изменении конфига — всё синхронизируется автоматически.
 
 [![CI](https://github.com/pyramidheadshark/claude-scaffold/actions/workflows/ci.yml/badge.svg)](https://github.com/pyramidheadshark/claude-scaffold/actions/workflows/ci.yml)
-![npm](https://img.shields.io/badge/npm-soon-lightgrey)
-![Jest Tests](https://img.shields.io/badge/Jest-89%20tests-brightgreen)
-![Python Tests](https://img.shields.io/badge/Python-43%20tests-blue)
-![Skills](https://img.shields.io/badge/skills-14-orange)
+[![npm](https://img.shields.io/npm/v/claude-scaffold?label=npm&color=blue)](https://www.npmjs.com/package/claude-scaffold)
+![Jest Tests](https://img.shields.io/badge/Jest-398%20tests-brightgreen)
+![Python Tests](https://img.shields.io/badge/Python-57%20tests-blue)
+![Benchmark](https://img.shields.io/badge/Benchmark-60%20tests-blueviolet)
+![Skills](https://img.shields.io/badge/skills-22-orange)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
 ---
@@ -85,7 +86,7 @@ python scripts/deploy.py --update-all
 
 ---
 
-## 14 Скиллов
+## 22 Скилла
 
 | Скилл | Триггеры |
 |---|---|
@@ -123,7 +124,7 @@ npm run metrics           # отчёт по частоте загрузки ск
 ```
 claude-scaffold/
 ├── .claude/
-│   ├── skills/          # 14 скилл-модулей (SKILL.md + resources/ + skill-metadata.json)
+│   ├── skills/          # 22 скилл-модуля (SKILL.md + resources/ + skill-metadata.json)
 │   ├── hooks/           # автоматизация жизненного цикла
 │   ├── agents/          # 8 специализированных агентов
 │   ├── commands/        # 4 slash-команды

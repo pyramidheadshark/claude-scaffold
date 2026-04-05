@@ -151,6 +151,7 @@ Skills are loaded automatically by `skill-activation-prompt.js` based on file pa
 | `critical-analysis` | hypothesis, experiment, architecture, рефакторинг, critique, bottleneck (≥2 keywords) |
 | `database-migration-safety` | alembic/, migrations/, .sql, schema.py, ALTER TABLE (≥2 keywords) |
 | `supply-chain-auditor` | requirements.txt, pyproject.toml, package.json, CVE, dependency (≥2 keywords) |
+| `windows-developer` | Windows platform: encoding, utf-8, cp1251, powershell, .ps1/.bat/.cmd (auto on win32) |
 
 ## Agent Inventory
 

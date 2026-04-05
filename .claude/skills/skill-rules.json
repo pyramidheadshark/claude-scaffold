@@ -563,10 +563,28 @@
         "always_load": false
       },
       "priority": 20
+    },
+    {
+      "skill": "windows-developer",
+      "triggers": {
+        "files": ["*.py", "*.ps1", "*.bat", "*.cmd"],
+        "keywords": [
+          "encoding",
+          "utf-8",
+          "cp1251",
+          "windows",
+          "powershell",
+          "chcp"
+        ],
+        "platform_trigger": "win32",
+        "always_load": false
+      },
+      "priority": 22
     }
   ],
   "context_management": {
     "max_skills_per_session": 3,
+    "budget_lines": 900,
     "compression_threshold_lines": 300,
     "status_file": "dev/status.md",
     "always_load_status": true
