@@ -501,6 +501,22 @@ def deploy(args: argparse.Namespace) -> None:
     deploy_settings(target)
     print("  hooks: SessionStart, UserPromptSubmit, PostToolUse, Stop")
 
+    ext_dir = target / ".claude" / "agent-extensions"
+    ext_dir.mkdir(parents=True, exist_ok=True)
+    gitkeep = ext_dir / ".gitkeep"
+    if not gitkeep.exists():
+        gitkeep.write_text("", encoding="utf-8")
+    print("  Created .claude/agent-extensions/")
+
+    pitfalls_dst = target / ".claude" / "PITFALLS.md"
+    pitfalls_src = INFRA_DIR / "templates" / "PITFALLS.md"
+    if not pitfalls_dst.exists() and pitfalls_src.exists():
+        pitfalls_dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(pitfalls_src, pitfalls_dst)
+        print("  Created .claude/PITFALLS.md from template")
+    else:
+        print("  PITFALLS.md already exists or template missing, skipping")
+
     ci_profile = getattr(args, "ci_profile", "")
     deploy_target = getattr(args, "deploy_target", "none")
     if ci_profile:
