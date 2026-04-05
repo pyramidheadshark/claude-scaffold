@@ -1,5 +1,7 @@
 # claude-scaffold
 
+**[English](README.md)** | **[Русский](README.ru.md)**
+
 **A Claude Code infrastructure layer for ML and AI engineers — one repo that makes Claude a disciplined engineering partner across all your projects.**
 
 Clone once. Deploy to any project in one command. Update all projects whenever you improve the config — every project stays in sync automatically.
