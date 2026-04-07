@@ -1,0 +1,9 @@
+{
+  "rules": [
+    { "match": "pytest",          "append": "2>&1 | grep -E '(FAILED|ERROR|passed|failed|error|warning)' | tail -60" },
+    { "match": "git log",         "append": "| head -30" },
+    { "match": "git diff --stat", "append": "| tail -25" },
+    { "match": "npm test",        "append": "2>&1 | grep -E '(FAIL|PASS|Tests:|✓|✗|Error)' | tail -50" },
+    { "match": "pip install",     "append": "2>&1 | grep -E '(Successfully installed|WARNING|ERROR)'" }
+  ]
+}
