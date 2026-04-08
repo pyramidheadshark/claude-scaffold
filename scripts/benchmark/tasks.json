@@ -3,8 +3,8 @@
     "id": "bash-pytest-001",
     "category": "bash_filter",
     "name": "pytest auth tests with failures",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
     "messages_baseline": [
       {
         "role": "user",
@@ -39,8 +39,8 @@
     "id": "bash-pytest-002",
     "category": "bash_filter",
     "name": "pytest full suite verbose with long tracebacks",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
     "messages_baseline": [
       {
         "role": "user",
@@ -75,8 +75,8 @@
     "id": "bash-pytest-003",
     "category": "bash_filter",
     "name": "pytest API tests with HTTP errors",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
     "messages_baseline": [
       {
         "role": "user",
@@ -111,8 +111,8 @@
     "id": "bash-pytest-004",
     "category": "bash_filter",
     "name": "pytest with coverage report term-missing",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
     "messages_baseline": [
       {
         "role": "user",
@@ -147,8 +147,8 @@
     "id": "bash-pytest-005",
     "category": "bash_filter",
     "name": "pytest fail-fast unit tests",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
     "messages_baseline": [
       {
         "role": "user",
@@ -183,8 +183,8 @@
     "id": "bash-gitlog-001",
     "category": "bash_filter",
     "name": "git log graph all branches",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
     "messages_baseline": [
       {
         "role": "user",
@@ -219,8 +219,8 @@
     "id": "bash-gitlog-002",
     "category": "bash_filter",
     "name": "git log with timestamps format",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
     "messages_baseline": [
       {
         "role": "user",
@@ -255,8 +255,8 @@
     "id": "bash-gitlog-003",
     "category": "bash_filter",
     "name": "git log stat showing file changes",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
     "messages_baseline": [
       {
         "role": "user",
@@ -291,8 +291,8 @@
     "id": "bash-pip-001",
     "category": "bash_filter",
     "name": "pip install requirements verbose output",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
     "messages_baseline": [
       {
         "role": "user",
@@ -327,8 +327,8 @@
     "id": "bash-pip-002",
     "category": "bash_filter",
     "name": "pip install dev extras verbose",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
     "messages_baseline": [
       {
         "role": "user",
@@ -360,223 +360,503 @@
     "user_message": "Any issues with the installed dev packages?"
   },
   {
-    "id": "skill-plan-ru-001",
+    "id": "skill-fastapi-001",
     "category": "skill_activation",
-    "name": "JWT auth implementation request in Russian",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [CONTEXT REFRESH]\nLong session detected. Core rules reminder:\n- TDD: tests before code, never reverse\n- Hexagonal arch: no framework imports in core/\n- Commits: subject only, no AI attribution, \u226472 chars\n- Plan mode required for multi-file changes\n- Always verify with the user before destructive operations\n- Never expose secrets or API keys in code\n- Use environment variables for all configuration\n\n## [PLAN-MODE REQUIRED]\nThis prompt requires plan mode \u2014 do not skip this step.\nYou MUST call the EnterPlanMode tool IMMEDIATELY, before reading files, writing code, or taking any action.\nProceeding without plan mode violates CLAUDE.md workflow rules.\nSteps:\n1. Call EnterPlanMode tool now\n2. Explore the codebase and design the implementation plan\n3. Present the plan and wait for explicit user approval\n4. Only then call ExitPlanMode and begin implementation",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [\u041e\u0411\u041d\u041e\u0412\u041b\u0415\u041d\u0418\u0415 \u041a\u041e\u041d\u0422\u0415\u041a\u0421\u0422\u0410]\n\u0414\u043b\u0438\u043d\u043d\u0430\u044f \u0441\u0435\u0441\u0441\u0438\u044f. \u041d\u0430\u043f\u043e\u043c\u0438\u043d\u0430\u043d\u0438\u0435: TDD, \u0433\u0435\u043a\u0441. \u0430\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u0430, \u043a\u043e\u043c\u043c\u0438\u0442\u044b \u0431\u0435\u0437 AI-\u0430\u0442\u0440\u0438\u0431\u0443\u0446\u0438\u0438, plan mode \u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u0435\u043d.\n\n## [\u041e\u0411\u042f\u0417\u0410\u0422\u0415\u041b\u0415\u041d \u041f\u041b\u0410\u041d-\u0420\u0415\u0416\u0418\u041c]\n\u041d\u0435\u043c\u0435\u0434\u043b\u0435\u043d\u043d\u043e \u0432\u044b\u0437\u043e\u0432\u0438 EnterPlanMode. \u0418\u0437\u0443\u0447\u0438 \u043a\u043e\u0434\u043e\u0432\u0443\u044e \u0431\u0430\u0437\u0443, \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u0430\u0439 \u043f\u043b\u0430\u043d, \u0434\u043e\u0436\u0434\u0438\u0441\u044c \u043e\u0434\u043e\u0431\u0440\u0435\u043d\u0438\u044f, \u0437\u0430\u0442\u0435\u043c ExitPlanMode.",
-    "messages_baseline": [],
-    "messages_optimized": [],
-    "user_message": "\u0440\u0435\u0430\u043b\u0438\u0437\u0443\u0439 JWT \u0430\u0443\u0442\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044e \u0441 refresh \u0442\u043e\u043a\u0435\u043d\u0430\u043c\u0438"
-  },
-  {
-    "id": "skill-plan-en-001",
-    "category": "skill_activation",
-    "name": "OAuth2 implementation request in English",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [CONTEXT REFRESH]\nLong session detected. Core rules reminder:\n- TDD: tests before code, never reverse\n- Hexagonal arch: no framework imports in core/\n- Commits: subject only, no AI attribution, \u226472 chars\n- Plan mode required for multi-file changes\n- Always verify with the user before destructive operations\n- Never expose secrets or API keys in code\n- Use environment variables for all configuration\n\n## [PLAN-MODE REQUIRED]\nThis prompt requires plan mode \u2014 do not skip this step.\nYou MUST call the EnterPlanMode tool IMMEDIATELY, before reading files, writing code, or taking any action.\nProceeding without plan mode violates CLAUDE.md workflow rules.\nSteps:\n1. Call EnterPlanMode tool now\n2. Explore the codebase and design the implementation plan\n3. Present the plan and wait for explicit user approval\n4. Only then call ExitPlanMode and begin implementation",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [\u041e\u0411\u041d\u041e\u0412\u041b\u0415\u041d\u0418\u0415 \u041a\u041e\u041d\u0422\u0415\u041a\u0421\u0422\u0410]\n\u0414\u043b\u0438\u043d\u043d\u0430\u044f \u0441\u0435\u0441\u0441\u0438\u044f. \u041d\u0430\u043f\u043e\u043c\u0438\u043d\u0430\u043d\u0438\u0435: TDD, \u0433\u0435\u043a\u0441. \u0430\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u0430, \u043a\u043e\u043c\u043c\u0438\u0442\u044b \u0431\u0435\u0437 AI-\u0430\u0442\u0440\u0438\u0431\u0443\u0446\u0438\u0438, plan mode \u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u0435\u043d.\n\n## [\u041e\u0411\u042f\u0417\u0410\u0422\u0415\u041b\u0415\u041d \u041f\u041b\u0410\u041d-\u0420\u0415\u0416\u0418\u041c]\n\u041d\u0435\u043c\u0435\u0434\u043b\u0435\u043d\u043d\u043e \u0432\u044b\u0437\u043e\u0432\u0438 EnterPlanMode. \u0418\u0437\u0443\u0447\u0438 \u043a\u043e\u0434\u043e\u0432\u0443\u044e \u0431\u0430\u0437\u0443, \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u0430\u0439 \u043f\u043b\u0430\u043d, \u0434\u043e\u0436\u0434\u0438\u0441\u044c \u043e\u0434\u043e\u0431\u0440\u0435\u043d\u0438\u044f, \u0437\u0430\u0442\u0435\u043c ExitPlanMode.",
-    "messages_baseline": [],
-    "messages_optimized": [],
-    "user_message": "implement user authentication with OAuth2"
-  },
-  {
-    "id": "skill-security-001",
-    "category": "skill_activation",
-    "name": "security review of auth and DB changes",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [CONTEXT REFRESH]\nLong session detected. Core rules reminder:\n- TDD: tests before code, never reverse\n- Hexagonal arch: no framework imports in core/\n- Commits: subject only, no AI attribution, \u226472 chars\n- Plan mode required for multi-file changes\n- Always verify with the user before destructive operations\n- Never expose secrets or API keys in code\n- Use environment variables for all configuration\n\n## [PLAN-MODE REQUIRED]\nThis prompt requires plan mode \u2014 do not skip this step.\nYou MUST call the EnterPlanMode tool IMMEDIATELY, before reading files, writing code, or taking any action.\nProceeding without plan mode violates CLAUDE.md workflow rules.\nSteps:\n1. Call EnterPlanMode tool now\n2. Explore the codebase and design the implementation plan\n3. Present the plan and wait for explicit user approval\n4. Only then call ExitPlanMode and begin implementation",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [\u041e\u0411\u041d\u041e\u0412\u041b\u0415\u041d\u0418\u0415 \u041a\u041e\u041d\u0422\u0415\u041a\u0421\u0422\u0410]\n\u0414\u043b\u0438\u043d\u043d\u0430\u044f \u0441\u0435\u0441\u0441\u0438\u044f. \u041d\u0430\u043f\u043e\u043c\u0438\u043d\u0430\u043d\u0438\u0435: TDD, \u0433\u0435\u043a\u0441. \u0430\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u0430, \u043a\u043e\u043c\u043c\u0438\u0442\u044b \u0431\u0435\u0437 AI-\u0430\u0442\u0440\u0438\u0431\u0443\u0446\u0438\u0438, plan mode \u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u0435\u043d.\n\n## [\u041e\u0411\u042f\u0417\u0410\u0422\u0415\u041b\u0415\u041d \u041f\u041b\u0410\u041d-\u0420\u0415\u0416\u0418\u041c]\n\u041d\u0435\u043c\u0435\u0434\u043b\u0435\u043d\u043d\u043e \u0432\u044b\u0437\u043e\u0432\u0438 EnterPlanMode. \u0418\u0437\u0443\u0447\u0438 \u043a\u043e\u0434\u043e\u0432\u0443\u044e \u0431\u0430\u0437\u0443, \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u0430\u0439 \u043f\u043b\u0430\u043d, \u0434\u043e\u0436\u0434\u0438\u0441\u044c \u043e\u0434\u043e\u0431\u0440\u0435\u043d\u0438\u044f, \u0437\u0430\u0442\u0435\u043c ExitPlanMode.",
-    "messages_baseline": [],
-    "messages_optimized": [],
-    "user_message": "I just modified auth/middleware.py and database/queries.py. review my security-sensitive changes"
-  },
-  {
-    "id": "skill-commit-001",
-    "category": "skill_activation",
-    "name": "commit changes request in Russian",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [CONTEXT REFRESH]\nLong session detected. Core rules reminder:\n- TDD: tests before code, never reverse\n- Hexagonal arch: no framework imports in core/\n- Commits: subject only, no AI attribution, \u226472 chars\n- Plan mode required for multi-file changes\n- Always verify with the user before destructive operations\n- Never expose secrets or API keys in code\n- Use environment variables for all configuration\n\n## [PLAN-MODE REQUIRED]\nThis prompt requires plan mode \u2014 do not skip this step.\nYou MUST call the EnterPlanMode tool IMMEDIATELY, before reading files, writing code, or taking any action.\nProceeding without plan mode violates CLAUDE.md workflow rules.\nSteps:\n1. Call EnterPlanMode tool now\n2. Explore the codebase and design the implementation plan\n3. Present the plan and wait for explicit user approval\n4. Only then call ExitPlanMode and begin implementation",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [\u041e\u0411\u041d\u041e\u0412\u041b\u0415\u041d\u0418\u0415 \u041a\u041e\u041d\u0422\u0415\u041a\u0421\u0422\u0410]\n\u0414\u043b\u0438\u043d\u043d\u0430\u044f \u0441\u0435\u0441\u0441\u0438\u044f. \u041d\u0430\u043f\u043e\u043c\u0438\u043d\u0430\u043d\u0438\u0435: TDD, \u0433\u0435\u043a\u0441. \u0430\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u0430, \u043a\u043e\u043c\u043c\u0438\u0442\u044b \u0431\u0435\u0437 AI-\u0430\u0442\u0440\u0438\u0431\u0443\u0446\u0438\u0438, plan mode \u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u0435\u043d.\n\n## [\u041e\u0411\u042f\u0417\u0410\u0422\u0415\u041b\u0415\u041d \u041f\u041b\u0410\u041d-\u0420\u0415\u0416\u0418\u041c]\n\u041d\u0435\u043c\u0435\u0434\u043b\u0435\u043d\u043d\u043e \u0432\u044b\u0437\u043e\u0432\u0438 EnterPlanMode. \u0418\u0437\u0443\u0447\u0438 \u043a\u043e\u0434\u043e\u0432\u0443\u044e \u0431\u0430\u0437\u0443, \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u0430\u0439 \u043f\u043b\u0430\u043d, \u0434\u043e\u0436\u0434\u0438\u0441\u044c \u043e\u0434\u043e\u0431\u0440\u0435\u043d\u0438\u044f, \u0437\u0430\u0442\u0435\u043c ExitPlanMode.",
-    "messages_baseline": [],
-    "messages_optimized": [],
-    "user_message": "\u0437\u0430\u043a\u043e\u043c\u043c\u0438\u0442\u044c \u0432\u0441\u0435 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u044f \u0441 \u0445\u043e\u0440\u043e\u0448\u0438\u043c \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435\u043c"
-  },
-  {
-    "id": "skill-refactor-001",
-    "category": "skill_activation",
-    "name": "refactor auth module into layers",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [CONTEXT REFRESH]\nLong session detected. Core rules reminder:\n- TDD: tests before code, never reverse\n- Hexagonal arch: no framework imports in core/\n- Commits: subject only, no AI attribution, \u226472 chars\n- Plan mode required for multi-file changes\n- Always verify with the user before destructive operations\n- Never expose secrets or API keys in code\n- Use environment variables for all configuration\n\n## [PLAN-MODE REQUIRED]\nThis prompt requires plan mode \u2014 do not skip this step.\nYou MUST call the EnterPlanMode tool IMMEDIATELY, before reading files, writing code, or taking any action.\nProceeding without plan mode violates CLAUDE.md workflow rules.\nSteps:\n1. Call EnterPlanMode tool now\n2. Explore the codebase and design the implementation plan\n3. Present the plan and wait for explicit user approval\n4. Only then call ExitPlanMode and begin implementation",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [\u041e\u0411\u041d\u041e\u0412\u041b\u0415\u041d\u0418\u0415 \u041a\u041e\u041d\u0422\u0415\u041a\u0421\u0422\u0410]\n\u0414\u043b\u0438\u043d\u043d\u0430\u044f \u0441\u0435\u0441\u0441\u0438\u044f. \u041d\u0430\u043f\u043e\u043c\u0438\u043d\u0430\u043d\u0438\u0435: TDD, \u0433\u0435\u043a\u0441. \u0430\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u0430, \u043a\u043e\u043c\u043c\u0438\u0442\u044b \u0431\u0435\u0437 AI-\u0430\u0442\u0440\u0438\u0431\u0443\u0446\u0438\u0438, plan mode \u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u0435\u043d.\n\n## [\u041e\u0411\u042f\u0417\u0410\u0422\u0415\u041b\u0415\u041d \u041f\u041b\u0410\u041d-\u0420\u0415\u0416\u0418\u041c]\n\u041d\u0435\u043c\u0435\u0434\u043b\u0435\u043d\u043d\u043e \u0432\u044b\u0437\u043e\u0432\u0438 EnterPlanMode. \u0418\u0437\u0443\u0447\u0438 \u043a\u043e\u0434\u043e\u0432\u0443\u044e \u0431\u0430\u0437\u0443, \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u0430\u0439 \u043f\u043b\u0430\u043d, \u0434\u043e\u0436\u0434\u0438\u0441\u044c \u043e\u0434\u043e\u0431\u0440\u0435\u043d\u0438\u044f, \u0437\u0430\u0442\u0435\u043c ExitPlanMode.",
-    "messages_baseline": [],
-    "messages_optimized": [],
-    "user_message": "\u0440\u0435\u0444\u0430\u043a\u0442\u043e\u0440\u0438\u043d\u0433 \u043c\u043e\u0434\u0443\u043b\u044f auth \u2014 \u0440\u0430\u0437\u0431\u0438\u0442\u044c \u043d\u0430 \u0441\u043b\u043e\u0438"
-  },
-  {
-    "id": "skill-migrate-001",
-    "category": "skill_activation",
-    "name": "database schema migration with Alembic",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [CONTEXT REFRESH]\nLong session detected. Core rules reminder:\n- TDD: tests before code, never reverse\n- Hexagonal arch: no framework imports in core/\n- Commits: subject only, no AI attribution, \u226472 chars\n- Plan mode required for multi-file changes\n- Always verify with the user before destructive operations\n- Never expose secrets or API keys in code\n- Use environment variables for all configuration\n\n## [PLAN-MODE REQUIRED]\nThis prompt requires plan mode \u2014 do not skip this step.\nYou MUST call the EnterPlanMode tool IMMEDIATELY, before reading files, writing code, or taking any action.\nProceeding without plan mode violates CLAUDE.md workflow rules.\nSteps:\n1. Call EnterPlanMode tool now\n2. Explore the codebase and design the implementation plan\n3. Present the plan and wait for explicit user approval\n4. Only then call ExitPlanMode and begin implementation",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [\u041e\u0411\u041d\u041e\u0412\u041b\u0415\u041d\u0418\u0415 \u041a\u041e\u041d\u0422\u0415\u041a\u0421\u0422\u0410]\n\u0414\u043b\u0438\u043d\u043d\u0430\u044f \u0441\u0435\u0441\u0441\u0438\u044f. \u041d\u0430\u043f\u043e\u043c\u0438\u043d\u0430\u043d\u0438\u0435: TDD, \u0433\u0435\u043a\u0441. \u0430\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u0430, \u043a\u043e\u043c\u043c\u0438\u0442\u044b \u0431\u0435\u0437 AI-\u0430\u0442\u0440\u0438\u0431\u0443\u0446\u0438\u0438, plan mode \u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u0435\u043d.\n\n## [\u041e\u0411\u042f\u0417\u0410\u0422\u0415\u041b\u0415\u041d \u041f\u041b\u0410\u041d-\u0420\u0415\u0416\u0418\u041c]\n\u041d\u0435\u043c\u0435\u0434\u043b\u0435\u043d\u043d\u043e \u0432\u044b\u0437\u043e\u0432\u0438 EnterPlanMode. \u0418\u0437\u0443\u0447\u0438 \u043a\u043e\u0434\u043e\u0432\u0443\u044e \u0431\u0430\u0437\u0443, \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u0430\u0439 \u043f\u043b\u0430\u043d, \u0434\u043e\u0436\u0434\u0438\u0441\u044c \u043e\u0434\u043e\u0431\u0440\u0435\u043d\u0438\u044f, \u0437\u0430\u0442\u0435\u043c ExitPlanMode.",
-    "messages_baseline": [],
-    "messages_optimized": [],
-    "user_message": "migrate database schema to add user_roles table"
-  },
-  {
-    "id": "skill-debug-001",
-    "category": "skill_activation",
-    "name": "debug intermittent test failures",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [CONTEXT REFRESH]\nLong session detected. Core rules reminder:\n- TDD: tests before code, never reverse\n- Hexagonal arch: no framework imports in core/\n- Commits: subject only, no AI attribution, \u226472 chars\n- Plan mode required for multi-file changes\n- Always verify with the user before destructive operations\n- Never expose secrets or API keys in code\n- Use environment variables for all configuration\n\n## [PLAN-MODE REQUIRED]\nThis prompt requires plan mode \u2014 do not skip this step.\nYou MUST call the EnterPlanMode tool IMMEDIATELY, before reading files, writing code, or taking any action.\nProceeding without plan mode violates CLAUDE.md workflow rules.\nSteps:\n1. Call EnterPlanMode tool now\n2. Explore the codebase and design the implementation plan\n3. Present the plan and wait for explicit user approval\n4. Only then call ExitPlanMode and begin implementation",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [\u041e\u0411\u041d\u041e\u0412\u041b\u0415\u041d\u0418\u0415 \u041a\u041e\u041d\u0422\u0415\u041a\u0421\u0422\u0410]\n\u0414\u043b\u0438\u043d\u043d\u0430\u044f \u0441\u0435\u0441\u0441\u0438\u044f. \u041d\u0430\u043f\u043e\u043c\u0438\u043d\u0430\u043d\u0438\u0435: TDD, \u0433\u0435\u043a\u0441. \u0430\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u0430, \u043a\u043e\u043c\u043c\u0438\u0442\u044b \u0431\u0435\u0437 AI-\u0430\u0442\u0440\u0438\u0431\u0443\u0446\u0438\u0438, plan mode \u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u0435\u043d.\n\n## [\u041e\u0411\u042f\u0417\u0410\u0422\u0415\u041b\u0415\u041d \u041f\u041b\u0410\u041d-\u0420\u0415\u0416\u0418\u041c]\n\u041d\u0435\u043c\u0435\u0434\u043b\u0435\u043d\u043d\u043e \u0432\u044b\u0437\u043e\u0432\u0438 EnterPlanMode. \u0418\u0437\u0443\u0447\u0438 \u043a\u043e\u0434\u043e\u0432\u0443\u044e \u0431\u0430\u0437\u0443, \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u0430\u0439 \u043f\u043b\u0430\u043d, \u0434\u043e\u0436\u0434\u0438\u0441\u044c \u043e\u0434\u043e\u0431\u0440\u0435\u043d\u0438\u044f, \u0437\u0430\u0442\u0435\u043c ExitPlanMode.",
-    "messages_baseline": [],
-    "messages_optimized": [],
-    "user_message": "help me understand why tests are failing intermittently"
-  },
-  {
-    "id": "skill-review-001",
-    "category": "skill_activation",
-    "name": "architecture review of new feature",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [CONTEXT REFRESH]\nLong session detected. Core rules reminder:\n- TDD: tests before code, never reverse\n- Hexagonal arch: no framework imports in core/\n- Commits: subject only, no AI attribution, \u226472 chars\n- Plan mode required for multi-file changes\n- Always verify with the user before destructive operations\n- Never expose secrets or API keys in code\n- Use environment variables for all configuration\n\n## [PLAN-MODE REQUIRED]\nThis prompt requires plan mode \u2014 do not skip this step.\nYou MUST call the EnterPlanMode tool IMMEDIATELY, before reading files, writing code, or taking any action.\nProceeding without plan mode violates CLAUDE.md workflow rules.\nSteps:\n1. Call EnterPlanMode tool now\n2. Explore the codebase and design the implementation plan\n3. Present the plan and wait for explicit user approval\n4. Only then call ExitPlanMode and begin implementation",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [\u041e\u0411\u041d\u041e\u0412\u041b\u0415\u041d\u0418\u0415 \u041a\u041e\u041d\u0422\u0415\u041a\u0421\u0422\u0410]\n\u0414\u043b\u0438\u043d\u043d\u0430\u044f \u0441\u0435\u0441\u0441\u0438\u044f. \u041d\u0430\u043f\u043e\u043c\u0438\u043d\u0430\u043d\u0438\u0435: TDD, \u0433\u0435\u043a\u0441. \u0430\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u0430, \u043a\u043e\u043c\u043c\u0438\u0442\u044b \u0431\u0435\u0437 AI-\u0430\u0442\u0440\u0438\u0431\u0443\u0446\u0438\u0438, plan mode \u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u0435\u043d.\n\n## [\u041e\u0411\u042f\u0417\u0410\u0422\u0415\u041b\u0415\u041d \u041f\u041b\u0410\u041d-\u0420\u0415\u0416\u0418\u041c]\n\u041d\u0435\u043c\u0435\u0434\u043b\u0435\u043d\u043d\u043e \u0432\u044b\u0437\u043e\u0432\u0438 EnterPlanMode. \u0418\u0437\u0443\u0447\u0438 \u043a\u043e\u0434\u043e\u0432\u0443\u044e \u0431\u0430\u0437\u0443, \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u0430\u0439 \u043f\u043b\u0430\u043d, \u0434\u043e\u0436\u0434\u0438\u0441\u044c \u043e\u0434\u043e\u0431\u0440\u0435\u043d\u0438\u044f, \u0437\u0430\u0442\u0435\u043c ExitPlanMode.",
-    "messages_baseline": [],
-    "messages_optimized": [],
-    "user_message": "review the architecture of my new feature"
-  },
-  {
-    "id": "skill-deploy-001",
-    "category": "skill_activation",
-    "name": "deploy to staging via docker-compose",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [CONTEXT REFRESH]\nLong session detected. Core rules reminder:\n- TDD: tests before code, never reverse\n- Hexagonal arch: no framework imports in core/\n- Commits: subject only, no AI attribution, \u226472 chars\n- Plan mode required for multi-file changes\n- Always verify with the user before destructive operations\n- Never expose secrets or API keys in code\n- Use environment variables for all configuration\n\n## [PLAN-MODE REQUIRED]\nThis prompt requires plan mode \u2014 do not skip this step.\nYou MUST call the EnterPlanMode tool IMMEDIATELY, before reading files, writing code, or taking any action.\nProceeding without plan mode violates CLAUDE.md workflow rules.\nSteps:\n1. Call EnterPlanMode tool now\n2. Explore the codebase and design the implementation plan\n3. Present the plan and wait for explicit user approval\n4. Only then call ExitPlanMode and begin implementation",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [\u041e\u0411\u041d\u041e\u0412\u041b\u0415\u041d\u0418\u0415 \u041a\u041e\u041d\u0422\u0415\u041a\u0421\u0422\u0410]\n\u0414\u043b\u0438\u043d\u043d\u0430\u044f \u0441\u0435\u0441\u0441\u0438\u044f. \u041d\u0430\u043f\u043e\u043c\u0438\u043d\u0430\u043d\u0438\u0435: TDD, \u0433\u0435\u043a\u0441. \u0430\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u0430, \u043a\u043e\u043c\u043c\u0438\u0442\u044b \u0431\u0435\u0437 AI-\u0430\u0442\u0440\u0438\u0431\u0443\u0446\u0438\u0438, plan mode \u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u0435\u043d.\n\n## [\u041e\u0411\u042f\u0417\u0410\u0422\u0415\u041b\u0415\u041d \u041f\u041b\u0410\u041d-\u0420\u0415\u0416\u0418\u041c]\n\u041d\u0435\u043c\u0435\u0434\u043b\u0435\u043d\u043d\u043e \u0432\u044b\u0437\u043e\u0432\u0438 EnterPlanMode. \u0418\u0437\u0443\u0447\u0438 \u043a\u043e\u0434\u043e\u0432\u0443\u044e \u0431\u0430\u0437\u0443, \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u0430\u0439 \u043f\u043b\u0430\u043d, \u0434\u043e\u0436\u0434\u0438\u0441\u044c \u043e\u0434\u043e\u0431\u0440\u0435\u043d\u0438\u044f, \u0437\u0430\u0442\u0435\u043c ExitPlanMode.",
-    "messages_baseline": [],
-    "messages_optimized": [],
-    "user_message": "\u0440\u0430\u0437\u0432\u0435\u0440\u043d\u0438 \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0435 \u043d\u0430 staging \u0447\u0435\u0440\u0435\u0437 docker-compose"
-  },
-  {
-    "id": "skill-analyze-001",
-    "category": "skill_activation",
-    "name": "analyze session cache memory leak hypothesis",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [CONTEXT REFRESH]\nLong session detected. Core rules reminder:\n- TDD: tests before code, never reverse\n- Hexagonal arch: no framework imports in core/\n- Commits: subject only, no AI attribution, \u226472 chars\n- Plan mode required for multi-file changes\n- Always verify with the user before destructive operations\n- Never expose secrets or API keys in code\n- Use environment variables for all configuration\n\n## [PLAN-MODE REQUIRED]\nThis prompt requires plan mode \u2014 do not skip this step.\nYou MUST call the EnterPlanMode tool IMMEDIATELY, before reading files, writing code, or taking any action.\nProceeding without plan mode violates CLAUDE.md workflow rules.\nSteps:\n1. Call EnterPlanMode tool now\n2. Explore the codebase and design the implementation plan\n3. Present the plan and wait for explicit user approval\n4. Only then call ExitPlanMode and begin implementation",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## [\u041e\u0411\u041d\u041e\u0412\u041b\u0415\u041d\u0418\u0415 \u041a\u041e\u041d\u0422\u0415\u041a\u0421\u0422\u0410]\n\u0414\u043b\u0438\u043d\u043d\u0430\u044f \u0441\u0435\u0441\u0441\u0438\u044f. \u041d\u0430\u043f\u043e\u043c\u0438\u043d\u0430\u043d\u0438\u0435: TDD, \u0433\u0435\u043a\u0441. \u0430\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u0430, \u043a\u043e\u043c\u043c\u0438\u0442\u044b \u0431\u0435\u0437 AI-\u0430\u0442\u0440\u0438\u0431\u0443\u0446\u0438\u0438, plan mode \u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u0435\u043d.\n\n## [\u041e\u0411\u042f\u0417\u0410\u0422\u0415\u041b\u0415\u041d \u041f\u041b\u0410\u041d-\u0420\u0415\u0416\u0418\u041c]\n\u041d\u0435\u043c\u0435\u0434\u043b\u0435\u043d\u043d\u043e \u0432\u044b\u0437\u043e\u0432\u0438 EnterPlanMode. \u0418\u0437\u0443\u0447\u0438 \u043a\u043e\u0434\u043e\u0432\u0443\u044e \u0431\u0430\u0437\u0443, \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u0430\u0439 \u043f\u043b\u0430\u043d, \u0434\u043e\u0436\u0434\u0438\u0441\u044c \u043e\u0434\u043e\u0431\u0440\u0435\u043d\u0438\u044f, \u0437\u0430\u0442\u0435\u043c ExitPlanMode.",
-    "messages_baseline": [],
-    "messages_optimized": [],
-    "user_message": "\u043f\u0440\u043e\u0430\u043d\u0430\u043b\u0438\u0437\u0438\u0440\u0443\u0439 \u0433\u0438\u043f\u043e\u0442\u0435\u0437\u0443 \u0447\u0442\u043e \u043a\u044d\u0448 \u0441\u0435\u0441\u0441\u0438\u0439 \u0432\u044b\u0437\u044b\u0432\u0430\u0435\u0442 \u0443\u0442\u0435\u0447\u043a\u0443 \u043f\u0430\u043c\u044f\u0442\u0438"
-  },
-  {
-    "id": "edge-large-diff-001",
-    "category": "edge_case",
-    "name": "large git diff that cannot be filtered",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "name": "FastAPI endpoint returns 422 debug",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8\n\n## [CONTEXT REFRESH — Long Session]\nLong session detected. Core rules reminder:\n- TDD: write tests before code, never adapt tests to fit existing code\n- Hexagonal architecture: core/ must have zero framework imports\n- Commits: subject line only ≤72 chars, NO Co-Authored-By or AI attribution\n- Plan mode is mandatory for any multi-file change or design decision\n- Verify with user before any destructive operation\n- Never expose secrets, tokens or API keys in code or diffs\n- All configuration via environment variables\n\n## [PLAN-MODE REQUIRED — Multi-file Change Detected]\nThis request touches multiple files and requires planning.\nCall EnterPlanMode IMMEDIATELY — before reading files, writing code, or taking any action.\nSteps: (1) Call EnterPlanMode. (2) Explore codebase. (3) Present plan. (4) Wait for approval. (5) Call ExitPlanMode and implement.\n\n## Commit Rules Reminder\nOne commit = one logical stage. Subject line only, ≤72 chars. NEVER add Co-Authored-By or AI attribution. Max 2–3 commits per session.\n\n## Security Review Required\nModified security-sensitive code detected (auth, DB, user input). Run /security-review before committing.",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8",
     "messages_baseline": [
       {
         "role": "user",
-        "content": "show me the diff"
+        "content": "My POST /users endpoint returns 422. Sending: {\"email\": \"test@example.com\", \"password\": \"secret123\"}"
       },
       {
         "role": "assistant",
-        "content": "Here is the current diff."
+        "content": "A 422 means Pydantic rejected the request. Is the password field SecretStr? Are there length validators?"
       },
       {
         "role": "user",
-        "content": "diff --git a/src/app/core/auth.py b/src/app/core/auth.py\nindex 3a1b2c4..5d6e7f8 100644\n--- a/src/app/core/auth.py\n+++ b/src/app/core/auth.py\n@@ -1,15 +1,45 @@\n-from datetime import datetime\n-from typing import Optional\n+from datetime import datetime, timedelta\n+from typing import Optional, Dict, Any\n+from enum import Enum\n \n-class TokenService:\n-    def create_token(self, user_id: int) -> str:\n-        pass\n+class TokenType(Enum):\n+    ACCESS = \"access\"\n+    REFRESH = \"refresh\"\n+\n+class TokenClaims:\n+    def __init__(self, user_id: int, token_type: TokenType, ttl_seconds: int):\n+        self.user_id = user_id\n+        self.token_type = token_type\n+        self.issued_at = datetime.utcnow()\n+        self.expires_at = self.issued_at + timedelta(seconds=ttl_seconds)\n+        self.jti = self._generate_jti()\n+\n+    def _generate_jti(self) -> str:\n+        import uuid\n+        return str(uuid.uuid4())\n+\n+    def to_dict(self) -> Dict[str, Any]:\n+        return {\n+            \"sub\": str(self.user_id),\n+            \"type\": self.token_type.value,\n+            \"iat\": int(self.issued_at.timestamp()),\n+            \"exp\": int(self.expires_at.timestamp()),\n+            \"jti\": self.jti,\n+        }\n+\n+class TokenService:\n+    ACCESS_TTL = 900\n+    REFRESH_TTL = 86400 * 7\n+\n+    def create_token(self, user_id: int, token_type: TokenType = TokenType.ACCESS) -> str:\n+        ttl = self.ACCESS_TTL if token_type == TokenType.ACCESS else self.REFRESH_TTL\n+        claims = TokenClaims(user_id=user_id, token_type=token_type, ttl_seconds=ttl)\n+        return self._encode(claims.to_dict())\n+\n+    def _encode(self, payload: Dict[str, Any]) -> str:\n+        import jwt\n+        secret = self._get_secret()\n+        return jwt.encode(payload, secret, algorithm=\"HS256\")\n+\n+    def _get_secret(self) -> str:\n+        import os\n+        secret = os.environ.get(\"JWT_SECRET\")\n+        if not secret:\n+            raise RuntimeError(\"JWT_SECRET environment variable not set\")\n+        return secret\n \ndiff --git a/src/app/core/auth.py b/src/app/core/auth.py\n@@ -45,0 +46,30 @@\n+    def validate_token(self, token: str) -> Optional[TokenClaims]:\n+        try:\n+            payload = self._decode(token)\n+            return self._claims_from_payload(payload)\n+        except Exception:\n+            return None\n+\n+    def _decode(self, token: str) -> Dict[str, Any]:\n+        import jwt\n+        secret = self._get_secret()\n+        return jwt.decode(token, secret, algorithms=[\"HS256\"])\n+\n+    def _claims_from_payload(self, payload: Dict[str, Any]) -> TokenClaims:\n+        user_id = int(payload[\"sub\"])\n+        token_type = TokenType(payload[\"type\"])\n+        ttl = self.ACCESS_TTL if token_type == TokenType.ACCESS else self.REFRESH_TTL\n+        claims = TokenClaims(user_id=user_id, token_type=token_type, ttl_seconds=ttl)\n+        claims.jti = payload[\"jti\"]\n+        return claims\n+\n+    def is_expired(self, token: str) -> bool:\n+        try:\n+            payload = self._decode(token)\n+            exp = payload.get(\"exp\", 0)\n+            return datetime.utcnow().timestamp() > exp\n+        except Exception:\n+            return True\n+\n+    def revoke_token(self, jti: str) -> None:\n+        self._revocation_store.add(jti)\n+\ndiff --git a/tests/test_auth.py b/tests/test_auth.py\nindex 0000000..abc1234 100644\n--- /dev/null\n+++ b/tests/test_auth.py\n@@ -0,0 +1,80 @@\n+import pytest\n+from app.core.auth import TokenService, TokenType\n+\n+\n+@pytest.fixture\n+def token_service():\n+    return TokenService()\n+\n+\n+class TestTokenCreation:\n+    def test_access_token_created(self, token_service, monkeypatch):\n+        monkeypatch.setenv(\"JWT_SECRET\", \"test-secret\")\n+        token = token_service.create_token(user_id=1)\n+        assert token is not None\n+        assert isinstance(token, str)\n+\n+    def test_refresh_token_created(self, token_service, monkeypatch):\n+        monkeypatch.setenv(\"JWT_SECRET\", \"test-secret\")\n+        token = token_service.create_token(user_id=1, token_type=TokenType.REFRESH)\n+        assert token is not None\n+\n+    def test_token_contains_user_id(self, token_service, monkeypatch):\n+        monkeypatch.setenv(\"JWT_SECRET\", \"test-secret\")\n+        token = token_service.create_token(user_id=42)\n+        claims = token_service.validate_token(token)\n+        assert claims is not None\n+        assert claims.user_id == 42\n+\n+    def test_token_type_in_claims(self, token_service, monkeypatch):\n+        monkeypatch.setenv(\"JWT_SECRET\", \"test-secret\")\n+        token = token_service.create_token(user_id=1, token_type=TokenType.REFRESH)\n+        claims = token_service.validate_token(token)\n+        assert claims.token_type == TokenType.REFRESH\n+\n+    def test_raises_without_secret(self, token_service):\n+        import os\n+        os.environ.pop(\"JWT_SECRET\", None)\n+        with pytest.raises(RuntimeError, match=\"JWT_SECRET\"):\n+            token_service.create_token(user_id=1)\n+\n+class TestTokenValidation:\n+    def test_valid_token_returns_claims(self, token_service, monkeypatch):\n+        monkeypatch.setenv(\"JWT_SECRET\", \"test-secret\")\n+        token = token_service.create_token(user_id=7)\n+        result = token_service.validate_token(token)\n+        assert result is not None\n+\n+    def test_invalid_token_returns_none(self, token_service, monkeypatch):\n+        monkeypatch.setenv(\"JWT_SECRET\", \"test-secret\")\n+        result = token_service.validate_token(\"not.a.valid.token\")\n+        assert result is None\n+\n+    def test_expired_token_is_expired(self, token_service, monkeypatch):\n+        monkeypatch.setenv(\"JWT_SECRET\", \"test-secret\")\n+        import jwt, time\n+        expired_payload = {\"sub\": \"1\", \"exp\": int(time.time()) - 3600, \"type\": \"access\", \"iat\": int(time.time()) - 7200, \"jti\": \"test-jti\"}\n+        expired_token = jwt.encode(expired_payload, \"test-secret\", algorithm=\"HS256\")\n+        assert token_service.is_expired(expired_token) is True"
+        "content": "SecretStr with length >= 8. The error says: [{\"loc\":[\"body\",\"email\"],\"msg\":\"value is not a valid email address\"}]"
       }
     ],
     "messages_optimized": [
       {
         "role": "user",
-        "content": "show me the diff"
+        "content": "My POST /users endpoint returns 422. Sending: {\"email\": \"test@example.com\", \"password\": \"secret123\"}"
       },
       {
         "role": "assistant",
-        "content": "Here is the current diff."
+        "content": "A 422 means Pydantic rejected the request. Is the password field SecretStr? Are there length validators?"
       },
       {
         "role": "user",
-        "content": "diff --git a/src/app/core/auth.py b/src/app/core/auth.py\nindex 3a1b2c4..5d6e7f8 100644\n--- a/src/app/core/auth.py\n+++ b/src/app/core/auth.py\n@@ -1,15 +1,45 @@\n-from datetime import datetime\n-from typing import Optional\n+from datetime import datetime, timedelta\n+from typing import Optional, Dict, Any\n+from enum import Enum\n \n-class TokenService:\n-    def create_token(self, user_id: int) -> str:\n-        pass\n+class TokenType(Enum):\n+    ACCESS = \"access\"\n+    REFRESH = \"refresh\"\n+\n+class TokenClaims:\n+    def __init__(self, user_id: int, token_type: TokenType, ttl_seconds: int):\n+        self.user_id = user_id\n+        self.token_type = token_type\n+        self.issued_at = datetime.utcnow()\n+        self.expires_at = self.issued_at + timedelta(seconds=ttl_seconds)\n+        self.jti = self._generate_jti()\n+\n+    def _generate_jti(self) -> str:\n+        import uuid\n+        return str(uuid.uuid4())\n+\n+    def to_dict(self) -> Dict[str, Any]:\n+        return {\n+            \"sub\": str(self.user_id),\n+            \"type\": self.token_type.value,\n+            \"iat\": int(self.issued_at.timestamp()),\n+            \"exp\": int(self.expires_at.timestamp()),\n+            \"jti\": self.jti,\n+        }\n+\n+class TokenService:\n+    ACCESS_TTL = 900\n+    REFRESH_TTL = 86400 * 7\n+\n+    def create_token(self, user_id: int, token_type: TokenType = TokenType.ACCESS) -> str:\n+        ttl = self.ACCESS_TTL if token_type == TokenType.ACCESS else self.REFRESH_TTL\n+        claims = TokenClaims(user_id=user_id, token_type=token_type, ttl_seconds=ttl)\n+        return self._encode(claims.to_dict())\n+\n+    def _encode(self, payload: Dict[str, Any]) -> str:\n+        import jwt\n+        secret = self._get_secret()\n+        return jwt.encode(payload, secret, algorithm=\"HS256\")\n+\n+    def _get_secret(self) -> str:\n+        import os\n+        secret = os.environ.get(\"JWT_SECRET\")\n+        if not secret:\n+            raise RuntimeError(\"JWT_SECRET environment variable not set\")\n+        return secret\n \ndiff --git a/src/app/core/auth.py b/src/app/core/auth.py\n@@ -45,0 +46,30 @@\n+    def validate_token(self, token: str) -> Optional[TokenClaims]:\n+        try:\n+            payload = self._decode(token)\n+            return self._claims_from_payload(payload)\n+        except Exception:\n+            return None\n+\n+    def _decode(self, token: str) -> Dict[str, Any]:\n+        import jwt\n+        secret = self._get_secret()\n+        return jwt.decode(token, secret, algorithms=[\"HS256\"])\n+\n+    def _claims_from_payload(self, payload: Dict[str, Any]) -> TokenClaims:\n+        user_id = int(payload[\"sub\"])\n+        token_type = TokenType(payload[\"type\"])\n+        ttl = self.ACCESS_TTL if token_type == TokenType.ACCESS else self.REFRESH_TTL\n+        claims = TokenClaims(user_id=user_id, token_type=token_type, ttl_seconds=ttl)\n+        claims.jti = payload[\"jti\"]\n+        return claims\n+\n+    def is_expired(self, token: str) -> bool:\n+        try:\n+            payload = self._decode(token)\n+            exp = payload.get(\"exp\", 0)\n+            return datetime.utcnow().timestamp() > exp\n+        except Exception:\n+            return True\n+\n+    def revoke_token(self, jti: str) -> None:\n+        self._revocation_store.add(jti)\n+\ndiff --git a/tests/test_auth.py b/tests/test_auth.py\nindex 0000000..abc1234 100644\n--- /dev/null\n+++ b/tests/test_auth.py\n@@ -0,0 +1,80 @@\n+import pytest\n+from app.core.auth import TokenService, TokenType\n+\n+\n+@pytest.fixture\n+def token_service():\n+    return TokenService()\n+\n+\n+class TestTokenCreation:\n+    def test_access_token_created(self, token_service, monkeypatch):\n+        monkeypatch.setenv(\"JWT_SECRET\", \"test-secret\")\n+        token = token_service.create_token(user_id=1)\n+        assert token is not None\n+        assert isinstance(token, str)\n+\n+    def test_refresh_token_created(self, token_service, monkeypatch):\n+        monkeypatch.setenv(\"JWT_SECRET\", \"test-secret\")\n+        token = token_service.create_token(user_id=1, token_type=TokenType.REFRESH)\n+        assert token is not None\n+\n+    def test_token_contains_user_id(self, token_service, monkeypatch):\n+        monkeypatch.setenv(\"JWT_SECRET\", \"test-secret\")\n+        token = token_service.create_token(user_id=42)\n+        claims = token_service.validate_token(token)\n+        assert claims is not None\n+        assert claims.user_id == 42\n+\n+    def test_token_type_in_claims(self, token_service, monkeypatch):\n+        monkeypatch.setenv(\"JWT_SECRET\", \"test-secret\")\n+        token = token_service.create_token(user_id=1, token_type=TokenType.REFRESH)\n+        claims = token_service.validate_token(token)\n+        assert claims.token_type == TokenType.REFRESH\n+\n+    def test_raises_without_secret(self, token_service):\n+        import os\n+        os.environ.pop(\"JWT_SECRET\", None)\n+        with pytest.raises(RuntimeError, match=\"JWT_SECRET\"):\n+            token_service.create_token(user_id=1)\n+\n+class TestTokenValidation:\n+    def test_valid_token_returns_claims(self, token_service, monkeypatch):\n+        monkeypatch.setenv(\"JWT_SECRET\", \"test-secret\")\n+        token = token_service.create_token(user_id=7)\n+        result = token_service.validate_token(token)\n+        assert result is not None\n+\n+    def test_invalid_token_returns_none(self, token_service, monkeypatch):\n+        monkeypatch.setenv(\"JWT_SECRET\", \"test-secret\")\n+        result = token_service.validate_token(\"not.a.valid.token\")\n+        assert result is None\n+\n+    def test_expired_token_is_expired(self, token_service, monkeypatch):\n+        monkeypatch.setenv(\"JWT_SECRET\", \"test-secret\")\n+        import jwt, time\n+        expired_payload = {\"sub\": \"1\", \"exp\": int(time.time()) - 3600, \"type\": \"access\", \"iat\": int(time.time()) - 7200, \"jti\": \"test-jti\"}\n+        expired_token = jwt.encode(expired_payload, \"test-secret\", algorithm=\"HS256\")\n+        assert token_service.is_expired(expired_token) is True"
+        "content": "SecretStr with length >= 8. The error says: [{\"loc\":[\"body\",\"email\"],\"msg\":\"value is not a valid email address\"}]"
       }
     ],
-    "user_message": "review this diff"
+    "user_message": "The email is test@example.com. Why does Pydantic reject it as invalid?"
   },
   {
-    "id": "edge-empty-output-001",
-    "category": "edge_case",
-    "name": "command with empty output",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "id": "skill-langgraph-001",
+    "category": "skill_activation",
+    "name": "LangGraph conditional edge routes to wrong node",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8\n\n## [CONTEXT REFRESH — Long Session]\nLong session detected. Core rules reminder:\n- TDD: write tests before code, never adapt tests to fit existing code\n- Hexagonal architecture: core/ must have zero framework imports\n- Commits: subject line only ≤72 chars, NO Co-Authored-By or AI attribution\n- Plan mode is mandatory for any multi-file change or design decision\n- Verify with user before any destructive operation\n- Never expose secrets, tokens or API keys in code or diffs\n- All configuration via environment variables\n\n## [PLAN-MODE REQUIRED — Multi-file Change Detected]\nThis request touches multiple files and requires planning.\nCall EnterPlanMode IMMEDIATELY — before reading files, writing code, or taking any action.\nSteps: (1) Call EnterPlanMode. (2) Explore codebase. (3) Present plan. (4) Wait for approval. (5) Call ExitPlanMode and implement.\n\n## Commit Rules Reminder\nOne commit = one logical stage. Subject line only, ≤72 chars. NEVER add Co-Authored-By or AI attribution. Max 2–3 commits per session.\n\n## Security Review Required\nModified security-sensitive code detected (auth, DB, user input). Run /security-review before committing.",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8",
     "messages_baseline": [
       {
         "role": "user",
-        "content": "run the migration"
+        "content": "Conditional edge after classify node. When state decision is escalate it should go to human_review but goes to auto_resolve."
       },
       {
         "role": "assistant",
-        "content": "Running alembic migration."
+        "content": "Show me the add_conditional_edges call and the routing function."
       },
       {
         "role": "user",
-        "content": "Command completed successfully.\n"
+        "content": "graph.add_conditional_edges('classify', lambda state: state['decision'], {'escalate': 'human_review', 'resolve': 'auto_resolve'}). State decision is definitely 'escalate'."
       }
     ],
     "messages_optimized": [
       {
         "role": "user",
-        "content": "run the migration"
+        "content": "Conditional edge after classify node. When state decision is escalate it should go to human_review but goes to auto_resolve."
       },
       {
         "role": "assistant",
-        "content": "Running alembic migration."
+        "content": "Show me the add_conditional_edges call and the routing function."
       },
       {
         "role": "user",
-        "content": "Command completed successfully.\n"
+        "content": "graph.add_conditional_edges('classify', lambda state: state['decision'], {'escalate': 'human_review', 'resolve': 'auto_resolve'}). State decision is definitely 'escalate'."
       }
     ],
-    "user_message": "did it work?"
+    "user_message": "The routing function returns 'escalate' but the graph goes to auto_resolve. What is the bug?"
   },
   {
-    "id": "edge-multi-skill-001",
-    "category": "edge_case",
-    "name": "complex request triggering multiple skills",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Skill: python-project-standards\nUse uv for all Python dependency management. pyproject.toml is the single source of truth. Run ruff check --fix && ruff format before every commit. mypy strict mode for new files. Pre-commit hooks must be configured and passing. Never use requirements.txt for production dependencies.\n\n## Skill: database-migration-safety\nAlembic migrations must be reversible. Always provide downgrade() implementation. Never drop columns in the same migration that removes application code. Test migrations against a copy of production data schema before applying. Use batch operations for large table alterations.\n\n## Skill: infra-yandex-cloud\nUse Terraform for all YC infrastructure. Never hardcode cloud credentials. Use YC service accounts with minimal permissions. Container Registry images must be tagged with git SHA. Serverless containers should use revision traffic splitting for zero-downtime deploys.",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Skill: python-project-standards\nUse uv for all Python dependency management. pyproject.toml is the single source of truth. Run ruff check --fix && ruff format before every commit. mypy strict mode for new files. Pre-commit hooks must be configured and passing. Never use requirements.txt for production dependencies.\n\n## Skill: database-migration-safety\nAlembic migrations must be reversible. Always provide downgrade() implementation. Never drop columns in the same migration that removes application code. Test migrations against a copy of production data schema before applying. Use batch operations for large table alterations.\n\n## Skill: infra-yandex-cloud\nUse Terraform for all YC infrastructure. Never hardcode cloud credentials. Use YC service accounts with minimal permissions. Container Registry images must be tagged with git SHA. Serverless containers should use revision traffic splitting for zero-downtime deploys.",
-    "messages_baseline": [],
-    "messages_optimized": [],
-    "user_message": "\u0440\u0435\u0444\u0430\u043a\u0442\u043e\u0440\u0438\u043d\u0433 \u0430\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u044b \u0441 \u043c\u0438\u0433\u0440\u0430\u0446\u0438\u0435\u0439 \u0431\u0430\u0437\u044b \u0434\u0430\u043d\u043d\u044b\u0445 \u0438 \u0434\u0435\u043f\u043b\u043e\u0435\u043c \u043d\u0430 YC"
-  },
-  {
-    "id": "edge-long-system-001",
-    "category": "edge_case",
-    "name": "very long system prompt with detailed project context",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Project Context: TechCon Defectoscopy Platform\n\nThis is an industrial defect detection system for welded joints in pipeline infrastructure. The system processes ultrasonic testing (UT) data from automated scanning rigs and produces real-time defect classifications for field engineers.\n\n### Business Requirements\nThe platform must process scan data within 3 seconds of acquisition to enable real-time quality control on the production line. False negative rate (missed defects) must be under 0.1% as per GOST R 55724-2013 standards. False positive rate should remain below 5% to avoid excessive production halts. The system integrates with existing SAP ERP for work order management and defect reporting.\n\n### Current Architecture\nThe system follows hexagonal architecture with these layers:\n- api/: FastAPI routers for scan ingestion, result retrieval, and operator dashboard\n- core/: Pure domain logic — DefectClassifier, ScanProcessor, ReportGenerator\n- services/: Application layer orchestrating ML inference, notification, and audit\n- adapters/: PostgreSQL (scan storage), Redis (result cache), S3 (scan archives), MLflow (model registry), GPU worker RPC\n- models/: Pydantic schemas for ScanJob, DefectReport, OperatorAlert\n\n### ML Model Details\nCurrent production model: YOLOv8-based defect detector fine-tuned on 45,000 labeled UT scan images. Model version: v3.2.1 (deployed 2026-03-15). Input: 512x512 grayscale scan slices. Output: defect bounding boxes with class labels (porosity, crack, inclusion, delamination) and confidence scores. Inference runs on NVIDIA A100 GPU via dedicated worker service. Model artifacts stored in YC Object Storage under s3://techcon-models/defectoscopy/.\n\n### Infrastructure\nProduction: 3-node K8s cluster on Yandex Cloud (2x CPU workers + 1x GPU worker). Staging: single VM yc-dev-stand-01 (89.169.178.111) with docker-compose. CI/CD: GitHub Actions with build/test/push/deploy stages. Container registry: cr.yandex/crp.../techcon-defectoscopy. Monitoring: Grafana + Prometheus + custom alerting via Telegram bot.\n\n### Known Technical Debt\n1. ScanProcessor.process_batch() is synchronous — blocks the event loop for large batches (>100 slices). Needs asyncification with background task queue.\n2. DefectClassifier has direct import of torch — violates hexagonal arch rule (no framework imports in core/). Needs interface extraction.\n3. Report generation uses string formatting instead of templating engine — fragile and hard to maintain.\n4. No retry logic in GPU worker RPC calls — transient GPU worker restarts cause 500 errors.\n5. Alembic migration 0015 has no downgrade() — violates migration safety rules.\n\n### Team Conventions\n- Feature branches: feature/DEFECTO-NNN-short-description\n- Hotfixes: hotfix/DEFECTO-NNN-description\n- All PRs require 2 approvals + CI green\n- Release tags: vX.Y.Z-defectoscopy\n- Sprint duration: 2 weeks, current sprint: DEFECTO-S24 (ends 2026-04-18)\n- Backlog managed in YouTrack project DEFECTO",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Project Context: TechCon Defectoscopy Platform\n\nThis is an industrial defect detection system for welded joints in pipeline infrastructure. The system processes ultrasonic testing (UT) data from automated scanning rigs and produces real-time defect classifications for field engineers.\n\n### Business Requirements\nThe platform must process scan data within 3 seconds of acquisition to enable real-time quality control on the production line. False negative rate (missed defects) must be under 0.1% as per GOST R 55724-2013 standards. False positive rate should remain below 5% to avoid excessive production halts. The system integrates with existing SAP ERP for work order management and defect reporting.\n\n### Current Architecture\nThe system follows hexagonal architecture with these layers:\n- api/: FastAPI routers for scan ingestion, result retrieval, and operator dashboard\n- core/: Pure domain logic — DefectClassifier, ScanProcessor, ReportGenerator\n- services/: Application layer orchestrating ML inference, notification, and audit\n- adapters/: PostgreSQL (scan storage), Redis (result cache), S3 (scan archives), MLflow (model registry), GPU worker RPC\n- models/: Pydantic schemas for ScanJob, DefectReport, OperatorAlert\n\n### ML Model Details\nCurrent production model: YOLOv8-based defect detector fine-tuned on 45,000 labeled UT scan images. Model version: v3.2.1 (deployed 2026-03-15). Input: 512x512 grayscale scan slices. Output: defect bounding boxes with class labels (porosity, crack, inclusion, delamination) and confidence scores. Inference runs on NVIDIA A100 GPU via dedicated worker service. Model artifacts stored in YC Object Storage under s3://techcon-models/defectoscopy/.\n\n### Infrastructure\nProduction: 3-node K8s cluster on Yandex Cloud (2x CPU workers + 1x GPU worker). Staging: single VM yc-dev-stand-01 (89.169.178.111) with docker-compose. CI/CD: GitHub Actions with build/test/push/deploy stages. Container registry: cr.yandex/crp.../techcon-defectoscopy. Monitoring: Grafana + Prometheus + custom alerting via Telegram bot.\n\n### Known Technical Debt\n1. ScanProcessor.process_batch() is synchronous — blocks the event loop for large batches (>100 slices). Needs asyncification with background task queue.\n2. DefectClassifier has direct import of torch — violates hexagonal arch rule (no framework imports in core/). Needs interface extraction.\n3. Report generation uses string formatting instead of templating engine — fragile and hard to maintain.\n4. No retry logic in GPU worker RPC calls — transient GPU worker restarts cause 500 errors.\n5. Alembic migration 0015 has no downgrade() — violates migration safety rules.\n\n### Team Conventions\n- Feature branches: feature/DEFECTO-NNN-short-description\n- Hotfixes: hotfix/DEFECTO-NNN-description\n- All PRs require 2 approvals + CI green\n- Release tags: vX.Y.Z-defectoscopy\n- Sprint duration: 2 weeks, current sprint: DEFECTO-S24 (ends 2026-04-18)\n- Backlog managed in YouTrack project DEFECTO",
-    "messages_baseline": [],
-    "messages_optimized": [],
-    "user_message": "what should I work on next?"
-  },
-  {
-    "id": "edge-no-diff-001",
-    "category": "edge_case",
-    "name": "conversational question with no bash output",
-    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
-    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, \u226472 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "id": "skill-pytest-001",
+    "category": "skill_activation",
+    "name": "pytest module-scoped fixture causes test pollution",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8\n\n## [CONTEXT REFRESH — Long Session]\nLong session detected. Core rules reminder:\n- TDD: write tests before code, never adapt tests to fit existing code\n- Hexagonal architecture: core/ must have zero framework imports\n- Commits: subject line only ≤72 chars, NO Co-Authored-By or AI attribution\n- Plan mode is mandatory for any multi-file change or design decision\n- Verify with user before any destructive operation\n- Never expose secrets, tokens or API keys in code or diffs\n- All configuration via environment variables\n\n## [PLAN-MODE REQUIRED — Multi-file Change Detected]\nThis request touches multiple files and requires planning.\nCall EnterPlanMode IMMEDIATELY — before reading files, writing code, or taking any action.\nSteps: (1) Call EnterPlanMode. (2) Explore codebase. (3) Present plan. (4) Wait for approval. (5) Call ExitPlanMode and implement.\n\n## Commit Rules Reminder\nOne commit = one logical stage. Subject line only, ≤72 chars. NEVER add Co-Authored-By or AI attribution. Max 2–3 commits per session.\n\n## Security Review Required\nModified security-sensitive code detected (auth, DB, user input). Run /security-review before committing.",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8",
     "messages_baseline": [
       {
         "role": "user",
-        "content": "explain hexagonal architecture"
+        "content": "db_session fixture is scope=module. Tests in class A modify rows, class B sees the modified data."
       },
       {
         "role": "assistant",
-        "content": "Hexagonal Architecture (also known as Ports and Adapters, coined by Alistair Cockburn) is a software design pattern that isolates the core application logic from external concerns.\n\nThe key idea: your domain logic lives at the center and knows nothing about databases, HTTP frameworks, or external APIs. All external dependencies connect through well-defined interfaces (ports), and the concrete implementations of those interfaces are the adapters.\n\nIn practice for a FastAPI + Python project:\n- core/ contains pure Python classes with no imports from FastAPI, SQLAlchemy, or any external library\n- adapters/ contains the SQLAlchemy repositories, HTTP clients, S3 wrappers\n- api/ contains FastAPI routers that translate HTTP requests into domain calls\n- services/ orchestrates: receives input from api/, calls core/ logic, delegates I/O to adapters/\n\nThe test benefit is significant: you can test all core/ logic without a database or HTTP server, injecting mock adapters through constructor injection."
+        "content": "Module scope shares the fixture across all tests in the module. For class isolation use scope=class with rollback in teardown."
+      },
+      {
+        "role": "user",
+        "content": "scope=function is too slow. 200 tests went from 20s to 90s. We need module scope with isolation between classes."
       }
     ],
     "messages_optimized": [
       {
         "role": "user",
-        "content": "explain hexagonal architecture"
+        "content": "db_session fixture is scope=module. Tests in class A modify rows, class B sees the modified data."
       },
       {
         "role": "assistant",
-        "content": "Hexagonal Architecture (also known as Ports and Adapters, coined by Alistair Cockburn) is a software design pattern that isolates the core application logic from external concerns.\n\nThe key idea: your domain logic lives at the center and knows nothing about databases, HTTP frameworks, or external APIs. All external dependencies connect through well-defined interfaces (ports), and the concrete implementations of those interfaces are the adapters.\n\nIn practice for a FastAPI + Python project:\n- core/ contains pure Python classes with no imports from FastAPI, SQLAlchemy, or any external library\n- adapters/ contains the SQLAlchemy repositories, HTTP clients, S3 wrappers\n- api/ contains FastAPI routers that translate HTTP requests into domain calls\n- services/ orchestrates: receives input from api/, calls core/ logic, delegates I/O to adapters/\n\nThe test benefit is significant: you can test all core/ logic without a database or HTTP server, injecting mock adapters through constructor injection."
+        "content": "Module scope shares the fixture across all tests in the module. For class isolation use scope=class with rollback in teardown."
+      },
+      {
+        "role": "user",
+        "content": "scope=function is too slow. 200 tests went from 20s to 90s. We need module scope with isolation between classes."
       }
     ],
-    "user_message": "how does it apply to FastAPI?"
+    "user_message": "How do I keep module-scoped sessions while ensuring test isolation between test classes?"
+  },
+  {
+    "id": "skill-docker-001",
+    "category": "skill_activation",
+    "name": "Docker Compose service cannot reach postgres by hostname",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8\n\n## [CONTEXT REFRESH — Long Session]\nLong session detected. Core rules reminder:\n- TDD: write tests before code, never adapt tests to fit existing code\n- Hexagonal architecture: core/ must have zero framework imports\n- Commits: subject line only ≤72 chars, NO Co-Authored-By or AI attribution\n- Plan mode is mandatory for any multi-file change or design decision\n- Verify with user before any destructive operation\n- Never expose secrets, tokens or API keys in code or diffs\n- All configuration via environment variables\n\n## [PLAN-MODE REQUIRED — Multi-file Change Detected]\nThis request touches multiple files and requires planning.\nCall EnterPlanMode IMMEDIATELY — before reading files, writing code, or taking any action.\nSteps: (1) Call EnterPlanMode. (2) Explore codebase. (3) Present plan. (4) Wait for approval. (5) Call ExitPlanMode and implement.\n\n## Commit Rules Reminder\nOne commit = one logical stage. Subject line only, ≤72 chars. NEVER add Co-Authored-By or AI attribution. Max 2–3 commits per session.\n\n## Security Review Required\nModified security-sensitive code detected (auth, DB, user input). Run /security-review before committing.",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8",
+    "messages_baseline": [
+      {
+        "role": "user",
+        "content": "FastAPI service tries to connect to host postgres and gets connection refused. Both are in docker-compose.yml."
+      },
+      {
+        "role": "assistant",
+        "content": "Services must share a network and postgres must be healthy before api starts. What does your depends_on look like?"
+      },
+      {
+        "role": "user",
+        "content": "depends_on: [postgres]. Connection string: postgresql://user:pass@postgres:5432/mydb. The api starts before postgres is ready."
+      }
+    ],
+    "messages_optimized": [
+      {
+        "role": "user",
+        "content": "FastAPI service tries to connect to host postgres and gets connection refused. Both are in docker-compose.yml."
+      },
+      {
+        "role": "assistant",
+        "content": "Services must share a network and postgres must be healthy before api starts. What does your depends_on look like?"
+      },
+      {
+        "role": "user",
+        "content": "depends_on: [postgres]. Connection string: postgresql://user:pass@postgres:5432/mydb. The api starts before postgres is ready."
+      }
+    ],
+    "user_message": "How do I make the api service wait for postgres to be ready before starting?"
+  },
+  {
+    "id": "skill-mlflow-001",
+    "category": "skill_activation",
+    "name": "MLflow experiment runs not appearing in UI",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8\n\n## [CONTEXT REFRESH — Long Session]\nLong session detected. Core rules reminder:\n- TDD: write tests before code, never adapt tests to fit existing code\n- Hexagonal architecture: core/ must have zero framework imports\n- Commits: subject line only ≤72 chars, NO Co-Authored-By or AI attribution\n- Plan mode is mandatory for any multi-file change or design decision\n- Verify with user before any destructive operation\n- Never expose secrets, tokens or API keys in code or diffs\n- All configuration via environment variables\n\n## [PLAN-MODE REQUIRED — Multi-file Change Detected]\nThis request touches multiple files and requires planning.\nCall EnterPlanMode IMMEDIATELY — before reading files, writing code, or taking any action.\nSteps: (1) Call EnterPlanMode. (2) Explore codebase. (3) Present plan. (4) Wait for approval. (5) Call ExitPlanMode and implement.\n\n## Commit Rules Reminder\nOne commit = one logical stage. Subject line only, ≤72 chars. NEVER add Co-Authored-By or AI attribution. Max 2–3 commits per session.\n\n## Security Review Required\nModified security-sensitive code detected (auth, DB, user input). Run /security-review before committing.",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8",
+    "messages_baseline": [
+      {
+        "role": "user",
+        "content": "Logging with mlflow.log_metric but runs do not appear at localhost:5000."
+      },
+      {
+        "role": "assistant",
+        "content": "Set tracking URI before logging: mlflow.set_tracking_uri('http://localhost:5000'). Verify the server is running."
+      },
+      {
+        "role": "user",
+        "content": "Added set_tracking_uri. Now: ConnectionError: HTTPConnectionPool host=localhost port=5000 Max retries exceeded."
+      }
+    ],
+    "messages_optimized": [
+      {
+        "role": "user",
+        "content": "Logging with mlflow.log_metric but runs do not appear at localhost:5000."
+      },
+      {
+        "role": "assistant",
+        "content": "Set tracking URI before logging: mlflow.set_tracking_uri('http://localhost:5000'). Verify the server is running."
+      },
+      {
+        "role": "user",
+        "content": "Added set_tracking_uri. Now: ConnectionError: HTTPConnectionPool host=localhost port=5000 Max retries exceeded."
+      }
+    ],
+    "user_message": "The MLflow server is running but the client cannot connect. What should I check?"
+  },
+  {
+    "id": "skill-pydantic-001",
+    "category": "skill_activation",
+    "name": "Pydantic v2 model_validator fails on PATCH with partial data",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8\n\n## [CONTEXT REFRESH — Long Session]\nLong session detected. Core rules reminder:\n- TDD: write tests before code, never adapt tests to fit existing code\n- Hexagonal architecture: core/ must have zero framework imports\n- Commits: subject line only ≤72 chars, NO Co-Authored-By or AI attribution\n- Plan mode is mandatory for any multi-file change or design decision\n- Verify with user before any destructive operation\n- Never expose secrets, tokens or API keys in code or diffs\n- All configuration via environment variables\n\n## [PLAN-MODE REQUIRED — Multi-file Change Detected]\nThis request touches multiple files and requires planning.\nCall EnterPlanMode IMMEDIATELY — before reading files, writing code, or taking any action.\nSteps: (1) Call EnterPlanMode. (2) Explore codebase. (3) Present plan. (4) Wait for approval. (5) Call ExitPlanMode and implement.\n\n## Commit Rules Reminder\nOne commit = one logical stage. Subject line only, ≤72 chars. NEVER add Co-Authored-By or AI attribution. Max 2–3 commits per session.\n\n## Security Review Required\nModified security-sensitive code detected (auth, DB, user input). Run /security-review before committing.",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8",
+    "messages_baseline": [
+      {
+        "role": "user",
+        "content": "model_validator mode=after sees None for missing fields on PATCH. I need to validate field combinations."
+      },
+      {
+        "role": "assistant",
+        "content": "Use model_fields_set to check which fields were explicitly provided. For cross-field validation on partials you need the DB state."
+      },
+      {
+        "role": "user",
+        "content": "model_fields_set shows the PATCH fields. But validator needs: if field_a is set, field_b must also exist either in request or in DB."
+      }
+    ],
+    "messages_optimized": [
+      {
+        "role": "user",
+        "content": "model_validator mode=after sees None for missing fields on PATCH. I need to validate field combinations."
+      },
+      {
+        "role": "assistant",
+        "content": "Use model_fields_set to check which fields were explicitly provided. For cross-field validation on partials you need the DB state."
+      },
+      {
+        "role": "user",
+        "content": "model_fields_set shows the PATCH fields. But validator needs: if field_a is set, field_b must also exist either in request or in DB."
+      }
+    ],
+    "user_message": "How do I validate field combinations in Pydantic v2 for PATCH where missing fields live in the database?"
+  },
+  {
+    "id": "skill-mypy-001",
+    "category": "skill_activation",
+    "name": "mypy incompatible type list[Event | None] vs list[Event]",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8\n\n## [CONTEXT REFRESH — Long Session]\nLong session detected. Core rules reminder:\n- TDD: write tests before code, never adapt tests to fit existing code\n- Hexagonal architecture: core/ must have zero framework imports\n- Commits: subject line only ≤72 chars, NO Co-Authored-By or AI attribution\n- Plan mode is mandatory for any multi-file change or design decision\n- Verify with user before any destructive operation\n- Never expose secrets, tokens or API keys in code or diffs\n- All configuration via environment variables\n\n## [PLAN-MODE REQUIRED — Multi-file Change Detected]\nThis request touches multiple files and requires planning.\nCall EnterPlanMode IMMEDIATELY — before reading files, writing code, or taking any action.\nSteps: (1) Call EnterPlanMode. (2) Explore codebase. (3) Present plan. (4) Wait for approval. (5) Call ExitPlanMode and implement.\n\n## Commit Rules Reminder\nOne commit = one logical stage. Subject line only, ≤72 chars. NEVER add Co-Authored-By or AI attribution. Max 2–3 commits per session.\n\n## Security Review Required\nModified security-sensitive code detected (auth, DB, user input). Run /security-review before committing.",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8",
+    "messages_baseline": [
+      {
+        "role": "user",
+        "content": "mypy error: Argument 1 to process_events has incompatible type list[Event | None]; expected list[Event]"
+      },
+      {
+        "role": "assistant",
+        "content": "Filter Nones before passing: [e for e in events if e is not None]. Or change the signature to accept Optional items."
+      },
+      {
+        "role": "user",
+        "content": "Events come from DB. Mapping Row to Event can return None if row is malformed. So the list is genuinely List[Event | None] at that stage."
+      }
+    ],
+    "messages_optimized": [
+      {
+        "role": "user",
+        "content": "mypy error: Argument 1 to process_events has incompatible type list[Event | None]; expected list[Event]"
+      },
+      {
+        "role": "assistant",
+        "content": "Filter Nones before passing: [e for e in events if e is not None]. Or change the signature to accept Optional items."
+      },
+      {
+        "role": "user",
+        "content": "Events come from DB. Mapping Row to Event can return None if row is malformed. So the list is genuinely List[Event | None] at that stage."
+      }
+    ],
+    "user_message": "What is the cleanest pattern to handle List[T | None] to List[T] with mypy strict mode?"
+  },
+  {
+    "id": "skill-alembic-001",
+    "category": "skill_activation",
+    "name": "Alembic migration fails adding NOT NULL column to existing data",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8\n\n## [CONTEXT REFRESH — Long Session]\nLong session detected. Core rules reminder:\n- TDD: write tests before code, never adapt tests to fit existing code\n- Hexagonal architecture: core/ must have zero framework imports\n- Commits: subject line only ≤72 chars, NO Co-Authored-By or AI attribution\n- Plan mode is mandatory for any multi-file change or design decision\n- Verify with user before any destructive operation\n- Never expose secrets, tokens or API keys in code or diffs\n- All configuration via environment variables\n\n## [PLAN-MODE REQUIRED — Multi-file Change Detected]\nThis request touches multiple files and requires planning.\nCall EnterPlanMode IMMEDIATELY — before reading files, writing code, or taking any action.\nSteps: (1) Call EnterPlanMode. (2) Explore codebase. (3) Present plan. (4) Wait for approval. (5) Call ExitPlanMode and implement.\n\n## Commit Rules Reminder\nOne commit = one logical stage. Subject line only, ≤72 chars. NEVER add Co-Authored-By or AI attribution. Max 2–3 commits per session.\n\n## Security Review Required\nModified security-sensitive code detected (auth, DB, user input). Run /security-review before committing.",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8",
+    "messages_baseline": [
+      {
+        "role": "user",
+        "content": "Adding NOT NULL column tenant_id to table with 50k rows. Migration fails: column contains null values."
+      },
+      {
+        "role": "assistant",
+        "content": "Split into: (1) add nullable with server default, (2) backfill, (3) add NOT NULL constraint as separate migrations."
+      },
+      {
+        "role": "user",
+        "content": "Split exactly that way. First migration adds nullable. Second backfills. Third sets NOT NULL. Third still fails on staging."
+      }
+    ],
+    "messages_optimized": [
+      {
+        "role": "user",
+        "content": "Adding NOT NULL column tenant_id to table with 50k rows. Migration fails: column contains null values."
+      },
+      {
+        "role": "assistant",
+        "content": "Split into: (1) add nullable with server default, (2) backfill, (3) add NOT NULL constraint as separate migrations."
+      },
+      {
+        "role": "user",
+        "content": "Split exactly that way. First migration adds nullable. Second backfills. Third sets NOT NULL. Third still fails on staging."
+      }
+    ],
+    "user_message": "Backfill ran but NOT NULL constraint still fails on staging. What could cause this?"
+  },
+  {
+    "id": "skill-qdrant-001",
+    "category": "skill_activation",
+    "name": "Qdrant search returns irrelevant results despite high similarity",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8\n\n## [CONTEXT REFRESH — Long Session]\nLong session detected. Core rules reminder:\n- TDD: write tests before code, never adapt tests to fit existing code\n- Hexagonal architecture: core/ must have zero framework imports\n- Commits: subject line only ≤72 chars, NO Co-Authored-By or AI attribution\n- Plan mode is mandatory for any multi-file change or design decision\n- Verify with user before any destructive operation\n- Never expose secrets, tokens or API keys in code or diffs\n- All configuration via environment variables\n\n## [PLAN-MODE REQUIRED — Multi-file Change Detected]\nThis request touches multiple files and requires planning.\nCall EnterPlanMode IMMEDIATELY — before reading files, writing code, or taking any action.\nSteps: (1) Call EnterPlanMode. (2) Explore codebase. (3) Present plan. (4) Wait for approval. (5) Call ExitPlanMode and implement.\n\n## Commit Rules Reminder\nOne commit = one logical stage. Subject line only, ≤72 chars. NEVER add Co-Authored-By or AI attribution. Max 2–3 commits per session.\n\n## Security Review Required\nModified security-sensitive code detected (auth, DB, user input). Run /security-review before committing.",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8",
+    "messages_baseline": [
+      {
+        "role": "user",
+        "content": "Semantic search over 100k docs returns cosine similarity over 0.85 but clearly wrong results. Query: FastAPI dependency injection patterns."
+      },
+      {
+        "role": "assistant",
+        "content": "High score with wrong results usually means embedding model mismatch. How were docs indexed vs how are queries embedded?"
+      },
+      {
+        "role": "user",
+        "content": "Docs used text-embedding-ada-002. Queries use text-embedding-3-small. Different OpenAI generations with incompatible embedding spaces."
+      }
+    ],
+    "messages_optimized": [
+      {
+        "role": "user",
+        "content": "Semantic search over 100k docs returns cosine similarity over 0.85 but clearly wrong results. Query: FastAPI dependency injection patterns."
+      },
+      {
+        "role": "assistant",
+        "content": "High score with wrong results usually means embedding model mismatch. How were docs indexed vs how are queries embedded?"
+      },
+      {
+        "role": "user",
+        "content": "Docs used text-embedding-ada-002. Queries use text-embedding-3-small. Different OpenAI generations with incompatible embedding spaces."
+      }
+    ],
+    "user_message": "How do I migrate 100k document embeddings from ada-002 to text-embedding-3-small without search downtime?"
+  },
+  {
+    "id": "skill-infra-001",
+    "category": "skill_activation",
+    "name": "Terraform YC Serverless Container 403 PermissionDenied",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8\n\n## [CONTEXT REFRESH — Long Session]\nLong session detected. Core rules reminder:\n- TDD: write tests before code, never adapt tests to fit existing code\n- Hexagonal architecture: core/ must have zero framework imports\n- Commits: subject line only ≤72 chars, NO Co-Authored-By or AI attribution\n- Plan mode is mandatory for any multi-file change or design decision\n- Verify with user before any destructive operation\n- Never expose secrets, tokens or API keys in code or diffs\n- All configuration via environment variables\n\n## [PLAN-MODE REQUIRED — Multi-file Change Detected]\nThis request touches multiple files and requires planning.\nCall EnterPlanMode IMMEDIATELY — before reading files, writing code, or taking any action.\nSteps: (1) Call EnterPlanMode. (2) Explore codebase. (3) Present plan. (4) Wait for approval. (5) Call ExitPlanMode and implement.\n\n## Commit Rules Reminder\nOne commit = one logical stage. Subject line only, ≤72 chars. NEVER add Co-Authored-By or AI attribution. Max 2–3 commits per session.\n\n## Security Review Required\nModified security-sensitive code detected (auth, DB, user input). Run /security-review before committing.",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets\n\n## Session Environment\nPlatform: linux | Shell: bash | Python: python3 | Sessions: 8",
+    "messages_baseline": [
+      {
+        "role": "user",
+        "content": "terraform apply fails: rpc error code=PermissionDenied. Service account exists."
+      },
+      {
+        "role": "assistant",
+        "content": "The Terraform SA needs serverless.containers.admin. The runtime execution SA needs iam.serviceAccounts.user on itself."
+      },
+      {
+        "role": "user",
+        "content": "Terraform SA has serverless.containers.admin. Execution SA has container-registry.images.puller. Still 403."
+      }
+    ],
+    "messages_optimized": [
+      {
+        "role": "user",
+        "content": "terraform apply fails: rpc error code=PermissionDenied. Service account exists."
+      },
+      {
+        "role": "assistant",
+        "content": "The Terraform SA needs serverless.containers.admin. The runtime execution SA needs iam.serviceAccounts.user on itself."
+      },
+      {
+        "role": "user",
+        "content": "Terraform SA has serverless.containers.admin. Execution SA has container-registry.images.puller. Still 403."
+      }
+    ],
+    "user_message": "Which exact IAM roles does the execution service account need to run a YC Serverless Container?"
+  },
+  {
+    "id": "nofilter-git-status-001",
+    "category": "no_filter_expected",
+    "name": "git status short output no filter applies",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "messages_baseline": [
+      {
+        "role": "user",
+        "content": "Check the current git status before we commit."
+      },
+      {
+        "role": "assistant",
+        "content": "Running git status to see staged and unstaged files."
+      }
+    ],
+    "messages_optimized": [
+      {
+        "role": "user",
+        "content": "Check the current git status before we commit."
+      },
+      {
+        "role": "assistant",
+        "content": "Running git status to see staged and unstaged files."
+      }
+    ],
+    "user_message": "The output shows 3 modified files and 1 untracked. Which should we stage?"
+  },
+  {
+    "id": "nofilter-ls-001",
+    "category": "no_filter_expected",
+    "name": "ls directory listing no filter applies",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "messages_baseline": [
+      {
+        "role": "user",
+        "content": "List the contents of the src/ directory."
+      },
+      {
+        "role": "assistant",
+        "content": "Listing src/ to see the project structure."
+      }
+    ],
+    "messages_optimized": [
+      {
+        "role": "user",
+        "content": "List the contents of the src/ directory."
+      },
+      {
+        "role": "assistant",
+        "content": "Listing src/ to see the project structure."
+      }
+    ],
+    "user_message": "What is the purpose of each subdirectory shown?"
+  },
+  {
+    "id": "nofilter-cat-001",
+    "category": "no_filter_expected",
+    "name": "cat pyproject.toml file read no filter applies",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "messages_baseline": [
+      {
+        "role": "user",
+        "content": "Show me pyproject.toml to check project dependencies."
+      },
+      {
+        "role": "assistant",
+        "content": "Reading pyproject.toml."
+      }
+    ],
+    "messages_optimized": [
+      {
+        "role": "user",
+        "content": "Show me pyproject.toml to check project dependencies."
+      },
+      {
+        "role": "assistant",
+        "content": "Reading pyproject.toml."
+      }
+    ],
+    "user_message": "Which dependencies are under dev? Are any outdated?"
+  },
+  {
+    "id": "nofilter-echo-001",
+    "category": "no_filter_expected",
+    "name": "echo trivial output no filter applies",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "messages_baseline": [
+      {
+        "role": "user",
+        "content": "Print the current working directory path."
+      },
+      {
+        "role": "assistant",
+        "content": "Echoing the current path."
+      }
+    ],
+    "messages_optimized": [
+      {
+        "role": "user",
+        "content": "Print the current working directory path."
+      },
+      {
+        "role": "assistant",
+        "content": "Echoing the current path."
+      }
+    ],
+    "user_message": "Is this the correct project root we should be working from?"
+  },
+  {
+    "id": "nofilter-python-version-001",
+    "category": "no_filter_expected",
+    "name": "python version check short output no filter applies",
+    "system_prompt_baseline": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "system_prompt_optimized": "You are a senior ML engineer. Tech stack: Python + FastAPI + pytest + Docker + Hexagonal Architecture.\n\nRules:\n- TDD: always write tests first, never adapt tests to code\n- Hexagonal arch: no framework imports in core/\n- Commits: subject line only, ≤72 chars, NO Co-Authored-By footers\n- Plan mode required for multi-file changes\n- Never hardcode secrets",
+    "messages_baseline": [
+      {
+        "role": "user",
+        "content": "Verify which Python version is active in this environment."
+      },
+      {
+        "role": "assistant",
+        "content": "Checking the Python version."
+      }
+    ],
+    "messages_optimized": [
+      {
+        "role": "user",
+        "content": "Verify which Python version is active in this environment."
+      },
+      {
+        "role": "assistant",
+        "content": "Checking the Python version."
+      }
+    ],
+    "user_message": "Is Python 3.11+ available? The project requires it for match statements."
   }
 ]
