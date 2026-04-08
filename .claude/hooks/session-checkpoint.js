@@ -3,7 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const DEFAULT_THRESHOLD = 40;
+const DEFAULT_THRESHOLD = 25;
 const DEPS_REMINDER_INTERVAL = 20;
 
 let _i18n;

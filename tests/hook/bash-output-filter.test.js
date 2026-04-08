@@ -29,11 +29,13 @@ describe("Whitelist matching", () => {
   beforeEach(() => { tmpDir = makeTempDir(); });
   afterEach(() => { cleanup(tmpDir); });
 
-  test("pytest → appends grep filter", () => {
+  test("pytest → appends grep filter with PASSED/FAILED and tail -80", () => {
     const result = main(makeInput("pytest tests/"), tmpDir);
     expect(result.updatedInput).toBeDefined();
     expect(result.updatedInput.command).toContain("grep -E");
-    expect(result.updatedInput.command).toContain("tail -60");
+    expect(result.updatedInput.command).toContain("PASSED");
+    expect(result.updatedInput.command).toContain("FAILED");
+    expect(result.updatedInput.command).toContain("tail -80");
   });
 
   test("git log → appends head -30", () => {
@@ -55,11 +57,43 @@ describe("Whitelist matching", () => {
     expect(result.updatedInput.command).toContain("tail -50");
   });
 
-  test("pip install → appends grep filter", () => {
+  test("pip install → appends grep filter with Requirement already", () => {
     const result = main(makeInput("pip install requests"), tmpDir);
     expect(result.updatedInput).toBeDefined();
     expect(result.updatedInput.command).toContain("grep -E");
-    expect(result.updatedInput.command).toContain("Successfully installed");
+    expect(result.updatedInput.command).toContain("Requirement already");
+  });
+
+  test("npm install → appends grep filter with tail -20", () => {
+    const result = main(makeInput("npm install axios"), tmpDir);
+    expect(result.updatedInput).toBeDefined();
+    expect(result.updatedInput.command).toContain("grep -E");
+    expect(result.updatedInput.command).toContain("tail -20");
+  });
+
+  test("docker build → appends tail -30", () => {
+    const result = main(makeInput("docker build -t myapp ."), tmpDir);
+    expect(result.updatedInput).toBeDefined();
+    expect(result.updatedInput.command).toContain("tail -30");
+  });
+
+  test("uv sync → appends tail -40", () => {
+    const result = main(makeInput("uv sync"), tmpDir);
+    expect(result.updatedInput).toBeDefined();
+    expect(result.updatedInput.command).toContain("tail -40");
+  });
+
+  test("mypy → appends grep filter with tail -30", () => {
+    const result = main(makeInput("mypy src/"), tmpDir);
+    expect(result.updatedInput).toBeDefined();
+    expect(result.updatedInput.command).toContain("grep -E");
+    expect(result.updatedInput.command).toContain("tail -30");
+  });
+
+  test("ruff check → appends tail -25", () => {
+    const result = main(makeInput("ruff check ."), tmpDir);
+    expect(result.updatedInput).toBeDefined();
+    expect(result.updatedInput.command).toContain("tail -25");
   });
 });
 
@@ -121,16 +155,21 @@ describe("Command wrapping format", () => {
   beforeEach(() => { tmpDir = makeTempDir(); });
   afterEach(() => { cleanup(tmpDir); });
 
-  test("wrapped command uses ( original ) syntax", () => {
+  test("wrapped command uses { original; } syntax", () => {
     const result = main(makeInput("pytest tests/unit/"), tmpDir);
     const cmd = result.updatedInput.command;
-    expect(cmd).toMatch(/^\( pytest tests\/unit\/ \)/);
+    expect(cmd).toMatch(/^\{ pytest tests\/unit\/; \}/);
   });
 
-  test("wrapped command preserves original command exactly inside parens", () => {
+  test("wrapped command preserves original command exactly inside braces", () => {
     const result = main(makeInput("git log --oneline --graph"), tmpDir);
     const cmd = result.updatedInput.command;
-    expect(cmd).toContain("( git log --oneline --graph )");
+    expect(cmd).toContain("{ git log --oneline --graph; }");
+  });
+
+  test("wrapped command includes || true fallback", () => {
+    const result = main(makeInput("pytest tests/"), tmpDir);
+    expect(result.updatedInput.command).toContain("|| true");
   });
 });
 

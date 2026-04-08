@@ -56,7 +56,7 @@ describe("ExitPlanMode trigger", () => {
 
   test("resets compact_signal_sent after ExitPlanMode", () => {
     const sid = "csr-reset";
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 25; i++) {
       main(JSON.stringify({ tool_name: "Read", session_id: sid }), tmpDir);
     }
     let cache = readCache(tmpDir, sid);
@@ -72,17 +72,17 @@ describe("Threshold trigger", () => {
   beforeEach(() => { tmpDir = makeTempDir(); });
   afterEach(() => { cleanup(tmpDir); });
 
-  test("no trigger at call 39", () => {
-    for (let i = 0; i < 39; i++) {
+  test("no trigger at call 24", () => {
+    for (let i = 0; i < 24; i++) {
       main(JSON.stringify({ tool_name: "Read", session_id: "s2" }), tmpDir);
     }
     const cache = readCache(tmpDir, "s2");
-    expect(cache.tool_call_count).toBe(39);
+    expect(cache.tool_call_count).toBe(24);
     expect(cache.last_checkpoint_count).toBe(0);
   });
 
-  test("triggers at call 40", () => {
-    for (let i = 0; i < 39; i++) {
+  test("triggers at call 25", () => {
+    for (let i = 0; i < 24; i++) {
       main(JSON.stringify({ tool_name: "Edit", session_id: "s3" }), tmpDir);
     }
     const result = main(JSON.stringify({ tool_name: "Bash", session_id: "s3" }), tmpDir);
@@ -92,33 +92,33 @@ describe("Threshold trigger", () => {
     expect(result.system_prompt_addition).toContain("/compact");
   });
 
-  test("threshold updates cache correctly at call 40", () => {
-    for (let i = 0; i < 40; i++) {
+  test("threshold updates cache correctly at call 25", () => {
+    for (let i = 0; i < 25; i++) {
       main(JSON.stringify({ tool_name: "Read", session_id: "s4" }), tmpDir);
     }
     const cache = readCache(tmpDir, "s4");
-    expect(cache.last_checkpoint_count).toBe(40);
+    expect(cache.last_checkpoint_count).toBe(25);
     expect(cache.compact_signal_sent).toBe(true);
   });
 
   test("threshold fires only once (one-shot) — no second trigger without ExitPlanMode", () => {
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 25; i++) {
       main(JSON.stringify({ tool_name: "Read", session_id: "s-oneshot" }), tmpDir);
     }
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 25; i++) {
       const r = main(JSON.stringify({ tool_name: "Edit", session_id: "s-oneshot" }), tmpDir);
       expect(r.system_prompt_addition).toBeUndefined();
     }
   });
 
-  test("ExitPlanMode resets compact_signal_sent — threshold fires again after 40 more calls", () => {
+  test("ExitPlanMode resets compact_signal_sent — threshold fires again after 25 more calls", () => {
     for (let i = 0; i < 4; i++) {
       main(JSON.stringify({ tool_name: "Read", session_id: "thr-reset" }), tmpDir);
     }
     const r1 = main(JSON.stringify({ tool_name: "ExitPlanMode", session_id: "thr-reset" }), tmpDir);
     expect(r1.system_prompt_addition).toContain("Plan Approved");
 
-    for (let i = 0; i < 39; i++) {
+    for (let i = 0; i < 24; i++) {
       const r = main(JSON.stringify({ tool_name: "Edit", session_id: "thr-reset" }), tmpDir);
       expect(r.system_prompt_addition).toBeUndefined();
     }
