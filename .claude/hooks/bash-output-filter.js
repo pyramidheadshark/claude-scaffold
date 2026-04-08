@@ -38,7 +38,10 @@ function main(inputStr, cwd) {
     if (!rule) return { action: "continue" };
 
     const originalCommand = command;
-    const wrappedCommand = `( ${originalCommand} ) ${rule.append}`;
+    const safeAppend = rule.append.trimEnd().endsWith("|| true")
+      ? rule.append
+      : rule.append + " || true";
+    const wrappedCommand = `{ ${originalCommand}; } ${safeAppend}`;
 
     appendLog(cwd, {
       ts: new Date().toISOString(),
