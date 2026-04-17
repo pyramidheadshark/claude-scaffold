@@ -10,8 +10,8 @@ Three things in one repo: **scaffolding** (22 skills, profiles, hooks deployed t
 [![npm](https://img.shields.io/npm/v/claude-scaffold?label=npm&color=blue)](https://www.npmjs.com/package/claude-scaffold)
 [![npm downloads](https://img.shields.io/npm/dm/claude-scaffold?color=blue)](https://www.npmjs.com/package/claude-scaffold)
 ![Token Savings](https://img.shields.io/badge/token%20savings-71.4%25-brightgreen)
-![Jest Tests](https://img.shields.io/badge/Jest-554%20tests-brightgreen)
-![Python Tests](https://img.shields.io/badge/Python-59%20tests-blue)
+![Jest Tests](https://img.shields.io/badge/Jest-563%20tests-brightgreen)
+![Python Tests](https://img.shields.io/badge/Python-62%20tests-blue)
 ![Skills](https://img.shields.io/badge/skills-22-orange)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![Node](https://img.shields.io/badge/node-18%2B-green)
@@ -161,7 +161,7 @@ On every Claude Code prompt, hooks automatically inject `dev/status.md`, match t
 | `design-doc-creator` | *Meta — manual only, not auto-loaded* |
 | `skill-developer` | *Meta — manual only, not auto-loaded* |
 
-### 9 Agents · 5 Commands · 7 Hooks
+### 9 Agents · 5 Commands · 8 Hooks
 
 Agents: `design-doc-architect` · `test-architect` · `multimodal-analyzer` · `code-reviewer` · `infra-provisioner` · `refactor-planner` · `project-status-reporter` · `debug-assistant` · `status-updater`
 
@@ -173,8 +173,9 @@ Commands: `/init-design-doc` · `/new-project` · `/review` · `/dev-status` · 
 | `session-safety.js` | PreToolUse | Classify Bash commands (CRITICAL/MODERATE/SAFE), create git snapshots |
 | `bash-output-filter.js` | PreToolUse | Wrap verbose commands with output filters |
 | `session-start.js` | SessionStart | Detect platform (win32/unix), inject Windows rules, onboarding |
-| `session-checkpoint.js` | PostToolUse | Auto-checkpoint at plan approval or at call 25 |
-| `post-tool-use-tracker.js` | PostToolUse | Log tool calls to `.claude/logs/` |
+| `session-checkpoint.js` | PostToolUse | Auto-checkpoint at plan approval; fires compact signal when context is critical |
+| `post-tool-use-tracker.js` | PostToolUse (Bash\|Edit\|Write) | Log tool calls to `.claude/logs/` |
+| `session-status-monitor.js` | StatusLine | Display `ctx: ⚠ X%` in status bar; writes `context_critical` flag to session cache |
 | `python-quality-check.js` | Stop | Run ruff + mypy at session end |
 
 ### Session Safety
@@ -316,7 +317,7 @@ echo '{"prompt":"pyproject.toml ruff setup"}' | node .claude/hooks/skill-activat
 ## Running Tests
 
 ```bash
-npm test                          # 554 Jest + 59 Python
+npm test                          # 563 Jest + 62 Python
 npm run test:hook                 # hook tests only
 npm run check:budget              # verify all skills under 300 lines
 npm run metrics                   # skill load frequency report

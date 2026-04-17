@@ -10,8 +10,8 @@
 [![npm](https://img.shields.io/npm/v/claude-scaffold?label=npm&color=blue)](https://www.npmjs.com/package/claude-scaffold)
 [![npm downloads](https://img.shields.io/npm/dm/claude-scaffold?color=blue)](https://www.npmjs.com/package/claude-scaffold)
 ![Token Savings](https://img.shields.io/badge/экономия%20токенов-71.4%25-brightgreen)
-![Jest Tests](https://img.shields.io/badge/Jest-534%20tests-brightgreen)
-![Python Tests](https://img.shields.io/badge/Python-59%20tests-blue)
+![Jest Tests](https://img.shields.io/badge/Jest-563%20tests-brightgreen)
+![Python Tests](https://img.shields.io/badge/Python-62%20tests-blue)
 ![Skills](https://img.shields.io/badge/skills-22-orange)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![Node](https://img.shields.io/badge/node-18%2B-green)
@@ -176,7 +176,7 @@ Org-профили хранятся в `org-profiles/<org-name>/` в scaffold-р
 
 `/init-design-doc` · `/new-project` · `/review` · `/dev-status`
 
-### 7 Хуков
+### 8 Хуков
 
 | Хук | Событие | Действие |
 |---|---|---|
@@ -184,8 +184,9 @@ Org-профили хранятся в `org-profiles/<org-name>/` в scaffold-р
 | `session-safety.js` | PreToolUse | Классификация Bash-команд (CRITICAL/MODERATE/SAFE), создание git-снапшотов |
 | `bash-output-filter.js` | PreToolUse | Оборачивает verbose-команды (pytest, git log, docker build и др.) фильтрами вывода |
 | `session-start.js` | SessionStart | Определение платформы (win32/unix), инъекция Windows-правил, онбординг |
-| `session-checkpoint.js` | PostToolUse | Авто-чекпоинт при подтверждении плана или на вызове 25 (настраивается через `SCAFFOLD_COMPACT_THRESHOLD`) |
-| `post-tool-use-tracker.js` | PostToolUse | Логирование вызовов инструментов в `.claude/logs/` |
+| `session-checkpoint.js` | PostToolUse | Авто-чекпоинт при подтверждении плана; сигнал compact при критическом уровне контекста |
+| `post-tool-use-tracker.js` | PostToolUse (Bash\|Edit\|Write) | Логирование вызовов инструментов в `.claude/logs/` |
+| `session-status-monitor.js` | StatusLine | Отображает `ctx: ⚠ X%` в статусбаре; записывает флаг `context_critical` в session cache |
 | `python-quality-check.js` | Stop | Запуск ruff + mypy при завершении сессии |
 
 ### Безопасность сессий
@@ -324,12 +325,12 @@ rules:
 { "env": { "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1" }, "showClearContextOnPlanAccept": true }
 ```
 
-### Сигнал компактизации
+### Мониторинг контекста
 
-`session-checkpoint.js` напоминает запустить `/compact` на вызове 25 (один раз за сессию). Настраивается:
+`session-status-monitor.js` (StatusLine хук) отображает заполненность контекстного окна в статусбаре Claude Code: `ctx: 82%` или `ctx: ⚠ 18%` при критическом уровне. При достижении порога (по умолчанию ≤ 20% осталось) автоматически записывает флаг `context_critical` в session cache — `session-checkpoint.js` читает его на следующем вызове инструмента и инжектирует compact-сигнал с напоминанием сохранить статус и использовать кнопку "Clear context". Порог настраивается:
 
 ```bash
-SCAFFOLD_COMPACT_THRESHOLD=20 claude  # свой порог
+SCAFFOLD_CONTEXT_THRESHOLD=30 claude  # срабатывать при ≤ 30% оставшегося
 ```
 
 ### Маршрутизация модели агента (opt-in)
@@ -489,7 +490,7 @@ claude-scaffold/
 ## Запуск тестов
 
 ```bash
-npm test                          # 534 Jest + 59 Python
+npm test                          # 563 Jest + 62 Python
 npm run test:hook                 # только тесты хуков
 npm run check:budget              # проверить что все скиллы < 300 строк
 npm run metrics                   # отчёт по частоте загрузки скиллов

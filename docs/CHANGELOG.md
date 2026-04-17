@@ -5,6 +5,27 @@ Format: [Semantic Versioning](https://semver.org/).
 
 ---
 
+## v2.4.0 — 2026-04-17
+
+### Added
+- **StatusLine hook `session-status-monitor.js`** — displays `ctx: ⚠ X%` (or `ctx: X%`) in the Claude Code status bar after every API response. Writes `context_critical: bool` and `context_remaining_pct` to session checkpoint cache. Threshold default 20% remaining; configurable via `SCAFFOLD_CONTEXT_THRESHOLD` env var.
+- **Token-aware compact signal** — `session-checkpoint.js` reads `context_critical` from cache on each PostToolUse event. When `true`, injects a compact signal into `additionalContext` with instructions to update `dev/status.md` and use the "Clear context" button. Replaces the unreliable 25-message count heuristic.
+- `statusLine` top-level key written to `settings.json` on `init`/`update` (non-overwrite). Note: `statusLine` is a top-level settings.json property, not a hook event inside `hooks`.
+
+### Changed
+- **PostToolUse matchers split** — `post-tool-use-tracker.js` now fires on `Bash|Edit|Write` only (was `.*`). Fixes `uv_spawn EUNKNOWN` errors on Windows caused by spawning two Node processes on every Read/Glob/Grep.
+- `session-checkpoint.js` — removed `DEFAULT_THRESHOLD = 25`, `SCAFFOLD_COMPACT_THRESHOLD` env var, and `compact_signal_sent` one-shot logic. Now purely driven by the `context_critical` flag.
+- `i18n.js` (EN + RU, both copies) — `compact_required_body` no longer instructs `/compact` before Step 1; now references the "Clear context" button. `threshold_body` shows remaining `%` instead of threshold value. `buildThresholdCheckpointBlock(pct, lang)` signature updated.
+- `CLAUDE.md` — two new "What You Never Do" rules: `MSYS_NO_PATHCONV=1 gh api` for Windows Git Bash path mangling, and SSH host aliases instead of raw IPs.
+
+### Tests
+- +10 Jest (`tests/hook/session-status-monitor.test.js`) — context_critical flag, stdout format, custom threshold env, robustness, cache merge.
+- +3 Jest (`tests/hook/session-checkpoint.test.js`) — context_critical trigger, pct display, Clear context text, no false positive.
+- +1 Python (`tests/infra/test_infra.py`) — `test_deploy_settings_has_status_line`, `test_deploy_post_tool_use_split_matchers`.
+- Total: 563 Jest + 62 Python, all green.
+
+---
+
 ## v2.3.1 — 2026-04-15
 
 ### Fixed
