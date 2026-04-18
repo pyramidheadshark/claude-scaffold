@@ -45,22 +45,23 @@
 | `lib/tui/index.js` + `bin/cli.js tui` | ✅ | `37a1246` |
 | Config actions: effort picker, summaries toggle, `update` | ✅ | `0a12734` |
 | Config redesign: Profiles / Org Profiles / Commands / Repos | ✅ | `b7798dd` |
-| `@lydell/node-pty` install + AgentPool orchestrator | ✅ | pending |
-| `session-safety.js` — `[SCAFFOLD:BLOCKED]` маркер в reason | ✅ | pending |
-| `lib/tui/overlays/drill-in.js` — PTY overlay | ✅ | pending |
-| `lib/tui/panels/agents.js` — AgentsPanel | ✅ | pending |
-| `lib/tui/orchestrator/task-queue.js` — JSON queue | ✅ | pending |
-| Tab-переключение Config ↔ Agents в `index.js` | ✅ | pending |
+| `@lydell/node-pty` install + AgentPool orchestrator | ✅ | `b9855f5` |
+| `session-safety.js` — `[SCAFFOLD:BLOCKED]` маркер в reason | ✅ | `b9855f5` |
+| `lib/tui/overlays/drill-in.js` — PTY overlay (blessed-xterm) | ✅ | `8832938`..`6510925` |
+| `lib/tui/panels/agents.js` — AgentsPanel | ✅ | `b9855f5` |
+| `lib/tui/orchestrator/task-queue.js` — JSON queue | ✅ | `b9855f5` |
+| Tab-переключение Config ↔ Agents в `index.js` | ✅ | `b9855f5` |
 | **Pipeline panel** | 🔲 | — |
 | **Artifacts panel** | 🔲 | — |
 | **task-runner.js** — авто-назначение задач из queue агентам | 🔲 | — |
 
 **Архитектура (Session 9):**
-- AgentPool: `@lydell/node-pty`, graceful fallback, state machine idle→running→blocked→done/stopped
-- DrillIn overlay: `screen.grabKeys=true`, все клавиши → PTY stdin, ESC выход
+- AgentPool: `@lydell/node-pty`, graceful fallback, state machine running→blocked→done/stopped
+- DrillIn overlay: **`blessed-xterm`** с xterm.js v2.8.1 — полная ANSI эмуляция. `shell: null` + override `injectInput` → внешний PTY агента. `screen.grabKeys=true`, Ctrl+Q выход. Scroll mode отключён (`_scrollingStart = no-op`)
 - `[SCAFFOLD:BLOCKED]` парсится из PTY output → agent.status = blocked → уведомление в statusBar
 - TaskQueue: atomic write via `.tmp` + `fs.renameSync` → `~/.claude-scaffold/tasks.json`
 - Tab key переключает Config/Agents; drill-in защищает Tab/q от bubble
+- `pnpm.onlyBuiltDependencies` + `patchedDependencies` (`patches/blessed-xterm@1.5.1.patch`): clone→JSON.parse (Node.js 24), strip underline bit, resize sync
 
 **Оставшееся:**
 - `lib/tui/panels/pipeline.js` — очередь задач + ручное добавление
@@ -190,12 +191,12 @@
 ## Current State (2026-04-18)
 
 - **v2.4.0 PUBLISHED** npm@2.4.0 (2026-04-17), main HEAD = `e70f1af`
-- **feature/wyndace-hub-profiles-tools HEAD: `b7798dd`** — Scaffold TUI MVP Config panel
+- **feature/wyndace-hub-profiles-tools HEAD: `6510925`** — Scaffold TUI Agents + DrillIn (blessed-xterm)
 - **578 tests** (563 Jest existing + 15 новых TUI), 0 failed
 - **30 repos** на `0042d55` (v2.4.0) — все up to date
-- `claude-scaffold tui` команда работает: Config panel с профилями, командами, репо
-- `blessed ^0.1.81` добавлен как runtime dep
-- Следующий шаг: Agents + Pipeline + DrillIn + Artifacts панели
+- `claude-scaffold tui` работает: Config + Agents panels, drill-in с xterm.js эмуляцией
+- `blessed-xterm@1.5.1` добавлен как runtime dep + патч для Node.js 24
+- Следующий шаг: Pipeline + Artifacts panels, task-runner.js
 
 ### npm publish path:
 ```bash
