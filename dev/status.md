@@ -191,12 +191,12 @@
 ## Current State (2026-04-18)
 
 - **v2.4.0 PUBLISHED** npm@2.4.0 (2026-04-17), main HEAD = `e70f1af`
-- **feature/wyndace-hub-profiles-tools HEAD: `6510925`** — Scaffold TUI Agents + DrillIn (blessed-xterm)
+- **feature/wyndace-hub-profiles-tools HEAD: `2b4b3dc`** — Agents panel с XTerm (live preview + interact mode)
 - **578 tests** (563 Jest existing + 15 новых TUI), 0 failed
 - **30 repos** на `0042d55` (v2.4.0) — все up to date
-- `claude-scaffold tui` работает: Config + Agents panels, drill-in с xterm.js эмуляцией
-- `blessed-xterm@1.5.1` добавлен как runtime dep + патч для Node.js 24
-- Следующий шаг: Pipeline + Artifacts panels, task-runner.js
+- `claude-scaffold tui` работает: Config + Agents panels, live XTerm preview, Enter=interact Ctrl+Q=exit
+- `blessed-xterm@1.5.1` + патч (Node.js 24 compat, no underline, no scroll mode)
+- **Следующий шаг: Pipeline panel** (`lib/tui/panels/pipeline.js`) — отображение task-queue + ручное добавление задач
 
 ### npm publish path:
 ```bash
