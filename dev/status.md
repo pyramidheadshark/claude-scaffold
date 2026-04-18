@@ -20,7 +20,55 @@
 
 ## Current Phase
 
-**v2.4.0 — ПОЛНОСТЬЮ ЗАВЕРШЕНО (2026-04-17, Session 8)**
+**Active** — feature/wyndace-hub-profiles-tools (контрибьютор: @wyndace). Базируется на v2.4.0.
+
+### Планируемые фичи
+
+| Приоритет | Фича | Описание | Статус |
+|---|---|---|---|
+| 🔴 1 | **Scaffold TUI inside Claude Code** | Интерактивный TUI как slash-команда `/scaffold` — управление проектами, профилями, тулзами прямо из Claude Code с Claude как бэкендом; встроенный оркестратор для параллельного/последовательного запуска нескольких `claude --print` инстансов по репо | 🟡 В процессе — см. Session 9 |
+| 🟡 2 | **Tools manager + Skill search** | Дать URL → авто-определить тип (MCP/OpenAPI/GitHub/docs) → сгенерировать skill + обновить `skill-rules.json` → инструмент сразу участвует в skill injection | 🔲 Не начато |
+| 🟡 3 | **Profile switcher** | `npx claude-scaffold switch <profile>` — смена профиля в уже задеплоенном проекте без полного переинита | 🔲 Не начато |
+| 🟢 4 | **Hub org-profile** | CLAUDE.md-шаблон для hub-типа в org-profiles + CLI-команда для переключения между проектами | 🔲 Не начато |
+
+---
+
+### Session 9 — В ПРОЦЕССЕ (2026-04-18)
+
+**Фича: Scaffold TUI** — `claude-scaffold tui`, ветка `feature/wyndace-hub-profiles-tools`
+
+| Задача | Статус | Коммит |
+|---|---|---|
+| Дизайн-документ `docs/scaffold-tui-design-doc.md` | ✅ | `8b528bf` (amended) |
+| `lib/tui/config-manager.js` + 15 тестов | ✅ | `37a1246` |
+| `lib/tui/panels/config.js` MVP (read-only) | ✅ | `37a1246` |
+| `lib/tui/index.js` + `bin/cli.js tui` | ✅ | `37a1246` |
+| Config actions: effort picker, summaries toggle, `update` | ✅ | `0a12734` |
+| Config redesign: Profiles / Org Profiles / Commands / Repos | ✅ | `b7798dd` |
+| **Agents + Pipeline + DrillIn + Artifacts** | 🔲 | — |
+| **`@lydell/node-pty` + AgentPool orchestrator** | 🔲 | — |
+| **session-safety.js: добавить `[SCAFFOLD:BLOCKED]` маркер** | 🔲 | — |
+
+**Архитектура Config TUI (готово):**
+- Один список слева: Profiles → Org Profiles → Commands → Deployed Repos
+- `Enter` на профиле → форма пути → `init --profile X`
+- `Enter` на команде → прямой запуск (▶) или форма (◎)
+- `e/t/u` на репо → effort, summaries, update scaffold
+- `blessed ^0.1.81` добавлен в deps
+
+**Оставшееся для Full TUI (цель: 2026-04-20):**
+- `lib/tui/panels/agents.js` — AgentsPanel: список воркеров, статусы
+- `lib/tui/panels/pipeline.js` — PipelinePanel: очередь задач
+- `lib/tui/panels/artifacts.js` — ArtifactsPanel: выходные данные
+- `lib/tui/overlays/drill-in.js` — PTY overlay для drill-in в агента
+- `lib/tui/orchestrator/agent-pool.js` — `@lydell/node-pty` инстансы
+- `lib/tui/orchestrator/task-queue.js` — JSON-based очередь `~/.claude-scaffold/tasks.json`
+- `lib/tui/orchestrator/task-runner.js` — назначение задач агентам
+- Tab-переключение между панелями в `index.js`
+
+---
+
+### v2.4.0 — ПОЛНОСТЬЮ ЗАВЕРШЕНО (2026-04-17, Session 8)
 
 - **npm@2.4.0 published** ✅ — publish.yml: `completed success`
 - **HEAD: `e70f1af`** (main, все CI зелёные)
@@ -138,15 +186,15 @@
 
 ---
 
-## Current State (2026-04-17)
+## Current State (2026-04-18)
 
-- **v2.4.0 PUBLISHED** npm@2.4.0 (2026-04-17), HEAD = `e70f1af`
-- **main HEAD: `e70f1af`**
-- **625 tests** (563 Jest + 62 Python infra), 0 failed
-- **30 repos** на `0042d55` (v2.4.0 impl hooks + statusLine) — все up to date. Docs-only коммиты после деплоя re-deploy не требуют.
-- `ANTHROPIC_MODEL=claude-sonnet-4-6` в `~/.bashrc` — billing guard активен
-- StatusLine хук активен во всех 30 репо — контекст отображается в статусбаре
-- PostToolUse split активен — нет лишних spawn на Read/Glob/Grep
+- **v2.4.0 PUBLISHED** npm@2.4.0 (2026-04-17), main HEAD = `e70f1af`
+- **feature/wyndace-hub-profiles-tools HEAD: `b7798dd`** — Scaffold TUI MVP Config panel
+- **578 tests** (563 Jest existing + 15 новых TUI), 0 failed
+- **30 repos** на `0042d55` (v2.4.0) — все up to date
+- `claude-scaffold tui` команда работает: Config panel с профилями, командами, репо
+- `blessed ^0.1.81` добавлен как runtime dep
+- Следующий шаг: Agents + Pipeline + DrillIn + Artifacts панели
 
 ### npm publish path:
 ```bash
@@ -277,4 +325,4 @@ Stop:                        python-quality-check.js
 
 ---
 
-*Last updated: 2026-04-14 (Session 5 done — GH Actions v5 + Skill Discovery; v2.2.0 ready to tag)*
+*Last updated: 2026-04-18 (Session 9 — Scaffold TUI Config panel; Full TUI in progress)*
