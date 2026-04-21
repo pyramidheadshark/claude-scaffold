@@ -24,8 +24,8 @@
 
 ### Итог сессии
 
-- **npm@2.5.0 pending publish** — `git tag v2.5.0 && git push origin v2.5.0` (waiting for user command)
-- **HEAD: `d227c37`** (main)
+- **npm@2.5.0 published** ✅ — publish.yml: `completed success`
+- **HEAD: `dafd596`** (main, tag v2.5.0)
 - **630 тестов** (568 Jest + 62 Python), 0 failed
 - **30 репо** задеплоены через `python scripts/deploy.py --update-all`
 
