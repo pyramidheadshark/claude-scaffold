@@ -210,6 +210,14 @@ program
   .action((description) => require('../lib/commands/new-session').newSession(description));
 
 program
+  .command('mode [action] [arg1] [arg2]')
+  .description('Manage per-repo model routing: status | default | quota-save | lean | set-role <role> <path>')
+  .action((action, arg1, arg2) => {
+    const args = [action, arg1, arg2].filter(v => v !== undefined);
+    require('../lib/commands/mode').run(args);
+  });
+
+program
   .command('discover [query]')
   .description('Detect project stack and find matching skills in the registry')
   .option('--install', 'Auto-install matching skills without prompting')
