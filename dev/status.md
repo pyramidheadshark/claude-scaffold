@@ -20,6 +20,44 @@
 
 ## Current Phase
 
+**v2.6.0 — DONE local (2026-04-21, Session 10)**
+
+### Итог сессии
+
+- **package.json: 2.5.0 → 2.6.0** ✅
+- **HEAD: `925345a`** (main, не тегнуто — публикация только по команде пользователя)
+- **674 теста** (606 Jest + 68 Python), 0 failed
+- **30 репо** задеплоены через `python scripts/deploy.py --update-all`, все `model: claude-sonnet-4-6` в settings.json
+- `active_mode: default` в registry; `techcon_hub` помечен как `role: hub`
+
+**Что реализовано (3 коммита):**
+
+| # | Коммит | Суть |
+|---|--------|------|
+| 1 | `feat: add per-repo model routing to deploy pipeline (v2.6.0)` | `lib/models.js` (MODEL_IDS + MODES + resolveProfileForRole), `deploySettings(targetDir, tuning, modelProfile)` с haiku effort-cleanup, `registerDeploy` принимает model/role, `deploy.py --model --role` флаги |
+| 2 | `feat: add mode command for mass model switching (v2.6.0)` | `lib/commands/mode.js` (applyMode/setRole/showStatus/writeSettingsModel), `bin/cli.js mode` subcommand, 20 тестов |
+| 3 | `feat: model conflict detection and statusline indicator (v2.6.0)` | `session-start.js` + `loadSettings` + model conflict warning (EN+RU), `session-status-monitor.js` показывает `ctx: 55% \| son/hai/ops`, `lib/i18n.js` + `.claude/hooks/i18n.js` — `buildModelConflictBlock`, package.json 2.5.0→2.6.0 |
+
+**Команды:**
+```bash
+claude-scaffold mode                        # = mode status
+claude-scaffold mode status                 # таблица: repo | role | model
+claude-scaffold mode default                # все → sonnet
+claude-scaffold mode quota-save             # hub→opus, worker/default→haiku
+claude-scaffold mode lean                   # все → haiku
+claude-scaffold mode set-role hub <path>    # пометить репо как hub
+python scripts/deploy.py --update <path> --model haiku  # per-repo overwrite
+```
+
+**E2E verification:**
+- `mode set-role hub techcon_hub` → role = hub ✅
+- `mode quota-save` → techcon_hub=opus+effort, techcon_defectoscopy=haiku (без effort) ✅
+- `mode default` → все sonnet ✅
+- Statusline: `ctx: 55% | son` ✅
+- `--update-all` (30 repos) → все on `925345a`, all `model: claude-sonnet-4-6` ✅
+
+---
+
 **v2.5.0 — DONE (2026-04-21, Session 9)**
 
 ### Итог сессии
