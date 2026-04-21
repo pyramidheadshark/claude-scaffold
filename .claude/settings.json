@@ -78,5 +78,6 @@
     "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": "1"
   },
   "showThinkingSummaries": true,
-  "showClearContextOnPlanAccept": true
+  "showClearContextOnPlanAccept": true,
+  "model": "claude-sonnet-4-6"
 }
