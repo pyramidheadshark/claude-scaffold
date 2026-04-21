@@ -10,7 +10,7 @@ const ENV_PLAIN = "SCAFFOLD_STATUSLINE_PLAIN";
 const MODEL_MAP = {
   "claude-sonnet-4-6":         { label: "Sonnet 4.6", emoji: "🔵", short: "son" },
   "claude-haiku-4-5-20251001": { label: "Haiku 4.5",  emoji: "🟢", short: "hai" },
-  "claude-opus-4-6":           { label: "Opus 4.6",   emoji: "🟣", short: "ops" },
+  "claude-opus-4-7":           { label: "Opus 4.7",   emoji: "🟣", short: "ops" },
 };
 
 function readSettings(cwd) {
@@ -48,6 +48,29 @@ function readQuotaCache() {
   } catch { return null; }
 }
 
+function readWeeklyCost() {
+  try {
+    const os = require("os");
+    const p = path.join(os.homedir(), ".claude", "quota-cache.json");
+    if (!fs.existsSync(p)) return null;
+    const raw = JSON.parse(fs.readFileSync(p, "utf8"));
+    if (!raw.available || typeof raw.weekly_usd !== "number") return null;
+    return { weekly_usd: raw.weekly_usd };
+  } catch { return null; }
+}
+
+function readBlockStatus() {
+  try {
+    const os = require("os");
+    const p = path.join(os.homedir(), ".claude", "block-cache.json");
+    if (!fs.existsSync(p)) return null;
+    const raw = JSON.parse(fs.readFileSync(p, "utf8"));
+    if (Date.now() - raw.cached_at > 2 * 60 * 1000) return null;
+    if (!raw.available) return null;
+    return { usedPct: raw.usedPct, remainingMinutes: raw.remainingMinutes };
+  } catch { return null; }
+}
+
 function formatContext(roundedRemaining, critical, plain) {
   if (plain) {
     const icon = critical ? "! " : "";
@@ -71,6 +94,25 @@ function formatQuota(quota, plain) {
   }
   const icon = quota.state === "block" ? "🔴" : (quota.state === "warn" ? "🟡" : "🟢");
   return ` │ ${icon} Week: ${quota.pct}%`;
+}
+
+function formatBlock(block, plain) {
+  if (!block || block.usedPct === null || block.usedPct === undefined) return "";
+  const pct = block.usedPct;
+  const mins = block.remainingMinutes;
+  const minsSuffix = (mins !== null && mins !== undefined) ? `${mins}m` : "";
+  if (plain) {
+    return minsSuffix ? ` | 5h: ${pct}% ${minsSuffix}` : ` | 5h: ${pct}%`;
+  }
+  return minsSuffix ? ` │ 5h: ${pct}% ⏱${minsSuffix}` : ` │ 5h: ${pct}%`;
+}
+
+function formatWeeklyCost(cost, plain) {
+  if (!cost || typeof cost.weekly_usd !== "number") return "";
+  const usd = cost.weekly_usd;
+  const formatted = usd >= 100 ? usd.toFixed(0) : usd.toFixed(1);
+  if (plain) return ` | $${formatted}`;
+  return ` │ $${formatted}`;
 }
 
 function main(inputStr, cwd) {
@@ -104,8 +146,9 @@ function main(inputStr, cwd) {
 
   const contextPart = formatContext(roundedRemaining, critical, plain);
   const modelPart = formatModel(getModelInfo(cwd), plain);
-  const quotaPart = formatQuota(readQuotaCache(), plain);
-  process.stdout.write(`${contextPart}${modelPart}${quotaPart}`);
+  const blockPart = formatBlock(readBlockStatus(), plain);
+  const costPart = formatWeeklyCost(readWeeklyCost(), plain);
+  process.stdout.write(`${contextPart}${modelPart}${blockPart}${costPart}`);
 }
 
 function getModelShortName(cwd) {
@@ -118,4 +161,4 @@ if (require.main === module) {
   main(inputStr, process.cwd());
 }
 
-module.exports = { main, getModelShortName, getModelInfo, readQuotaCache, formatContext, formatModel, formatQuota, MODEL_MAP };
+module.exports = { main, getModelShortName, getModelInfo, readQuotaCache, readWeeklyCost, readBlockStatus, formatContext, formatModel, formatQuota, formatBlock, formatWeeklyCost, MODEL_MAP };
