@@ -10,6 +10,8 @@ const {
   formatContext,
   formatModel,
   formatQuota,
+  formatBlock,
+  formatWeeklyCost,
 } = require("../../.claude/hooks/session-status-monitor");
 
 const HOOK_PATH = path.resolve(__dirname, "../../.claude/hooks/session-status-monitor.js");
@@ -125,10 +127,10 @@ describe("stdout output — E2E with new format", () => {
     expect(result.stdout).toBe("Context: 82% │ 🟢 Haiku 4.5");
   });
 
-  test("with opus model + critical → 'Context: ⚠ 18% │ 🟣 Opus 4.6'", () => {
-    writeSettings(tmpDir, "claude-opus-4-6");
+  test("with opus model + critical → 'Context: ⚠ 18% │ 🟣 Opus 4.7'", () => {
+    writeSettings(tmpDir, "claude-opus-4-7");
     const result = runHook(tmpDir, { session_id: "op1", context_window: { remaining_percentage: 18 } });
-    expect(result.stdout).toBe("Context: ⚠ 18% │ 🟣 Opus 4.6");
+    expect(result.stdout).toBe("Context: ⚠ 18% │ 🟣 Opus 4.7");
   });
 
   test("SCAFFOLD_STATUSLINE_PLAIN=1 → fallback без эмодзи", () => {
@@ -238,6 +240,52 @@ describe("unit — formatContext / formatModel / formatQuota", () => {
   });
 });
 
+describe("unit — formatBlock / formatWeeklyCost", () => {
+  test("formatBlock null → empty string", () => {
+    expect(formatBlock(null, false)).toBe("");
+  });
+
+  test("formatBlock without usedPct → empty string", () => {
+    expect(formatBlock({ usedPct: null, remainingMinutes: null }, false)).toBe("");
+  });
+
+  test("formatBlock with pct and minutes (emoji)", () => {
+    expect(formatBlock({ usedPct: 97, remainingMinutes: 9 }, false)).toBe(" │ 5h: 97% ⏱9m");
+  });
+
+  test("formatBlock with pct and minutes (plain)", () => {
+    expect(formatBlock({ usedPct: 97, remainingMinutes: 9 }, true)).toBe(" | 5h: 97% 9m");
+  });
+
+  test("formatBlock without minutes (emoji)", () => {
+    expect(formatBlock({ usedPct: 50, remainingMinutes: null }, false)).toBe(" │ 5h: 50%");
+  });
+
+  test("formatBlock without minutes (plain)", () => {
+    expect(formatBlock({ usedPct: 50, remainingMinutes: null }, true)).toBe(" | 5h: 50%");
+  });
+
+  test("formatWeeklyCost null → empty string", () => {
+    expect(formatWeeklyCost(null, false)).toBe("");
+  });
+
+  test("formatWeeklyCost without weekly_usd → empty string", () => {
+    expect(formatWeeklyCost({}, false)).toBe("");
+  });
+
+  test("formatWeeklyCost with $36.9 (emoji)", () => {
+    expect(formatWeeklyCost({ weekly_usd: 36.9 }, false)).toBe(" │ $36.9");
+  });
+
+  test("formatWeeklyCost with $36.9 (plain)", () => {
+    expect(formatWeeklyCost({ weekly_usd: 36.9 }, true)).toBe(" | $36.9");
+  });
+
+  test("formatWeeklyCost rounds to integer when >= 100", () => {
+    expect(formatWeeklyCost({ weekly_usd: 123.45 }, false)).toBe(" │ $123");
+  });
+});
+
 describe("getModelInfo / getModelShortName (backward compat)", () => {
   let tmpDir;
   beforeEach(() => { tmpDir = makeTempDir(); });
@@ -254,7 +302,7 @@ describe("getModelInfo / getModelShortName (backward compat)", () => {
   });
 
   test("getModelShortName returns 'ops' for opus", () => {
-    writeSettings(tmpDir, "claude-opus-4-6");
+    writeSettings(tmpDir, "claude-opus-4-7");
     expect(getModelShortName(tmpDir)).toBe("ops");
   });
 
@@ -263,9 +311,9 @@ describe("getModelInfo / getModelShortName (backward compat)", () => {
   });
 
   test("getModelInfo returns label for known model", () => {
-    writeSettings(tmpDir, "claude-opus-4-6");
+    writeSettings(tmpDir, "claude-opus-4-7");
     const info = getModelInfo(tmpDir);
-    expect(info.label).toBe("Opus 4.6");
+    expect(info.label).toBe("Opus 4.7");
     expect(info.emoji).toBe("🟣");
   });
 

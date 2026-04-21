@@ -12,6 +12,9 @@ const {
   sumLastNDays,
   computeStatus,
   formatStatus,
+  loadBlockCache,
+  saveBlockCache,
+  BLOCK_CACHE_PATH,
 } = require('../../lib/commands/quota');
 
 let tmpDir;
@@ -180,5 +183,56 @@ describe('quota — formatStatus', () => {
   test('formats unavailable with reason from usage', () => {
     const output = formatStatus({ state: 'unknown', usage: { available: false, reason: 'test-reason' }, budget });
     expect(output).toContain('test-reason');
+  });
+});
+
+describe('quota — block cache', () => {
+  let originalHome;
+
+  beforeEach(() => {
+    originalHome = os.homedir();
+    process.env.HOME = tmpDir;
+    process.env.USERPROFILE = tmpDir;
+  });
+
+  afterEach(() => {
+    process.env.HOME = originalHome;
+    process.env.USERPROFILE = originalHome;
+    if (fs.existsSync(BLOCK_CACHE_PATH)) {
+      try { fs.unlinkSync(BLOCK_CACHE_PATH); } catch {}
+    }
+  });
+
+  test('BLOCK_CACHE_PATH is under ~/.claude/', () => {
+    expect(BLOCK_CACHE_PATH).toContain('.claude');
+    expect(BLOCK_CACHE_PATH).toContain('block-cache.json');
+  });
+
+  test('saveBlockCache creates file with cached_at timestamp', () => {
+    saveBlockCache({ available: true, usedPct: 97, remainingMinutes: 9 });
+    expect(fs.existsSync(BLOCK_CACHE_PATH)).toBe(true);
+    const raw = JSON.parse(fs.readFileSync(BLOCK_CACHE_PATH, 'utf8'));
+    expect(raw.usedPct).toBe(97);
+    expect(raw.remainingMinutes).toBe(9);
+    expect(typeof raw.cached_at).toBe('number');
+  });
+
+  test('loadBlockCache returns null when no file', () => {
+    if (fs.existsSync(BLOCK_CACHE_PATH)) fs.unlinkSync(BLOCK_CACHE_PATH);
+    expect(loadBlockCache()).toBeNull();
+  });
+
+  test('loadBlockCache returns data when fresh', () => {
+    saveBlockCache({ available: true, usedPct: 50, remainingMinutes: 150 });
+    const loaded = loadBlockCache();
+    expect(loaded).not.toBeNull();
+    expect(loaded.usedPct).toBe(50);
+  });
+
+  test('loadBlockCache returns null when stale (>2 min TTL)', () => {
+    const stale = { available: true, usedPct: 50, cached_at: Date.now() - 3 * 60 * 1000 };
+    fs.mkdirSync(path.dirname(BLOCK_CACHE_PATH), { recursive: true });
+    fs.writeFileSync(BLOCK_CACHE_PATH, JSON.stringify(stale));
+    expect(loadBlockCache()).toBeNull();
   });
 });
