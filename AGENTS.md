@@ -56,11 +56,27 @@ npx tsc --noEmit     # typecheck
 
 ## NOTES
 - Global config: `~/.config/opencode/opencode.json` (GLM-5.1 orchestrator, Kimi K2.6 deep-worker, DeepSeek V4 Flash subagents)
-- OmO agent overrides: `~/.config/opencode/oh-my-opencode.jsonc` (explore, librarian, oracle, metis, momus → OpenRouter models)
-- DCP compaction: `~/.config/opencode/dcp.jsonc` (75%/50% thresholds for GLM-5.1)
+- OmO agent overrides: `~/.config/opencode/oh-my-opencode.jsonc` (explore, librarian, oracle, metis, momus → OpenRouter models, auto_update: false)
+- DCP compaction: `~/.config/opencode/dcp.jsonc` (75%/50% thresholds for GLM-5.1, 80%/55% for Kimi K2.6, 70%/45% for DeepSeek V4 Flash)
 - 17 plugins, 2 global MCP (jupyter, sqlite) + 5 lazy-loaded via skills, LSP Python (pyright)
 - opencode-tool-search: BM25 lazy tool loading, 88% token savings
 - opencode-lazy-loader: MCP servers in skill frontmatter, auto-stop after 5min idle
 - `legacy_v1/` archived on branch `archive/legacy-v1` — do not modify
 - V1 features migration map: see `archive/legacy-v1` branch
 - BACKLOG: When Z_AI_API_KEY and OPENAI_API_KEY arrive → restore z.ai + openai providers, move OpenRouter to fallback
+
+## CRITICAL PATCH (oh-my-openagent v3.17.6)
+- **Bug**: Background agents (explore, librarian, oracle, multimodal-looker) use hardcoded fallback chains that try openai/gpt-5.4-nano → "Model not found"
+- **Root cause**: oh-my-openagent's `resolveModelAndFallbackChain()` uses hardcoded `AGENT_MODEL_REQUIREMENTS` fallback chains. The `agents` config in oh-my-opencode.jsonc only affects `fallback-bootstrap-model` hook, which does NOT fire for background tasks launched via opencode's native `task()` tool
+- **Fix**: Patched `~/.cache/opencode/packages/oh-my-opencode@latest/node_modules/oh-my-opencode/dist/index.js` — replaced fallback chains for explore/librarian/multimodal-looker → openrouter/deepseek-v4-flash, oracle → openrouter/kimi-k2.6
+- **Also**: Cleaned `~/.cache/oh-my-opencode/connected-providers.json` — removed openai/opencode from connected providers
+- **Also**: Set `auto_update: false` in oh-my-opencode.jsonc to prevent patch overwrite
+- **Caveat**: Patch will be lost if oh-my-openagent is manually updated. Must re-apply after update.
+
+## INFRASTRUCTURE
+- WSL2 mirrored networking (`.wslconfig`): localhost:4096 accessible from Windows
+- opencode-web: systemd user service `opencode-web.service` (auto-start via linger)
+- Tuna tunnel: systemd user service `tuna-tunnel.service` → https://pyramidheadshark.ru.tuna.am (basic-auth: pyramidheadshark/GjgaGfha2676)
+- Tuna CLI: `~/.local/bin/tuna` v0.33.0 (installed from releases.tuna.am)
+- omo-pulse: Real-time dashboard for monitoring oh-my-opencode sessions (GitHub: EZotoff/omo-pulse), reads from SQLite, NOT yet installed/configured
+- opencode tower: Ink/React TUI in `src/tui/index.tsx`, command wired as `opencode tower`, needs testing
