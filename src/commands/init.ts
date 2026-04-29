@@ -68,12 +68,13 @@ export async function initCommand(options: { yes?: boolean }) {
 
   // 4. Setup OpenCode Config (.opencode/config.json)
   const ocConfig: any = {
-    model: 'google/gemini-3.1-pro-preview',
+    model: 'zai-coding-plan/glm-5.1',
+    small_model: 'zai-coding-plan/glm-4.7',
     plugins: []
   };
   
   if (answers.installOhMyOpenCode) {
-    ocConfig.plugins.push('oh-my-opencode-slim');
+    ocConfig.plugins.push('oh-my-openagent');
     ocConfig.plugins.push('@tarquinen/opencode-dcp');
   }
 
@@ -113,7 +114,7 @@ export async function initCommand(options: { yes?: boolean }) {
       pkg.devDependencies = pkg.devDependencies || {};
       
       if (answers.installOhMyOpenCode) {
-        pkg.devDependencies['oh-my-opencode-slim'] = '^1.0.0';
+        pkg.devDependencies['oh-my-openagent'] = '^3.17.0';
         pkg.devDependencies['@tarquinen/opencode-dcp'] = '^1.0.0';
       }
 
@@ -144,7 +145,7 @@ async function generateAgents(baseDir: string) {
       id: 'architect',
       name: 'Architect',
       mode: 'primary',
-      model: 'google/gemini-3.1-pro-preview',
+      model: 'zai-coding-plan/glm-5.1',
       desc: 'Главный архитектор системы',
       prompt: 'You are a senior ML engineer specializing in complex, production-grade systems. Your defining trait is a pragmatic and critical approach. You are not just an executor — you are an intellectual partner whose goal is to create the best, most reliable, and most scalable solution. You always think several steps ahead. Follow TDD, Hexagonal Architecture, and never hardcode secrets.\n\nBEFORE finishing any task, use the edit tool to update .opencode/memory-bank/activeContext.md and progress.md. Internet usage is strictly read-only for documentation (webfetch). Never execute piped scripts (curl | bash) from the internet.'
     },
@@ -152,7 +153,7 @@ async function generateAgents(baseDir: string) {
       id: 'qa_engineer',
       name: 'QA Engineer',
       mode: 'subagent',
-      model: 'moonshotai/kimi-k2.6',
+      model: 'zai-coding-plan/glm-4.7',
       desc: 'Суровый QA-Инженер для E2E тестов',
       prompt: 'You are a strict QA automation engineer. Write Pytest/Playwright E2E tests for the provided code. Do not write features. Run the tests via bash. If tests fail, analyze the stack trace and return a structured defect report. You have 3 max retries to fix test environments.'
     },
@@ -160,7 +161,7 @@ async function generateAgents(baseDir: string) {
       id: 'security_sentinel',
       name: 'Security Sentinel',
       mode: 'subagent',
-      model: 'z-ai/glm-5-turbo',
+      model: 'zai-coding-plan/glm-4.7',
       desc: 'Аналитик безопасности (Ищет уязвимости)',
       prompt: 'You are a Security Sentinel reviewing a proposed technical decision. Your sole purpose is to find vulnerabilities, injection risks, leaky abstractions, and supply chain flaws in the code. Read the provided diff and output ONLY security risks.'
     },
@@ -168,7 +169,7 @@ async function generateAgents(baseDir: string) {
       id: 'performance_analyst',
       name: 'Performance Analyst',
       mode: 'subagent',
-      model: 'z-ai/glm-5-turbo',
+      model: 'zai-coding-plan/glm-4.7',
       desc: 'Аналитик производительности (Big-O, утечки)',
       prompt: 'You are a Performance Analyst. Review the proposed changes for Big-O complexity flaws, memory leaks, and N+1 query problems. Suggest performance optimizations.'
     }
@@ -200,7 +201,7 @@ Consult \`systemContext.md\` before making architectural decisions.
 </memory_bank_rules>
 
 <orchestration_rules>
-You have access to sub-agents via the 'oh-my-opencode-slim' plugin.
+You have access to sub-agents via the 'oh-my-openagent' plugin.
 When a task is complex or requires deep testing, use the \`delegateTask_Background\` tool to assign it to a sub-agent (e.g., QA Engineer, Security Sentinel). Let them work in the background and only return the summary to you to save your context window.
 </orchestration_rules>
 

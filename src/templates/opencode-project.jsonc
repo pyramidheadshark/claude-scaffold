@@ -1,12 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "z-ai/glm-5.1",
-  "small_model": "z-ai/glm-4.7",
+  "model": "zai-coding-plan/glm-5.1",
+  "small_model": "zai-coding-plan/glm-4.7",
   "provider": {
-    "z-ai": {
+    "zai-coding-plan": {
       "options": {
         "apiKey": "{env:Z_AI_API_KEY}",
-        "baseURL": "https://api.z.ai/api/paas/v4"
+        "baseURL": "https://api.z.ai/api/coding/paas/v4"
       }
     },
     "openrouter": {
@@ -30,6 +30,7 @@
     "block-no-verify",
     "opencode-rules",
     "my-jogyo",
+    "omo-pulse",
     "omo-pulse",
     "@lesquel/opencode-pilot",
     ["opencode-tool-search", {
@@ -80,7 +81,7 @@
     "deep-worker": {
       "description": "Deep autonomous worker for complex multi-file implementation",
       "mode": "subagent",
-      "model": "z-ai/glm-5.1",
+      "model": "zai-coding-plan/glm-5.1",
       "temperature": 0.3,
       "permission": {
         "edit": "allow",
@@ -90,7 +91,7 @@
     "qa-engineer": {
       "description": "Strict QA engineer for E2E testing and defect reports",
       "mode": "subagent",
-      "model": "z-ai/glm-4.7",
+      "model": "zai-coding-plan/glm-4.7",
       "temperature": 0.2,
       "permission": {
         "edit": "deny",
@@ -100,7 +101,7 @@
     "security-sentinel": {
       "description": "Security analyst - finds vulnerabilities, injection risks, supply chain flaws",
       "mode": "subagent",
-      "model": "z-ai/glm-4.7",
+      "model": "zai-coding-plan/glm-4.7",
       "permission": {
         "edit": "deny"
       }
@@ -108,7 +109,7 @@
     "performance-analyst": {
       "description": "Performance analyst - Big-O, memory leaks, N+1 queries",
       "mode": "subagent",
-      "model": "z-ai/glm-4.7",
+      "model": "zai-coding-plan/glm-4.7",
       "permission": {
         "edit": "deny"
       }
