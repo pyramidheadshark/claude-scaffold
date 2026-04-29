@@ -1,7 +1,7 @@
 {
   "name": "opencode-scaffold",
-  "version": "1.0.0",
-  "description": "",
+  "version": "2.0.0",
+  "description": "CLI tool that bootstraps a powerful agentic environment for OpenCode — agents, skills, memory-bank, pre-commit hooks, MCP servers",
   "main": "dist/index.js",
   "files": [
     "dist",
@@ -17,34 +17,39 @@
     "type": "git",
     "url": "git+https://github.com/pyramidheadshark/opencode-scaffold.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "opencode",
+    "ai-agents",
+    "scaffold",
+    "cli",
+    "llm",
+    "developer-tools",
+    "mcp",
+    "pre-commit",
+    "ai-workflow"
+  ],
+  "author": "pyramidheadshark",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/pyramidheadshark/opencode-scaffold/issues"
   },
   "homepage": "https://github.com/pyramidheadshark/opencode-scaffold#readme",
   "dependencies": {
-    "@types/express": "^5.0.6",
-    "@types/react": "^19.2.14",
-    "@types/sqlite3": "^3.1.11",
     "chalk": "^4.1.2",
     "commander": "^14.0.3",
     "express": "^5.2.1",
-    "ink": "^7.0.1",
     "inquirer": "^13.4.2",
-    "react": "^19.2.5",
     "sqlite3": "^6.0.1"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/inquirer": "^9.0.9",
     "@types/node": "^25.6.0",
+    "@types/sqlite3": "^3.1.11",
     "execa": "^9.6.1",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.5",
-    "oh-my-openagent": "^3.17.0",
-    "@tarquinen/opencode-dcp": "^1.0.0"
+    "vitest": "^4.1.5"
   },
   "type": "module",
   "bin": {
