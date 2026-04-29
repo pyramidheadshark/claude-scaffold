@@ -3,19 +3,32 @@ import path from 'path';
 import chalk from 'chalk';
 import { existsSync } from 'fs';
 
-const HUB_SKILLS_PATH = process.env.TECHCON_HUB_PATH 
-  ? path.join(process.env.TECHCON_HUB_PATH, '.claude', 'skills')
-  : 'C:\\Users\\pyramidheadshark\\Repos\\techcon_hub\\.claude\\skills';
+const HOME = process.env.HOME || '/root';
+
+const SKILLS_SEARCH_PATHS = [
+  process.env.TECHCON_HUB_PATH
+    ? path.join(process.env.TECHCON_HUB_PATH, '.claude', 'skills')
+    : path.join('/mnt/c/Users/pyramidheadshark/Repos/techcon_hub', '.claude', 'skills'),
+  path.join(HOME, '.config', 'opencode', 'skills'),
+];
+
+function findSkillsDir(): string | null {
+  for (const p of SKILLS_SEARCH_PATHS) {
+    if (existsSync(p)) return p;
+  }
+  return null;
+}
 
 export async function syncSkillsCommand() {
-  console.log(chalk.cyan('🔄 Syncing skills from TechCon Hub...'));
+  console.log(chalk.cyan('🔄 Syncing skills...'));
 
   const cwd = process.cwd();
   const destSkillsDir = path.join(cwd, '.opencode', 'skills');
 
-  // Check if hub path exists
-  if (!existsSync(HUB_SKILLS_PATH)) {
-    console.log(chalk.yellow(`⚠️ Hub skills path not found: ${HUB_SKILLS_PATH}`));
+  const skillsDir = findSkillsDir();
+
+  if (!skillsDir) {
+    console.log(chalk.yellow('⚠️ No skills directory found (checked TechCon Hub and ~/.config/opencode/skills)'));
     return;
   }
 
@@ -58,7 +71,7 @@ export async function syncSkillsCommand() {
   let copiedCount = 0;
 
   for (const skill of skillsToCopy) {
-    const srcPath = path.join(HUB_SKILLS_PATH, skill);
+    const srcPath = path.join(skillsDir, skill);
     const destPath = path.join(destSkillsDir, skill);
 
     if (existsSync(srcPath)) {
