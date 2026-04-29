@@ -55,6 +55,12 @@ npx tsc --noEmit     # typecheck
 ```
 
 ## NOTES
-- Global config: `~/.config/opencode/opencode.json` (GLM-5.1 orchestrator, GPT-5.5 deep-worker)
+- Global config: `~/.config/opencode/opencode.json` (GLM-5.1 orchestrator, Kimi K2.6 deep-worker, DeepSeek V4 Flash subagents)
+- OmO agent overrides: `~/.config/opencode/oh-my-opencode.jsonc` (explore, librarian, oracle, metis, momus → OpenRouter models)
+- DCP compaction: `~/.config/opencode/dcp.jsonc` (75%/50% thresholds for GLM-5.1)
+- 17 plugins, 2 global MCP (jupyter, sqlite) + 5 lazy-loaded via skills, LSP Python (pyright)
+- opencode-tool-search: BM25 lazy tool loading, 88% token savings
+- opencode-lazy-loader: MCP servers in skill frontmatter, auto-stop after 5min idle
 - `legacy_v1/` archived on branch `archive/legacy-v1` — do not modify
 - V1 features migration map: see `archive/legacy-v1` branch
+- BACKLOG: When Z_AI_API_KEY and OPENAI_API_KEY arrive → restore z.ai + openai providers, move OpenRouter to fallback

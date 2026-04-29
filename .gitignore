@@ -44,3 +44,7 @@ registry/cache/
 *.cast
 legacy_v1/
 test_repo_telemetry/
+
+# OpenCode runtime artifacts
+.opencode/pilot-*
+sqlite_mcp_server.db
