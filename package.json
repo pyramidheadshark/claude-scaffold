@@ -42,7 +42,9 @@
     "execa": "^9.6.1",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.5"
+    "vitest": "^4.1.5",
+    "oh-my-openagent": "^3.17.0",
+    "@tarquinen/opencode-dcp": "^1.0.0"
   },
   "type": "module",
   "bin": {

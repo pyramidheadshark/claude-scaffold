@@ -5,7 +5,7 @@ Consult `systemContext.md` before making architectural decisions.
 </memory_bank_rules>
 
 <orchestration_rules>
-You have access to sub-agents via the 'oh-my-opencode-slim' plugin.
+You have access to sub-agents via the 'oh-my-openagent' plugin.
 When a task is complex or requires deep testing, use the `delegateTask_Background` tool to assign it to a sub-agent (e.g., QA Engineer, Security Sentinel). Let them work in the background and only return the summary to you to save your context window.
 </orchestration_rules>
 
